@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # internal apps
-    #'articles.apps.ArticlesConfig',
+    'articles',
     'reservations',
 ]
 
