@@ -1,0 +1,40 @@
+.logo {
+  float: left;
+  margin-left: 50px;
+  width: 10%;
+  min-width: 50px;
+  max-width: 100px;
+}
+
+.profile {
+  width: 10%;
+  min-width: 90px;
+  max-width: 140px;
+}
+
+.user {
+  display: flex;
+  height: inherit;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 75px;
+  text-align: right;
+  justify-content: flex-end;
+  width: 20%;
+}
+
+.left, .right {
+  float: right;
+  width: 20%;
+}
+
+.main {
+  width: 60%;
+}
+
+.jumbotron {
+  display: flex;
+  background-color: gainsboro;
+  align-items: center;
+  height: 0.2vh;
+}
