@@ -16,7 +16,7 @@ class LoanEnum(object):
     RECIBIDO = 2
     PERDIDO = 3
 
-    RESERVATION_STATES = (
+    LOAN_STATES = (
         (VIGENTE, 'vigente'),
         (CADUCADO, 'caducado'),
         (RECIBIDO, 'recibido'),

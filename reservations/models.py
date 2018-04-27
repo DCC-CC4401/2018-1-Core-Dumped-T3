@@ -60,6 +60,10 @@ class Loan(models.Model):
         verbose_name="end date",
         default=datetime.datetime.now()
     )
+    state = models.IntegerField(
+        choices=LoanEnum.LOAN_STATES,
+        default=LoanEnum.VIGENTE
+    )
 
     def __str__(self):
         return "{} {} {} {}".format(
