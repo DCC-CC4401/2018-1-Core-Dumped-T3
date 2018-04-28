@@ -103,5 +103,8 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# Agregar a que corresponde .vscode
+.vscode/
+
 # Pycharm IDE
 .idea
