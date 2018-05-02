@@ -3,10 +3,7 @@ from django.db import models
 import datetime
 # Models
 
-# Enum
-from .enums import *
 # Create your models here.
-
 
 
 class Reservation(models.Model):
@@ -28,9 +25,18 @@ class Reservation(models.Model):
         verbose_name="end date",
         default=datetime.datetime.now()
     )
+    PENDIENTE = 0
+    ENTREGADO = 1
+    RECHAZADO = 2
+
+    RESERVATION_STATES = (
+        (PENDIENTE, 'pendiente'),
+        (ENTREGADO, 'entregado'),
+        (RECHAZADO, 'rechazado'),
+    )
     state = models.IntegerField(
-        choices=ReservationEnum.RESERVATION_STATES,
-        default=ReservationEnum.PENDIENTE
+        choices=RESERVATION_STATES,
+        default=PENDIENTE
     )
 
     def __str__(self):
@@ -61,9 +67,20 @@ class Loan(models.Model):
         verbose_name="end date",
         default=datetime.datetime.now()
     )
+    VIGENTE = 0
+    CADUCADO = 1
+    RECIBIDO = 2
+    PERDIDO = 3
+
+    LOAN_STATES = (
+        (VIGENTE, 'vigente'),
+        (CADUCADO, 'caducado'),
+        (RECIBIDO, 'recibido'),
+        (PERDIDO, 'perdido'),
+    )
     state = models.IntegerField(
-        choices=LoanEnum.LOAN_STATES,
-        default=LoanEnum.VIGENTE
+        choices=LOAN_STATES,
+        default=VIGENTE
     )
 
     def __str__(self):
