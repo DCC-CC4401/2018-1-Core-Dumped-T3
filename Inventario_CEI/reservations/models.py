@@ -2,7 +2,8 @@
 from django.db import models
 import datetime
 # Models
-
+from articles.models import AbstractInventory
+from users.models import RegisteredUser
 # Create your models here.
 
 
@@ -12,9 +13,15 @@ class Reservation(models.Model):
     """
     # ID(generado por  django)
     # RUT[foreign key ref Usuario]
-    #user = models.ForeignKey()
+    user = models.ForeignKey(
+        RegisteredUser,
+        on_delete=models.CASCADE
+    )
     # Espacio[foreign key  ref Espacio]
-    #article_or_space = models.ForeignKey()
+    article_or_space = models.ForeignKey(
+        AbstractInventory,
+        on_delete=models.CASCADE
+    )
     # Fecha Inicio[Datetime]
     initial_date = models.DateTimeField(
         verbose_name="initial date",
@@ -34,7 +41,7 @@ class Reservation(models.Model):
         (ENTREGADO, 'entregado'),
         (RECHAZADO, 'rechazado'),
     )
-    state = models.IntegerField(
+    state = models.PositiveSmallIntegerField(
         choices=RESERVATION_STATES,
         default=PENDIENTE
     )
@@ -44,8 +51,8 @@ class Reservation(models.Model):
 
     def __str__(self):
         return "{} {} {} {}".format(
-            "user",#self.user,
-            "article",#self.article_or_space,
+            self.user,
+            self.article_or_space,
             self.initial_date,
             self.end_date
         )
@@ -57,9 +64,15 @@ class Loan(models.Model):
     """
     # ID(generado por  django)
     # user [foreign key ref Usuario]
-    #user = models.ForeignKey()
+    user = models.ForeignKey(
+        RegisteredUser,
+        on_delete=models.CASCADE
+    )
     # articulo o Espacio [foreign key  ref Espacio]
-    #article_or_space = models.ForeignKey()
+    article_or_space = models.ForeignKey(
+        AbstractInventory,
+        on_delete=models.CASCADE
+    )
     # Fecha Inicio[Datetime]
     initial_date = models.DateTimeField(
         verbose_name="initial date",
@@ -81,7 +94,7 @@ class Loan(models.Model):
         (RECIBIDO, 'recibido'),
         (PERDIDO, 'perdido'),
     )
-    state = models.IntegerField(
+    state = models.PositiveSmallIntegerField(
         choices=LOAN_STATES,
         default=VIGENTE
     )
@@ -91,8 +104,8 @@ class Loan(models.Model):
 
     def __str__(self):
         return "{} {} {} {}".format(
-            "user",#self.user,
-            "article",#self.article_or_space,
+            self.user,
+            self.article_or_space,
             self.initial_date,
             self.end_date
         )
