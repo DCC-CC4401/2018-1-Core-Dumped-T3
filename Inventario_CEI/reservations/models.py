@@ -39,6 +39,9 @@ class Reservation(models.Model):
         default=PENDIENTE
     )
 
+    def get_status(self):
+        return dict(self.RESERVATION_STATES).get(self.state)
+
     def __str__(self):
         return "{} {} {} {}".format(
             "user",#self.user,
@@ -82,6 +85,9 @@ class Loan(models.Model):
         choices=LOAN_STATES,
         default=VIGENTE
     )
+
+    def get_status(self):
+        return dict(self.LOAN_STATES).get(self.state)
 
     def __str__(self):
         return "{} {} {} {}".format(
