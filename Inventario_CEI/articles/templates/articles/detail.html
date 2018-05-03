@@ -17,14 +17,17 @@
     
         <ul class="navbar-nav flex-row align-items-center">
           <li class="nav-item navbar-text align-self-start text-right">
-            <span class="glyphicon glyphicon-green-dot"></span>Jocelyn Simmonds<br>
-            12.345.678-9 <br>
-            jsimmonds@dcc.uchile.cl
+            <span class="glyphicon glyphicon-green-dot"></span>{{ user.first_name }} {{ user.last_name }}<br>
+            {{ user.username }} <br>
+            {{ user.email }}
           </li>
-          <li class="nav-item dropdown mr-3">
-            <a href="#" class="dropdown-toggle" id="navbarDropdown">
-              <img style="max-height:90px;height:auto;" class="rounded-circle" src="{% static 'articles/images/default-profile.png' %}">
+          <li class="nav-item dropdown show mr-3">
+            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"  aria-haspopup="True" aria-expanded="False" id="dropdownMenuButton">
+              <img style="max-height:90px;height:auto;" class="rounded-circle" src="{{ user.avatar.url }}">
             </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="#">Logout</a>
+            </div>
           </li>
         </ul>
       </nav>

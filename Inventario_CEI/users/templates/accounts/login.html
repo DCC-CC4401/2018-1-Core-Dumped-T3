@@ -33,16 +33,12 @@
           {% else %}
           <form method="post" action="/accounts/login/">
           {% endif %}
-            {% csrf_token %}
+          {% for field in form %}
             <div class="form-group">
-              <label for="username">RUT</label>
-              <input type="text" class="form-control" name="username" id="username" placeholder="Ingrese RUT" value="{{ username }}">
+              {{ field.errors }}
+              {{ field.label_tag }} {{ field }}
             </div>
-            <div class="form-group">
-              <label for="password">Contraseña</label>
-              <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-            </div>
-            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+          {% endfor %}
           </form>
         </div>
       </div>
