@@ -1,0 +1,14 @@
+{% extends 'reservations/base.html' %}
+
+{% block title %}
+Reservas y Prestamos
+{% endblock %}
+
+{% block body %}
+{% for reserva in reservas_pendientes  %}
+    {{ reserva.user }}
+{% empty %}
+    No hay reservas pendientes
+{% endfor %}
+
+{% endblock %}
