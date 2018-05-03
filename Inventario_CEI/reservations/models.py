@@ -1,8 +1,9 @@
 # Django
 from django.db import models
+from django.utils import timezone
 import datetime
 # Models
-from articles.models import AbstractInventory
+from articles.models import Article, Space
 from users.models import RegisteredUser
 # Create your models here.
 
@@ -19,18 +20,18 @@ class Reservation(models.Model):
     )
     # Espacio[foreign key  ref Espacio]
     article_or_space = models.ForeignKey(
-        AbstractInventory,
+        Space,
         on_delete=models.CASCADE
     )
     # Fecha Inicio[Datetime]
     initial_date = models.DateTimeField(
         verbose_name="initial date",
-        default=datetime.datetime.now()
+        default=timezone.now
     )
     # Fecha Término[Datetime]
     end_date = models.DateTimeField(
         verbose_name="end date",
-        default=datetime.datetime.now()
+        default=timezone.now
     )
     PENDIENTE = 0
     ENTREGADO = 1
@@ -70,18 +71,18 @@ class Loan(models.Model):
     )
     # articulo o Espacio [foreign key  ref Espacio]
     article_or_space = models.ForeignKey(
-        AbstractInventory,
+        Article,
         on_delete=models.CASCADE
     )
     # Fecha Inicio[Datetime]
     initial_date = models.DateTimeField(
         verbose_name="initial date",
-        default=datetime.datetime.now()
+        default=timezone.now
     )
     # Fecha Término[Datetime]
     end_date = models.DateTimeField(
         verbose_name="end date",
-        default=datetime.datetime.now()
+        default=timezone.now
     )
     VIGENTE = 0
     CADUCADO = 1

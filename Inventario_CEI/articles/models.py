@@ -1,14 +1,7 @@
 from django.db import models
 from django.db.models.fields.files import ImageField
 
-
-# Create your models here.
-class AbstractInventory(models.Model):
-    class Meta:
-        abstract = True
-
-
-class Article(AbstractInventory):
+class Article(models.Model):
     DISPONIBLE = 0
     PRESTAMO = 1
     REPARACION = 2
@@ -36,20 +29,24 @@ class Article(AbstractInventory):
         return self.name
 
 
-class Space (AbstractInventory):
-    name = models.CharField(
-        max_length=50
-    )
+class Space (models.Model):
     DISPONIBLE = 0
     PRESTAMO = 1
     REPARACION = 2
 
-    SPACE_STATUS = (
-        (DISPONIBLE, 'disponible'),
-        (PRESTAMO, 'en prestamo'),
-        (REPARACION, 'en reparacion')
+    SPACE_STATES = (
+        (DISPONIBLE, 'Disponible'),
+        (PRESTAMO, 'En préstamo'),
+        (REPARACION, 'En reparación')
     )
 
+    name = models.CharField(
+        max_length=50
+    )
+    
     status = models.PositiveSmallIntegerField(
-        choices=SPACE_STATUS,
-        default=0)
+        choices=SPACE_STATES,
+        default=DISPONIBLE)
+    
+    def pretty_status(self):
+        return self.SPACE_STATES[self.status][1]
