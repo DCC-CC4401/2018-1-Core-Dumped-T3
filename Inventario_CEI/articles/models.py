@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.fields.files import ImageField
 
 # Create your models here.
 class Article(models.Model):
@@ -15,7 +16,7 @@ class Article(models.Model):
     )
     
     name = models.CharField(max_length=128) # muy arbitrario
-    image = models.BinaryField()
+    image = models.ImageField()
     description = models.TextField()
     status = models.PositiveSmallIntegerField(
         choices=ARTICLE_STATES,

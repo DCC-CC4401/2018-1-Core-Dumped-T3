@@ -4,6 +4,24 @@
   color:green;
 }
 
+.glyphicon.glyphicon-yellow-dot:before {
+  content:"\25cf";
+  font-size:1.5em;
+  color: darkgoldenrod;
+}
+
+.glyphicon.glyphicon-red-dot:before {
+  content:"\25cf";
+  font-size:1.5em;
+  color:darkred;
+}
+
+.glyphicon.glyphicon-black-dot:before {
+  content:"\25cf";
+  font-size:1.5em;
+  color: rgb(31, 31, 31);
+}
+
 .status {
   border-radius: 10px;
   background-color: limegreen;

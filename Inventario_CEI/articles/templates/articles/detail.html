@@ -12,23 +12,23 @@
     <link rel="stylesheet" type="text/css" href="{% static 'articles/style.css' %}" />
 
     <header>
-      <nav class="navbar navbar-expand-lg navbar-light border-bottom border-dark" style="background-color:gainsboro;">
-        <a href="#" class="navbar-brand ml-3"><img style="width:100px;" src ="{% static 'articles/images/Logo-Cei.png' %}" alt="CEI"></a>
+      <nav class="navbar navbar-expand-lg justify-content-between navbar-light border-bottom border-dark" style="background-color:gainsboro;">
+          <a href="#" class="navbar-brand ml-3 border"><img style="width:100px;" src ="{% static 'articles/images/Logo-Cei.png' %}" alt="CEI"></a>
       
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item navbar-text text-right">
-            <span class="glyphicon glyphicon-green-dot"></span>Jocelyn Simmonds<br>
-            12.345.678-9 <br>
-            jsimmonds@dcc.uchile.cl
-          </li>
-          <li class="nav-item dropdown mr-3">
-              <a href="#" class="dropdown-toggle" id="navbarDropdown"><img style="max-height:90px;height:auto;" class="rounded-circle" src="{% static 'articles/images/default-profile.png' %}"></a>
-          </li>
-        </ul>
+          <ul class="navbar-nav flex-row align-items-center border">
+            <li class="nav-item navbar-text align-self-start text-right">
+              <span class="glyphicon glyphicon-green-dot"></span>Jocelyn Simmonds<br>
+              12.345.678-9 <br>
+              jsimmonds@dcc.uchile.cl
+            </li>
+            <li class="nav-item dropdown mr-3">
+                <a href="#" class="dropdown-toggle" id="navbarDropdown"><img style="max-height:90px;height:auto;" class="rounded-circle" src="{% static 'articles/images/default-profile.png' %}"></a>
+            </li>
+          </ul>
       </nav>
     </header>
 
-    <div class="container mt-4 border">
+    <div class="container-fluid w-75 mt-4 border">
       <div class="row justify-content-start">
         <div class="col-2 border">
           <h1>{{ article.name }}</h1>
@@ -37,9 +37,12 @@
           <h2>{{ article.pretty_status }}</h2>
         </div>
       </div>
-      <div class="container-fluid p-1 border">
-        <div class="card border" style="width:60%;">
-          {{ article.description }}
+      <div class="p-1 border">
+        <div class="ml-0 border" style="width:60%;">
+
+        </div>
+        <div class="ml-auto border" style="width:40%;">
+
         </div>
       </div>
     </div>
