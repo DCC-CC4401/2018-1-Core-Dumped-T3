@@ -1,7 +1,5 @@
 from django.db import models
 
-from .enums import ArticleEnum
-
 # Create your models here.
 class Article(models.Model):
     DISPONIBLE = 0

@@ -3,3 +3,9 @@
   font-size:1.5em;
   color:green;
 }
+
+.status {
+  border-radius: 10px;
+  background-color: limegreen;
+  font-size: smaller;
+}
