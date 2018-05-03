@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>{{ article.name }}</title>  
+  </head>
+  
+  <body>
+    {% load static %}
+    {% load bootstrap4 %}
+    {% bootstrap_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'articles/style.css' %}" />
+
+    <header>
+      <nav class="navbar navbar-expand-lg justify-content-between navbar-light border-bottom border-dark" style="background-color:gainsboro;">
+        <a href="#" class="navbar-brand ml-3"><img style="width:100px;" src ="{% static 'articles/images/Logo-Cei.png' %}" alt="CEI"></a>
+    
+        <ul class="navbar-nav flex-row align-items-center">
+          <li class="nav-item navbar-text align-self-start text-right">
+            <span class="glyphicon glyphicon-green-dot"></span>Jocelyn Simmonds<br>
+            12.345.678-9 <br>
+            jsimmonds@dcc.uchile.cl
+          </li>
+          <li class="nav-item dropdown mr-3">
+            <a href="#" class="dropdown-toggle" id="navbarDropdown">
+              <img style="max-height:90px;height:auto;" class="rounded-circle" src="{% static 'articles/images/default-profile.png' %}">
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="container-fluid w-75 mt-4">
+      <div class="row justify-content-start">
+        <div class="col-2">
+          <h1>{{ article.name }}</h1>
+        </div>
+        <div class="col-4 status pt-auto">
+          <h2>{{ article.pretty_status }}</h2>
+        </div>
+      </div>
+      <div class="row p-1">
+        <div class="col-md-7 ml-0">
+          <div class="row">
+            <div class="col-md-12">
+              <img class="w-100" src="{{ article.image }}">
+            </div>
+            <div class="col-md-12 border rounded" stlye="border-style:dashed;">
+              {{ article.description }}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5 ml-auto">
+          <div class="w-100">
+            <h2>Solicitar Reserva</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
