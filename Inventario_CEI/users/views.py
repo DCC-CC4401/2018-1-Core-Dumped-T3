@@ -9,7 +9,7 @@ from .forms import LoginForm, CreateAccountForm
 
 # Create your views here.
 def login(request):
-  next = reverse("landing page") # By default redirect to the landing page
+  next = "" # reverse("landing page") # When implemented, redirect by default to the landing page
   status = ""
 
   if request.GET:
