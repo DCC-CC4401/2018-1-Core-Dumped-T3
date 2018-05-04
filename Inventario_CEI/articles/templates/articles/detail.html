@@ -18,7 +18,7 @@
         <ul class="navbar-nav flex-row align-items-center">
           <li class="nav-item navbar-text text-right pb-3">
             <div class="pr-2">
-              <span class="glyphicon glyphicon-{% if  "y" in user.registereduser.permissions %}green{% elif "Préstamos" in user.registereduser.permissions %}yellow{% elif "Reservas" in user.registereduser.permissions %}red{% else %}black{% endif %}-dot"></span>{{ user.first_name }} {{ user.last_name }}<br>{{ user.registereduser.rut }}<br>{{ user.email }}
+              <span class="glyphicon glyphicon-{% if  "Préstamos y Reservas" in user.registereduser.permissions %}green{% elif "Préstamos" in user.registereduser.permissions %}yellow{% elif "Reservas" in user.registereduser.permissions %}red{% else %}black{% endif %}-dot"></span> {{ user.first_name }} {{ user.last_name }}<br>{{ user.registereduser.rut }}<br>{{ user.email }}
             </div>
           </li>
           <li class="nav-item">
@@ -38,28 +38,37 @@
     </header>
 
     <div class="container-fluid w-75 mt-5">
-      <div class="row justify-content-start">
-        <div class="col-2">
+      <div class="row justify-content-start align-items-center">
+        <div class="col-auto">
           <h1>{{ article.name }}</h1>
         </div>
-        <div class="col-4 status pt-auto">
+        <div class="col-auto status {% if "Disponible" in article.pretty_status %}available{% elif "préstamo" in article.pretty_status%}loan{% elif "reparación" in article.pretty_status %}repairs{% else %}lost{% endif %} pt-1">
           <h2>{{ article.pretty_status }}</h2>
         </div>
       </div>
       <div class="row p-1">
-        <div class="col-md-7 ml-0">
+        <div class="col-md-7 ml-0 pr-5">
           <div class="row">
-            <div class="col-md-12">
-              <img class="w-100" src="{{ article.image }}">
+            <div class="col-md-12 my-5 mr-3">
+              <img class="mx-auto d-block" style="max-width:inherit;max-height:500px;" src="{% static article.image.url %}">
             </div>
-            <div class="col-md-12 border rounded">
+            <div class="col-md-12" style="border-style:dashed;border-radius:5px;border-width:1px;font-size:larger;">
               {{ article.description }}
             </div>
           </div>
         </div>
-        <div class="col-md-5 ml-auto">
+        <div class="col-md-5 ml-auto pl-5">
           <div class="w-100">
             <h2>Solicitar Reserva</h2>
+          </div>
+          <div class="w-100">
+            Aquí va formulario de reservas
+          </div>
+          <div class"w-100">
+            <h2>Historial de Reservas</h2>
+          </div>
+          <div class"w-100 border scrollable">
+            <h2>Reservas</h2>
           </div>
         </div>
       </div>

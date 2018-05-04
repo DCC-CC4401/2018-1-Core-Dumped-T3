@@ -9,17 +9,21 @@ from .forms import LoginForm, CreateAccountForm
 
 # Create your views here.
 def login(request):
+
   next = "" # reverse("landing page") # When implemented, redirect by default to the landing page
   status = ""
 
   if request.GET:
     next = request.GET['next']
 
+  if request.user.is_authenticated:
+    return HttpResponseRedirect(next) # Redirect if already logged in.
+
   if request.method == 'POST':
     if "login" in request.POST:
       form = LoginForm(request.POST)
 
-      if(form.is_valid()):
+      if form.is_valid():
         data = form.cleaned_data
         user = authenticate(request, username=data['username'], password=data['password'])
         
@@ -42,33 +46,39 @@ def register(request):
   if request.GET:
     next = request.GET["next"]
 
+  if request.user.is_authenticated:
+    return HttpResponseRedirect(next) # Redirect if already logged in.
+
   if request.method == 'POST':
     form = CreateAccountForm(request.POST)
 
-    if(form.is_valid()):
-      data = form.cleaned_data
+    if "register" in request.POST:
+      if form.is_valid():
+        data = form.cleaned_data
 
-      valid = True
+        valid = True
 
-      # check if username is already registered
-      if User.objects.filter(username=data['username']):
-        form.add_error("username", "Rut ya se encuentra registrado.")
-        valid=False
-      
-      if data['password'] != data['confirm_password']:
-        form.add_error("confirm_password", "Contraseñas son distintas.")
-        valid=False
+        # check if username is already registered
+        if User.objects.filter(username=data['username']):
+          form.add_error("username", "Rut ya se encuentra registrado.")
+          valid=False
+        
+        if data['password'] != data['confirm_password']:
+          form.add_error("confirm_password", "Contraseñas son distintas.")
+          valid=False
 
-      if valid:
-        user = User.objects.create_user(
-          username=data['username'],
-          password=data['password'],
-          first_name=data['first_name'],
-          last_name=data['last_name'],
-          email=data['email']
-        )
-        login_user(request, user)
-        return HttpResponseRedirect(next)
+        if valid:
+          user = User.objects.create_user(
+            username=data['username'],
+            password=data['password'],
+            first_name=data['first_name'],
+            last_name=data['last_name'],
+            email=data['email']
+          )
+          login_user(request, user)
+          return HttpResponseRedirect(next)
+    else:
+      return HttpResponseRedirect(reverse(login) + "?next=" + next)
 
   else:
     form = CreateAccountForm()

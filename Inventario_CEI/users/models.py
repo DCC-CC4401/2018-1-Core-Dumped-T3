@@ -73,7 +73,6 @@ class RegisteredUser(models.Model):
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, created, **kwargs):
-    print(created)
     if created:
         RegisteredUser.objects.create(user=instance)
     else:
