@@ -24,11 +24,7 @@
 
 .status {
   border-radius: 10px;
-<<<<<<< HEAD
   color: white;
-=======
-  color:white;
->>>>>>> 8a3d53f48ea2063352b3b8753d6b3fe0d294af10
 }
 
 .status.available {
