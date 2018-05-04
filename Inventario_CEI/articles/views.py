@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Article
 
 # Create your views here.
-@login_required
+@login_required(login_url="/users/login/")
 def detail(request, article_id):
     article = get_object_or_404(Article, id=article_id)
     return render(request, 'articles/detail.html', {'article': article})

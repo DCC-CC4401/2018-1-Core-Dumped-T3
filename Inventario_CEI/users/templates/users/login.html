@@ -17,32 +17,26 @@
       </nav>
     </header>
 
-    <div class="container-fluid w-50 mt-4">
+    <div class="container-fluid w-50 mt-5">
       <div class="row justify-content-start w-50">
         <div class="col-12">
           <h1>Iniciar Sesión</h1>
-          {% if status != "" %}
-          <div class="alert alert-danger">
+          {% ifnotequal status "" %}
+          <div class="alert alert-warning" role="alert">
             {{ status }}
           </div>
-          {% endif %}
+          {% endifnotequal %}
         </div>
         <div class="col-12 p-1">
           {% if next %}
-          <form method="post" action="/accounts/login/?next={{ next }}">
+          <form method="post" action="/users/login/?next={{ next }}">
           {% else %}
-          <form method="post" action="/accounts/login/">
+          <form method="post" action="/users/login/">
           {% endif %}
             {% csrf_token %}
-            <div class="form-group">
-              <label for="username">RUT</label>
-              <input type="text" class="form-control" name="username" id="username" placeholder="Ingrese RUT" value="{{ username }}">
-            </div>
-            <div class="form-group">
-              <label for="password">Contraseña</label>
-              <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-            </div>
-            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+          {% bootstrap_form form %}
+            <button type="submit" name="login" class="btn btn-primary">Iniciar Sesión</button>
+            <button type="submit" name="register" class="btn btn-secondary float-right">Registrarse</button>
           </form>
         </div>
       </div>
