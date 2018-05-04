@@ -44,7 +44,7 @@ class RegisteredUser(models.Model):
     )
 
     avatar = models.ImageField(
-        default=static("users/images/default-profile.png")
+        default="users/images/default-profile.png"
     )
 
     status = models.PositiveSmallIntegerField(
@@ -56,11 +56,22 @@ class RegisteredUser(models.Model):
         default=False
     )
 
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        RegisteredUser.objects.create(user=instance)
+    def rut(self):
+        counter = 0
+        rut = self.user.username
+        formatted_rut = ""
+        for i in reversed(rut[:-1]):
+            if counter != 2:
+                formatted_rut += i
+            else:
+                formatted_rut += (i + ".")
+            counter = (counter + 1) % 3
+        return formatted_rut[::-1] + "-" + rut[-1]
 
 @receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+def save_user_profile(sender, instance, created, **kwargs):
+    print(created)
+    if created:
+        RegisteredUser.objects.create(user=instance)
+    else:
+        instance.registereduser.save()

@@ -9,31 +9,36 @@
     {% load static %}
     {% load bootstrap4 %}
     {% bootstrap_css %}
+    {% bootstrap_javascript %}
     <link rel="stylesheet" type="text/css" href="{% static 'articles/style.css' %}" />
 
     <header>
       <nav class="navbar navbar-expand-lg justify-content-between navbar-light border-bottom border-dark" style="background-color:gainsboro;">
         <a href="#" class="navbar-brand ml-3"><img style="width:100px;" src ="{% static 'articles/images/Logo-Cei.png' %}" alt="CEI"></a>
-    
         <ul class="navbar-nav flex-row align-items-center">
-          <li class="nav-item navbar-text align-self-start text-right">
+          <li class="nav-item navbar-text text-right">
             <span class="glyphicon glyphicon-green-dot"></span>{{ user.first_name }} {{ user.last_name }}<br>
-            {{ user.username }} <br>
+            {{ user.registereduser.rut }} <br>
             {{ user.email }}
           </li>
-          <li class="nav-item dropdown show mr-3">
-            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"  aria-haspopup="True" aria-expanded="False" id="dropdownMenuButton">
-              <img style="max-height:90px;height:auto;" class="rounded-circle" src="{{ user.avatar.url }}">
+          <li class="nav-item ">
+            <img style="max-height:90px;height:auto;" class="rounded-circle" src="{% static user.registereduser.avatar.url %}">
+          </li>
+          <li class="nav-item dropdown mr-3">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Logout
             </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <a class="dropdown-item" href="#">Logout</a>
+              <a class="dropdown-item" href="#">Logout more</a>
+              <a class="dropdown-item" href="#">Logout less</a>
             </div>
           </li>
         </ul>
       </nav>
     </header>
 
-    <div class="container-fluid w-75 mt-4">
+    <div class="container-fluid w-75 mt-5">
       <div class="row justify-content-start">
         <div class="col-2">
           <h1>{{ article.name }}</h1>
@@ -48,7 +53,7 @@
             <div class="col-md-12">
               <img class="w-100" src="{{ article.image }}">
             </div>
-            <div class="col-md-12 border rounded" stlye="border-style:dashed;">
+            <div class="col-md-12 border rounded">
               {{ article.description }}
             </div>
           </div>

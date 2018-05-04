@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión</title>  
+  </head>
+  
+  <body>
+    {% load static %}
+    {% load bootstrap4 %}
+    {% bootstrap_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'articles/style.css' %}" />
+
+    <header>
+      <nav class="navbar navbar-expand-lg justify-content-between navbar-light border-bottom border-dark" style="background-color:gainsboro;">
+        <a href="#" class="navbar-brand ml-3"><img style="width:100px;" src ="{% static 'articles/images/Logo-Cei.png' %}" alt="CEI"></a>
+      </nav>
+    </header>
+
+    <div class="container-fluid w-50 mt-5">
+      <div class="row justify-content-start w-50">
+        <div class="col-12">
+          <h1>Registrarse</h1>
+        </div>
+        <div class="col-12 p-1">
+          {% if next %}
+          <form method="post" action="/users/register/?next={{ next }}">
+          {% else %}
+          <form method="post" action="/users/register/">
+          {% endif %}
+            {% csrf_token %}
+          {% bootstrap_form form %}
+            <button type="submit" name="login" class="btn btn-primary">Registrarse</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
