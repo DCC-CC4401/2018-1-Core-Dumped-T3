@@ -38,12 +38,21 @@
     </header>
 
     <div class="container-fluid w-75 mt-5">
+<<<<<<< HEAD
       <div class="row justify-content-start align-items-center">
         <div class="col-auto">
           <h1>{{ article.name }}</h1>
         </div>
         <div class="col-auto status {% if "Disponible" in article.pretty_status %}available{% elif "préstamo" in article.pretty_status%}loan{% elif "reparación" in article.pretty_status %}repairs{% else %}lost{% endif %} pt-1">
           <h2>{{ article.pretty_status }}</h2>
+=======
+      <div class="row justify-content-start">
+        <div class="col-12">
+          <h1>{{ article.name }}</h1>
+        </div>
+        <div class="col-4 status loaned">
+          <span class="h2">{{ article.pretty_status }}</span>
+>>>>>>> 8a3d53f48ea2063352b3b8753d6b3fe0d294af10
         </div>
       </div>
       <div class="row p-1">
