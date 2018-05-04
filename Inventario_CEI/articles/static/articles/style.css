@@ -24,6 +24,13 @@
 
 .status {
   border-radius: 10px;
-  background-color: limegreen;
-  font-size: smaller;
+  color: white;
+}
+
+.status.available {
+  background-color: green;
+}
+
+.status.loaned {
+  background-color: goldenrod;
 }
