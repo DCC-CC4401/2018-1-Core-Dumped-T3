@@ -1,7 +1,7 @@
 .glyphicon.glyphicon-green-dot:before {
   content:"\25cf";
-  font-size:1.5em;
   color:green;
+  font-size:1.5em;
 }
 
 .glyphicon.glyphicon-yellow-dot:before {

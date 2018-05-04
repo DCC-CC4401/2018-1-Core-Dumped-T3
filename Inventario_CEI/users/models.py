@@ -68,6 +68,9 @@ class RegisteredUser(models.Model):
             counter = (counter + 1) % 3
         return formatted_rut[::-1] + "-" + rut[-1]
 
+    def permissions(self):
+        return self.USER_STATES[self.status][1]
+
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, created, **kwargs):
     print(created)

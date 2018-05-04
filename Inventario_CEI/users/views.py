@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
-from django.contrib.auth import authenticate, login as login_user
+from django.contrib.auth import authenticate, login as login_user, logout
 from django.urls import reverse
 from django.contrib.auth.models import User
 
@@ -9,7 +9,7 @@ from .forms import LoginForm, CreateAccountForm
 
 # Create your views here.
 def login(request):
-  next = ""
+  next = reverse("landing page") # By default redirect to the landing page
   status = ""
 
   if request.GET:
@@ -74,3 +74,7 @@ def register(request):
     form = CreateAccountForm()
 
   return render(request, 'users/register.html', {'form':form, 'next':next})
+
+def logout_view(request):
+  logout(request)
+  return HttpResponseRedirect(reverse("login"))
