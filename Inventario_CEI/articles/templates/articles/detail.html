@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>{{ article.name }}</title>  
+    <title>{{ article.name }} [{{ article.pretty_status|upper }}]</title>  
   </head>
   
   <body>
@@ -57,18 +57,30 @@
             </div>
           </div>
         </div>
-        <div class="col-md-5 ml-auto pl-5">
+        <div class="col-md-5 ml-auto pl-5 border border-dark">
           <div class="w-100">
             <h2>Solicitar Reserva</h2>
           </div>
           <div class="w-100">
             Aquí va formulario de reservas
           </div>
-          <div class"w-100">
+          <div class="w-100">
             <h2>Historial de Reservas</h2>
           </div>
-          <div class"w-100 border scrollable">
-            <h2>Reservas</h2>
+          <div class="border border-dark w-100 scrollable">
+            <ul>
+            {% if loans %}
+              {% for loan in loans %}
+              <li>
+                {{ loan.initial_date|date:"d\/m\/Y H\:i"}} a {{ loan.end_date|time:"H\:i" }} hrs.
+              </li>
+              {% endfor %}
+            {% else %}
+              <li>
+                Este artículo aún no ha sido reservado
+              </li>
+            {% endif %}
+            </ul>
           </div>
         </div>
       </div>
