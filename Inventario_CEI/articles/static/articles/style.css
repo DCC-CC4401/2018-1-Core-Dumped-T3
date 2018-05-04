@@ -24,13 +24,25 @@
 
 .status {
   border-radius: 10px;
-  color: white;
+  color:white;
 }
 
 .status.available {
   background-color: green;
 }
 
-.status.loaned {
-  background-color: goldenrod;
+.status.loan {
+  background-color: darkgoldenrod;
+}
+
+.status.repairs {
+  background-color: darkblue;
+}
+
+.status.lost {
+  background-color: darkred;
+}
+
+.scrollable {
+  overflow-y: scroll;
 }
