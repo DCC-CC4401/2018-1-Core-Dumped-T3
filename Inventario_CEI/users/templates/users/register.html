@@ -1,43 +1,33 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Iniciar Sesión</title>  
-  </head>
-  
-  <body>
-    {% load static %}
-    {% load bootstrap4 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript jquery="full" %}
-    <link rel="stylesheet" type="text/css" href="{% static 'articles/style.css' %}" />
+{% extends "base.html" %}
 
-    <header>
-      <nav class="navbar navbar-expand-lg justify-content-between navbar-light border-bottom border-dark" style="background-color:gainsboro;">
-        <a href="#" class="navbar-brand ml-3"><img style="width:100px;" src ="{% static 'articles/images/Logo-Cei.png' %}" alt="CEI"></a>
-      </nav>
-    </header>
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery="full" %}
 
-    <div class="container-fluid w-50 mt-4">
-      <div class="row justify-content-start w-50">
-        <div class="col-12">
-          <a href="{% url "login" %}">&lt Regresar</a>
-        </div>
-        <div class="col-12">
-          <h1>Registrarse</h1>
-        </div>
-        <div class="col-12 p-1">
-          {% if next %}
-          <form method="post" action="/users/register/?next={{ next }}">
-          {% else %}
-          <form method="post" action="/users/register/">
-          {% endif %}
-            {% csrf_token %}
-          {% bootstrap_form form %}
-            <button type="submit" name="register" class="btn btn-primary">Registrarse</button>
-          </form>
-        </div>
+{% block title %}Registrarse{% endblock %}
+
+{% block user %}{% endblock %}
+
+{% block content%}
+  <div class="container-fluid w-50 mt-4">
+    <div class="row justify-content-start w-50">
+      <div class="col-12">
+        <a href="{% url "login" %}">&lt Regresar</a>
+      </div>
+      <div class="col-12">
+        <h1>Registrarse</h1>
+      </div>
+      <div class="col-12 p-1">
+        {% if next %}
+        <form method="post" action="/users/register/?next={{ next }}">
+        {% else %}
+        <form method="post" action="/users/register/">
+        {% endif %}
+          {% csrf_token %}
+        {% bootstrap_form form %}
+          <button type="submit" name="register" class="btn btn-primary">Registrarse</button>
+        </form>
       </div>
     </div>
-  </body>
-</html>
+  </div>
+{% endblock %}

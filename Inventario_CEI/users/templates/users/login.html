@@ -1,46 +1,36 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Iniciar Sesión</title>  
-  </head>
-  
-  <body>
-    {% load static %}
-    {% load bootstrap4 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript jquery="full" %}
-    <link rel="stylesheet" type="text/css" href="{% static 'articles/style.css' %}" />
+{% extends "base.html" %}
 
-    <header>
-      <nav class="navbar navbar-expand-lg justify-content-between navbar-light border-bottom border-dark" style="background-color:gainsboro;">
-        <a href="#" class="navbar-brand ml-3"><img style="width:100px;" src ="{% static 'articles/images/Logo-Cei.png' %}" alt="CEI"></a>
-      </nav>
-    </header>
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery="full"%}
 
-    <div class="container-fluid w-50 mt-5">
-      <div class="row justify-content-start w-50">
-        <div class="col-12">
-          <h1>Iniciar Sesión</h1>
-          {% ifnotequal status "" %}
-          <div class="alert alert-warning" role="alert">
-            {{ status }}
-          </div>
-          {% endifnotequal %}
+{% block title%}Iniciar sesión{% endblock %}
+
+{% block user %}{% endblock %}
+
+{% block content %}
+  <div class="container-fluid w-50 mt-5">
+    <div class="row justify-content-start w-50">
+      <div class="col-12">
+        <h1>Iniciar Sesión</h1>
+        {% ifnotequal status "" %}
+        <div class="alert alert-warning" role="alert">
+          {{ status }}
         </div>
-        <div class="col-12 p-1">
-          {% if next %}
-          <form method="post" action="/users/login/?next={{ next }}">
-          {% else %}
-          <form method="post" action="/users/login/">
-          {% endif %}
-            {% csrf_token %}
-          {% bootstrap_form form %}
-            <button type="submit" name="login" class="btn btn-primary">Iniciar Sesión</button>
-            <button type="submit" name="register" class="btn btn-secondary float-right">Registrarse</button>
-          </form>
-        </div>
+        {% endifnotequal %}
+      </div>
+      <div class="col-12 p-1">
+        {% if next %}
+        <form method="post" action="/users/login/?next={{ next }}">
+        {% else %}
+        <form method="post" action="/users/login/">
+        {% endif %}
+          {% csrf_token %}
+        {% bootstrap_form form %}
+          <button type="submit" name="login" class="btn btn-primary">Iniciar Sesión</button>
+          <button type="submit" name="register" class="btn btn-secondary float-right">Registrarse</button>
+        </form>
       </div>
     </div>
-  </body>
-</html>
+  </div>
+{% endblock%}
