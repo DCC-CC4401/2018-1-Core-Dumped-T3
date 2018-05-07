@@ -129,3 +129,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     '/var/www/static/',
 ]
+
+# Media files
+MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+
+MEDIA_URL = "/media/"
