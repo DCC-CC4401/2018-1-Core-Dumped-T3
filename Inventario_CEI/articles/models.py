@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.fields.files import ImageField
+
 
 class Article(models.Model):
     DISPONIBLE = 0
@@ -50,3 +50,6 @@ class Space (models.Model):
     
     def pretty_status(self):
         return self.SPACE_STATES[self.status][1]
+
+    def __str__(self):
+        return self.name
