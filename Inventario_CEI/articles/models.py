@@ -1,7 +1,9 @@
 from django.db import models
+
 from django.db.models.fields.files import ImageField
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+
 
 class Article(models.Model):
     DISPONIBLE = 0
@@ -9,7 +11,7 @@ class Article(models.Model):
     REPARACION = 2
     PERDIDO = 3
 
-    ARTICLE_STATES =  (
+    ARTICLE_STATES = (
         (DISPONIBLE, "Disponible"),
         (PRESTAMO, "En préstamo"),
         (REPARACION, "En reparación"),
@@ -18,8 +20,10 @@ class Article(models.Model):
     
     name = models.CharField(max_length=128) # muy arbitrario
     image = models.ImageField(
+        upload_to='articles',
         default = "articles/images/items/"
     )
+
 
     description = models.TextField()
     status = models.PositiveSmallIntegerField(
@@ -60,3 +64,6 @@ class Space (models.Model):
     
     def pretty_status(self):
         return self.SPACE_STATES[self.status][1]
+
+    def __str__(self):
+        return self.name

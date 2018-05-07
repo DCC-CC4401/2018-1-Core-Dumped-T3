@@ -103,8 +103,11 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-# Agregar a que corresponde .vscode
+# Visual Studio Code IDE
 .vscode/
 
 # Pycharm IDE
 .idea
+
+# Media files
+media/

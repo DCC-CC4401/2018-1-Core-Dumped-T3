@@ -56,6 +56,10 @@ class RegisteredUser(models.Model):
         default=False
     )
 
+
+    def __str__(self):
+        return self.email
+
     def rut(self):
         counter = 0
         rut = self.user.username
