@@ -7,7 +7,7 @@ class Article(models.Model):
     REPARACION = 2
     PERDIDO = 3
 
-    ARTICLE_STATES =  (
+    ARTICLE_STATES = (
         (DISPONIBLE, "Disponible"),
         (PRESTAMO, "En préstamo"),
         (REPARACION, "En reparación"),
@@ -15,7 +15,9 @@ class Article(models.Model):
     )
     
     name = models.CharField(max_length=128) # muy arbitrario
-    image = models.ImageField()
+    image = models.ImageField(
+        upload_to='articles'
+    )
     description = models.TextField()
     status = models.PositiveSmallIntegerField(
         choices=ARTICLE_STATES,
