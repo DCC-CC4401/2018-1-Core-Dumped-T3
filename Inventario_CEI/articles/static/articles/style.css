@@ -1,7 +1,7 @@
 .glyphicon.glyphicon-green-dot:before {
   content:"\25cf";
-  font-size:1.5em;
   color:green;
+  font-size:1.5em;
 }
 
 .glyphicon.glyphicon-yellow-dot:before {
@@ -24,6 +24,25 @@
 
 .status {
   border-radius: 10px;
-  background-color: limegreen;
-  font-size: smaller;
+  color: white;
+}
+
+.status.available {
+  background-color: green;
+}
+
+.status.loan {
+  background-color: darkgoldenrod;
+}
+
+.status.repairs {
+  background-color: darkblue;
+}
+
+.status.lost {
+  background-color: darkred;
+}
+
+.scrollable {
+  overflow-y: scroll;
 }

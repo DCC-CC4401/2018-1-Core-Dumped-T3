@@ -88,7 +88,7 @@ class SpaceReservation(Reservation):
     def __str__(self):
         return "{} {} {} {}".format(
             self.user,
-            self.article_or_space,
+            self.space,
             self.initial_date,
             self.end_date
         )
@@ -172,7 +172,7 @@ class SpaceLoan(Loan):
     def __str__(self):
         return "{} {} {} {}".format(
             self.user,
-            self.article_or_space,
+            self.article,
             self.initial_date,
             self.end_date
         )
