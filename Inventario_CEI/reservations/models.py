@@ -43,7 +43,7 @@ class Reservation(models.Model):
         return dict(self.RESERVATION_STATES).get(self.state)
 
     class Meta:
-        abstract = False
+        abstract = True
 
 
 class ArticleReservation(Reservation):
@@ -131,7 +131,7 @@ class Loan(models.Model):
         return dict(self.LOAN_STATES).get(self.state)
 
     class Meta:
-        abstract = False
+        abstract = True
 
 
 class ArticleLoan(Loan):
