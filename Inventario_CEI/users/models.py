@@ -19,3 +19,5 @@ class RegisteredUser(models.Model):
         default=False
     )
 
+    def __str__(self):
+        return self.email
