@@ -58,7 +58,7 @@ class RegisteredUser(models.Model):
 
 
     def __str__(self):
-        return self.email
+        return self.user.email
 
     def rut(self):
         counter = 0
