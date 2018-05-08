@@ -1,0 +1,73 @@
+{% extends 'reservations/base.html' %}
+{% load staticfiles %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% block title %}
+Reservas y Prestamos
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row grilla">
+        <p>Aqui va la grilla</p>
+    </div>
+    <div class="row reservayprestamo">
+        <div class="col-md reserva">
+            <div class="container">
+                <div class="row">
+                    <table class="table-hover table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Articulo</th>
+                            <th>Usuario</th>
+                            <th>Fecha de Prestamo</th>
+                            <th>Fecha de Solicitud</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for reserva in reservas_pendientes_articulos  %}
+                            <tr>
+                                <td>{{ reserva.id }}</td>
+                                <td>{{ reserva.article_or_space }}</td>
+                                <td>{{ reserva.user }}</td>
+                                <td>{{ reserva.initial_date }} al {{ reserva.end_date }}</td>
+                                <td></td>
+                            </tr>
+                        {% empty %}
+                            <tr><th colspan="5">No hay reservas pendientes</th></tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Espacio</th>
+                            <th>Usuario</th>
+                            <th>Fecha de Prestamo</th>
+                            <th>Fecha de Solicitud</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for reserva in reservas_pendientes_espacios  %}
+                            <tr>
+                                <td>{{ reserva.id }}</td>
+                                <td>{{ reserva.article_or_space }}</td>
+                                <td>{{ reserva.user }}</td>
+                                <td>{{ reserva.initial_date }}  <br /> al {{ reserva.end_date }}</td>
+                                <td></td>
+                            </tr>
+                        {% empty %}
+                            <tr><th colspan="5">No hay reservas pendientes</th></tr>
+                        {% endfor %}
+                        </tbody>
+                    </table></div>
+            </div>
+        </div>
+        <div class="col-md prestamo"></div>
+    </div>
+</div>
+{% endblock %}
