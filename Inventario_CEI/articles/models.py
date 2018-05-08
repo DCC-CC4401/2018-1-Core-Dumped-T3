@@ -21,9 +21,8 @@ class Article(models.Model):
     name = models.CharField(max_length=128) # muy arbitrario
     image = models.ImageField(
         upload_to='articles',
-        default = "articles/images/items/"
+        default="articles/images/items/"
     )
-
 
     description = models.TextField()
     status = models.PositiveSmallIntegerField(
