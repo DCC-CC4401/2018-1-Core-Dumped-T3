@@ -1,12 +1,13 @@
 <!doctype html>
+{% load static %}
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Inventario CEI{% endblock %}</title>  
+    <title>{% block title %}Inventario CEI{% endblock %}</title>
+    <link rel="shortcut icon" href="{%  static 'images/Logo-CEI.ico' %}">
   </head>
   
   <body>
-    {% load static %}
     {% load bootstrap4 %}
     {% bootstrap_css %}
     {% bootstrap_javascript jquery="full" %}

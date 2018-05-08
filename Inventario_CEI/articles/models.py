@@ -1,4 +1,7 @@
 from django.db import models
+from django.db.models.fields.files import ImageField
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 from django.db.models.fields.files import ImageField
 from django.dispatch import receiver
@@ -21,9 +24,8 @@ class Article(models.Model):
     name = models.CharField(max_length=128) # muy arbitrario
     image = models.ImageField(
         upload_to='articles',
-        default = "articles/images/items/"
+        default="articles/images/items/"
     )
-
 
     description = models.TextField()
     status = models.PositiveSmallIntegerField(
