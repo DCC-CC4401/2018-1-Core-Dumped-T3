@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}[TITULO]{% endblock %}
+
+<!— Descomentar si no se quiere mostrar usuario en el header de la página
+{% block user %}{% endblock %}
+—>
+{% block content%}
+<div class="mt-3">
+<div class="text-center" >
+<div class="btn-group pagination-centered" >
+  <button type="button" class="btn btn-success">Busqueda de articulos</button>
+  <button type="button" class="btn ">Disponibilidad de espacios</button>
+</div>
+</div>
+</div>
+<div class="mt-5">
+<div class="mx-auto"  style="width:65em;">
+<form class="form-inline" action="/action_page.php">
+  <input type="text" class="form-control" name= "item" placeholder="ingrese el nombre del articulo" style="width:60em">
+  <button type="submit" class="btn btn-light" style="width:5em">Buscar</button>
+</form>
+</div>
+</div>
+
+{% endblock %}
