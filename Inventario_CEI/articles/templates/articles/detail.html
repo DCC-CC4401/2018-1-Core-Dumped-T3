@@ -1,10 +1,16 @@
 {% extends "base.html" %}
 
 {% load staticfiles %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery="full" %}
 
 {% block title %}{{ article.name }} [{{ article.pretty_status|upper }}]{% endblock %}
-    
+
 {% block content %}
+<script text="text/javascript" src="{% static "articles/moment.js" %}"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
   <div class="container-fluid w-75 mt-5">
     <div class="row justify-content-start align-items-center">
       <div class="col-auto">
@@ -25,12 +31,26 @@
           </div>
         </div>
       </div>
-      <div class="col-md-5 ml-auto pl-5 border border-dark">
+      <div class="col-md-5 ml-auto pl-3">
         <div class="w-100">
           <h2>Solicitar Reserva</h2>
         </div>
         <div class="w-100">
-          Aquí va formulario de reservas
+          <form method="post" action="/users/register/">
+            <div class="form-group">
+              <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
+                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+                $(function () {
+                    $('#datetimepicker1').datetimepicker();
+                });
+            </script>
+          </form>
         </div>
         <div class="w-100">
           <h2>Próximas Reservas</h2>
