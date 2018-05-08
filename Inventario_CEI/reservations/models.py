@@ -14,6 +14,29 @@ class Reservation(models.Model):
     """
     # ID(generado por  django)
     # RUT[foreign key ref Usuario]
+
+    article = models.ForeignKey(
+        Article,
+        on_delete=models.CASCADE,
+        related_name="reservations"
+    )
+    space = models.ForeignKey(
+        Space,
+        on_delete=models.CASCADE,
+        related_name="reservations"
+    )
+    user = models.ForeignKey(
+        RegisteredUser,
+        on_delete=models.CASCADE,
+        related_name="reservations"
+    )
+    is_article = models.BooleanField(
+        default=False
+    )
+    is_space = models.BooleanField(
+        default=False
+    )
+
     # Fecha Inicio[Datetime]
     initial_date = models.DateTimeField(
         verbose_name="initial date",
@@ -41,59 +64,25 @@ class Reservation(models.Model):
     def get_status(self):
         return dict(self.RESERVATION_STATES).get(self.state)
 
+    def __str__(self):
+        if self.is_article:
+            return "{} {} {} {}".format(
+                self.user,
+                self.article,
+                self.initial_date,
+                self.end_date
+            )
+        if self.is_space:
+            return "{} {} {} {}".format(
+                self.user,
+                self.space,
+                self.initial_date,
+                self.end_date
+            )
+
     class Meta:
-        abstract = True
-
-
-class ArticleReservation(Reservation):
-    """
-    Modelo para reservas de articulos
-    """
-    article_or_space = models.ForeignKey(
-        Article,
-        on_delete=models.CASCADE,
-        related_name="reservations"
-    )
-    user = models.ForeignKey(
-        RegisteredUser,
-        on_delete=models.CASCADE,
-        related_name="article_reservations"
-    )
-
-    def get_status(self):
-        return dict(self.RESERVATION_STATES).get(self.state)
-
-    def __str__(self):
-        return "{} {} {} {}".format(
-            self.user,
-            self.article_or_space,
-            self.initial_date,
-            self.end_date
-        )
-
-
-class SpaceReservation(Reservation):
-    """
-    Modelo para reserva de espacios
-    """
-    article_or_space = models.ForeignKey(
-        Space,
-        on_delete=models.CASCADE,
-        related_name="reservations"
-    )
-    user = models.ForeignKey(
-        RegisteredUser,
-        on_delete=models.CASCADE,
-        related_name="space_reservations"
-    )
-
-    def __str__(self):
-        return "{} {} {} {}".format(
-            self.user,
-            self.space,
-            self.initial_date,
-            self.end_date
-        )
+        verbose_name = 'reservation',
+        verbose_name_plural = 'reservations'
 
 
 class Loan(models.Model):
@@ -102,6 +91,27 @@ class Loan(models.Model):
     """
     # ID(generado por  django)
     # user [foreign key ref Usuario]
+    article = models.ForeignKey(
+        Article,
+        on_delete=models.CASCADE,
+        related_name="loans"
+    )
+    space = models.ForeignKey(
+        Space,
+        on_delete=models.CASCADE,
+        related_name="loans"
+    )
+    user = models.ForeignKey(
+        RegisteredUser,
+        on_delete=models.CASCADE,
+        related_name="loans"
+    )
+    is_article = models.BooleanField(
+        default=False
+    )
+    is_space = models.BooleanField(
+        default=False
+    )
     # Fecha Inicio[Datetime]
     initial_date = models.DateTimeField(
         verbose_name="initial date",
@@ -132,54 +142,5 @@ class Loan(models.Model):
         return dict(self.LOAN_STATES).get(self.state)
 
     class Meta:
-        abstract = True
-
-
-class ArticleLoan(Loan):
-    # articulo o Espacio [foreign key  ref Espacio]
-    article_or_space = models.ForeignKey(
-        Article,
-        on_delete=models.CASCADE,
-        related_name="loans"
-    )
-    user = models.ForeignKey(
-        RegisteredUser,
-        on_delete=models.CASCADE,
-        related_name="article_loans"
-    )
-
-    def get_status(self):
-        return dict(self.LOAN_STATES).get(self.state)
-
-    def __str__(self):
-        return "{} {} {} {}".format(
-            self.user,
-            self.article_or_space,
-            self.initial_date,
-            self.end_date
-        )
-
-
-class SpaceLoan(Loan):
-    # articulo o Espacio [foreign key  ref Espacio]
-    article_or_space = models.ForeignKey(
-        Space,
-        on_delete=models.CASCADE,
-        related_name="loans"
-    )
-    user = models.ForeignKey(
-        RegisteredUser,
-        on_delete=models.CASCADE,
-        related_name="space_loans"
-    )
-
-    def get_status(self):
-        return dict(self.LOAN_STATES).get(self.state)
-
-    def __str__(self):
-        return "{} {} {} {}".format(
-            self.user,
-            self.article,
-            self.initial_date,
-            self.end_date
-        )
+        verbose_name = 'loan',
+        verbose_name_plural = 'loans'
