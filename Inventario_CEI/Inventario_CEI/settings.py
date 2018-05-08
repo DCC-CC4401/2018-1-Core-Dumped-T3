@@ -38,12 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap4',
+    'fa',
     # internal apps
     'articles',
     'reservations',
     'users',
     'userprofile',
-    'article_search'
+    'article_search',
 ]
 
 MIDDLEWARE = [
