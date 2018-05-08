@@ -89,8 +89,6 @@ class Loan(models.Model):
     """
     Modelo para prestamos.
     """
-    # ID(generado por  django)
-    # user [foreign key ref Usuario]
     article = models.ForeignKey(
         Article,
         on_delete=models.CASCADE,
