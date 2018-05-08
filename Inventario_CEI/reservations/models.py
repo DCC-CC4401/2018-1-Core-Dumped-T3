@@ -14,7 +14,6 @@ class Reservation(models.Model):
     """
     # ID(generado por  django)
     # RUT[foreign key ref Usuario]
-
     # Fecha Inicio[Datetime]
     initial_date = models.DateTimeField(
         verbose_name="initial date",
@@ -61,6 +60,9 @@ class ArticleReservation(Reservation):
         related_name="article_reservations"
     )
 
+    def get_status(self):
+        return dict(self.RESERVATION_STATES).get(self.state)
+
     def __str__(self):
         return "{} {} {} {}".format(
             self.user,
@@ -100,7 +102,6 @@ class Loan(models.Model):
     """
     # ID(generado por  django)
     # user [foreign key ref Usuario]
-
     # Fecha Inicio[Datetime]
     initial_date = models.DateTimeField(
         verbose_name="initial date",
@@ -168,6 +169,9 @@ class SpaceLoan(Loan):
         on_delete=models.CASCADE,
         related_name="space_loans"
     )
+
+    def get_status(self):
+        return dict(self.LOAN_STATES).get(self.state)
 
     def __str__(self):
         return "{} {} {} {}".format(
