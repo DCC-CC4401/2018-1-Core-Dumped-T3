@@ -33,14 +33,14 @@
           Aquí va formulario de reservas
         </div>
         <div class="w-100">
-          <h2>Historial de Reservas</h2>
+          <h2>Próximas Reservas</h2>
         </div>
-        <div class="border border-dark w-100 scrollable">
+        <div class="border border-dark w-100 scrollable" style="max-height:350px;">
           <ul>
-          {% if loans %}
-            {% for loan in loans %}
+          {% if reservations %}
+            {% for reservation in reservations %}
             <li>
-              {{ loan.initial_date|date:"d\/m\/Y H\:i"}} a {{ loan.end_date|time:"H\:i" }} hrs.
+              {{ reservation.initial_date|date:"d\/m\/Y H\:i"}} a {{ reservation.end_date|time:"H\:i" }} hrs.
             </li>
             {% endfor %}
           {% else %}

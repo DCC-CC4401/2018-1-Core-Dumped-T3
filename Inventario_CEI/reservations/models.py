@@ -50,7 +50,7 @@ class ArticleReservation(Reservation):
     """
     Modelo para reservas de articulos
     """
-    article_or_space = models.ForeignKey(
+    article = models.ForeignKey(
         Article,
         on_delete=models.CASCADE,
         related_name="reservations"
@@ -64,7 +64,7 @@ class ArticleReservation(Reservation):
     def __str__(self):
         return "{} {} {} {}".format(
             self.user,
-            self.article_or_space,
+            self.article,
             self.initial_date,
             self.end_date
         )
@@ -74,7 +74,7 @@ class SpaceReservation(Reservation):
     """
     Modelo para reserva de espacios
     """
-    article_or_space = models.ForeignKey(
+    space = models.ForeignKey(
         Space,
         on_delete=models.CASCADE,
         related_name="reservations"
@@ -136,7 +136,7 @@ class Loan(models.Model):
 
 class ArticleLoan(Loan):
     # articulo o Espacio [foreign key  ref Espacio]
-    article_or_space = models.ForeignKey(
+    article = models.ForeignKey(
         Article,
         on_delete=models.CASCADE,
         related_name="loans"
@@ -150,7 +150,7 @@ class ArticleLoan(Loan):
     def __str__(self):
         return "{} {} {} {}".format(
             self.user,
-            self.article_or_space,
+            self.article,
             self.initial_date,
             self.end_date
         )
@@ -158,7 +158,7 @@ class ArticleLoan(Loan):
 
 class SpaceLoan(Loan):
     # articulo o Espacio [foreign key  ref Espacio]
-    article_or_space = models.ForeignKey(
+    space = models.ForeignKey(
         Space,
         on_delete=models.CASCADE,
         related_name="loans"
@@ -172,7 +172,7 @@ class SpaceLoan(Loan):
     def __str__(self):
         return "{} {} {} {}".format(
             self.user,
-            self.article,
+            self.space,
             self.initial_date,
             self.end_date
         )
