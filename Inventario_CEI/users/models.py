@@ -56,6 +56,10 @@ class RegisteredUser(models.Model):
         default=False
     )
 
+
+    def __str__(self):
+        return self.email
+
     def rut(self):
         counter = 0
         rut = self.user.username
@@ -71,13 +75,9 @@ class RegisteredUser(models.Model):
     def permissions(self):
         return self.USER_STATES[self.status][1]
 
-    def __str__(self):
-        return self.user.username
-
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, created, **kwargs):
     if created:
         RegisteredUser.objects.create(user=instance)
     else:
         instance.registereduser.save()
-

@@ -1,5 +1,9 @@
+# Django
 from django.contrib import admin
-from .models import Reservation, Loan
+# Models
+from .models import *
 # Register your models here.
-admin.site.register(Loan)
-admin.site.register(Reservation)
+admin.site.register(ArticleLoan)
+admin.site.register(ArticleReservation)
+admin.site.register(SpaceLoan)
+admin.site.register(SpaceReservation)
