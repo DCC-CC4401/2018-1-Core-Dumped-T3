@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'articles',
     'reservations',
     'users',
+    'userprofile',
+    'article_search'
 ]
 
 MIDDLEWARE = [

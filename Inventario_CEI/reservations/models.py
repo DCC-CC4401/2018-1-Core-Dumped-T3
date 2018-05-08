@@ -14,6 +14,7 @@ class Reservation(models.Model):
     """
     # ID(generado por  django)
     # RUT[foreign key ref Usuario]
+
     article = models.ForeignKey(
         Article,
         on_delete=models.CASCADE,
