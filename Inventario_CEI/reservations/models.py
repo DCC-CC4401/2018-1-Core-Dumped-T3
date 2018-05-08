@@ -148,6 +148,9 @@ class ArticleLoan(Loan):
         related_name="article_loans"
     )
 
+    def get_status(self):
+        return dict(self.LOAN_STATES).get(self.state)
+
     def __str__(self):
         return "{} {} {} {}".format(
             self.user,
