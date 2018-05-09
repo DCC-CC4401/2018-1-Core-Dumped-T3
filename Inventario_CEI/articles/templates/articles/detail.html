@@ -40,15 +40,19 @@
         <div class="w-100 pb-2">
           <form method="post" action="/articles/{{ article.id }}">
             {% csrf_token %}
+            {% for field in form.fields %}
             <div class="form-group">
-              <label for="day">Día:</label>
-              <div class="input-group date" id="day-datetime" data-target-input="nearest">
-                <input type="text" name="day" class="form-control datetimepicker-input" required data-target="#day-datetime"/>
-                <div class="input-group-append" data-target="#day-datetime" data-toggle="datetimepicker">
-                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+              {{ field.errors }}
+              {{ field.label_tag }}
+              <div class="input-group date" id="{{ field }}" data-target-input="nearest">
+                <input type="text" name="{{ field }}" class="form-control datetimepicker-input" required data-target="#{{ field }}"/>
+                <div class="input-group-append" data-target="#{{ field }}" data-toggle="datetimepicker">
+                  <div class="input-group-text"><i class="fa {% if "day" in field %}fa-calendar{% else %}fa-clock-o{% endif %}"></i></div>
                 </div>
               </div>
             </div>
+            {% endfor %}
+            <!--
             <div class="row">
               <div class="col form-group">
                 <label for="initial-time">Desde:</label>
@@ -68,7 +72,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div>-->
             <div class="row w-100 justify-content-end">
               <button type="submit" class="btn btn-primary">Reservar</button>
             </div>
@@ -97,28 +101,41 @@
   </div>
 <script type="text/javascript">
     $(function () {
-        $('#day-datetime').datetimepicker({
+        $('#day').datetimepicker({
           format: 'L',
           minDate: moment().add(1, 'h'),
           enabledHours: [9, 10, 11, 12, 13, 14, 15, 16, 17],
           daysOfWeekDisabled: [0, 6],
           locale: 'es'
         })
-        $('#initial-datetime').datetimepicker({
+        $('#start_time').datetimepicker({
           format: 'LT',
           minDate: moment().add(1, 'h'),
           enabledHours: [9, 10, 11, 12, 13, 14, 15, 16, 17],
+          daysOfWeekDisabled: [0, 6],
           locale: 'es'
         });
-        $('#end-datetime').datetimepicker({
+        $('#end_time').datetimepicker({
           format: 'LT',
           useCurrent: false,
           enabledHours: [9, 10, 11, 12, 13, 14, 15, 16, 17],
+          daysOfWeekDisabled: [0, 6],
           locale: 'es'
         });
-        $('#day-datetime').on("change.datetimepicker", function (e) {
-          $("#initial-datetime").datetimepicker('date', e.date);
-          $("#end-datetime").datetimepicker('date', e.date);
+        $('#day').on("change.datetimepicker", function (e) {
+          $("#start_time").datetimepicker('date', e.date);
+          $("#end_time").datetimepicker('date', e.date);
+        });
+        $('#start_time').on("change.datetimepicker", function(e) {
+          $("#end_time").datetimepicker('minDate', e.date);
+          if($("#end_time").datetimepicker('date') && $("#end_time").datetimepicker('date').isBefore(e.date)) {
+            $("#end_time").datetimepicker('date', e.date);
+          }
+        });
+        $('#end_time').on("change.datetimepicker", function(e) {
+          if($("#start_time").datetimepicker('date') && $("#start_time").datetimepicker('date').isAfter(e.date)) {
+            $("#start_time").datetimepicker('date', e.date);
+          }
         });
     });
 </script>
