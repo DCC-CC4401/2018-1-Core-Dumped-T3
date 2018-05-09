@@ -5,18 +5,18 @@
 {% load font_awesome %}
 {% bootstrap_css %}
 {% bootstrap_javascript jquery="full" %}
-{% fa_css %}
 
 {% block title %}{{ article.name }} [{{ article.pretty_status|upper }}]{% endblock %}
 
 {% block content %}
+{% fa_css %}
 <script text="text/javascript" src="{% static "articles/moment.js" %}"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
-  <div class="container-fluid w-75 mt-5">
-    <div class="row justify-content-start align-items-center">
-      <div class="col-auto">
-        <h1>{{ article.name }}</h1>
+<div class="container-fluid w-75 mt-5">
+  <div class="row justify-content-start align-items-center">
+    <div class="col-auto">
+      <h1>{{ article.name }}</h1>
       </div>
       <div class="col-auto status {% if "Disponible" in article.pretty_status %}available{% elif "préstamo" in article.pretty_status%}loan{% elif "reparación" in article.pretty_status %}repairs{% else %}lost{% endif %} pt-1">
         <h2>{{ article.pretty_status }}</h2>
@@ -38,22 +38,34 @@
           <h2>Solicitar Reserva</h2>
         </div>
         <div class="w-100 pb-2">
-          <form method="post" action="/users/register/">
+          <form method="post" action="/articles/{{ article.id }}">
+            {% csrf_token %}
             <div class="form-group">
-              <label for="initial-time">Desde:</label>
-              <div class="input-group date" id="datetimepicker7" data-target-input="nearest">
-                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker7"/>
-                <div class="input-group-append" data-target="#datetimepicker7" data-toggle="datetimepicker">
+              <label for="day">Día:</label>
+              <div class="input-group date" id="day-datetime" data-target-input="nearest">
+                <input type="text" name="day" class="form-control datetimepicker-input" required data-target="#day-datetime"/>
+                <div class="input-group-append" data-target="#day-datetime" data-toggle="datetimepicker">
                   <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                 </div>
               </div>
             </div>
-            <div class="form-group">
-              <label for="initial-time">Hasta:</label>
-              <div class="input-group date" id="datetimepicker8" data-target-input="nearest">
-                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker8"/>
-                <div class="input-group-append" data-target="#datetimepicker8" data-toggle="datetimepicker">
-                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+            <div class="row">
+              <div class="col form-group">
+                <label for="initial-time">Desde:</label>
+                <div class="input-group date" id="initial-datetime" data-target-input="nearest">
+                  <input type="text" name="initial_time" class="form-control datetimepicker-input" required data-target="#initial-datetime"/>
+                  <div class="input-group-append" data-target="#initial-datetime" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col form-group">
+                <label for="initial-time">Hasta:</label>
+                <div class="input-group date" id="end-datetime" data-target-input="nearest">
+                  <input type="text" name="end_time" class="form-control datetimepicker-input" required data-target="#end-datetime"/>
+                  <div class="input-group-append" data-target="#end-datetime" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -85,15 +97,28 @@
   </div>
 <script type="text/javascript">
     $(function () {
-        $('#datetimepicker7').datetimepicker();
-        $('#datetimepicker8').datetimepicker({
-            useCurrent: false
+        $('#day-datetime').datetimepicker({
+          format: 'L',
+          minDate: moment().add(1, 'h'),
+          enabledHours: [9, 10, 11, 12, 13, 14, 15, 16, 17],
+          daysOfWeekDisabled: [0, 6],
+          locale: 'es'
+        })
+        $('#initial-datetime').datetimepicker({
+          format: 'LT',
+          minDate: moment().add(1, 'h'),
+          enabledHours: [9, 10, 11, 12, 13, 14, 15, 16, 17],
+          locale: 'es'
         });
-        $("#datetimepicker7").on("change.datetimepicker", function (e) {
-            $('#datetimepicker8').datetimepicker('minDate', e.date);
+        $('#end-datetime').datetimepicker({
+          format: 'LT',
+          useCurrent: false,
+          enabledHours: [9, 10, 11, 12, 13, 14, 15, 16, 17],
+          locale: 'es'
         });
-        $("#datetimepicker8").on("change.datetimepicker", function (e) {
-            $('#datetimepicker7').datetimepicker('maxDate', e.date);
+        $('#day-datetime').on("change.datetimepicker", function (e) {
+          $("#initial-datetime").datetimepicker('date', e.date);
+          $("#end-datetime").datetimepicker('date', e.date);
         });
     });
 </script>
