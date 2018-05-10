@@ -44,6 +44,7 @@ class RegisteredUser(models.Model):
     )
 
     avatar = models.ImageField(
+        upload_to='users/avatar',
         default="users/images/default-profile.png"
     )
 
@@ -56,9 +57,8 @@ class RegisteredUser(models.Model):
         default=False
     )
 
-
     def __str__(self):
-        return self.email
+        return self.user.email
 
     def rut(self):
         counter = 0
@@ -74,6 +74,7 @@ class RegisteredUser(models.Model):
 
     def permissions(self):
         return self.USER_STATES[self.status][1]
+
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, created, **kwargs):
