@@ -13,14 +13,25 @@ class ReservationsView(generic.TemplateView):
         context = super(ReservationsView, self).get_context_data(
             **kwargs
         )
-        context['reservas_pendientes_articulos'] = ArticleReservation.objects.filter(
+        context['reservas_pendientes'] = Reservation.objects.filter(
             state=Reservation.PENDIENTE
         )
-        context['reservas_pendientes_espacios'] = SpaceReservation.objects.filter(
-            state=Reservation.PENDIENTE
-        )
-        context['prestamos_articulos'] = ArticleLoan.objects.all()
-        context['prestamos_espacios'] = SpaceLoan.objects.all()
+        context['prestamos'] = Loan.objects.all()
         return context
 
+
+def accept_reservation(request):
+    pass
+
+
+def reject_reservation(request):
+    pass
+
+
+def change_loan_to_lost(request):
+    pass
+
+
+def change_loan_to_received(request):
+    pass
 
