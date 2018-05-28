@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from reservations.models import Loan, Reservation
 from users.models import RegisteredUser
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 
 # Create your views here.
@@ -20,6 +20,14 @@ def myloans(request):
     loans = fullloans[:10]
     return render(request, 'userprofile/loans.html', {'loans': loans})
 
+
+
+def delete(request, id=None):
+    if request.method == 'POST':
+        pklist = request.POST.getlist('custcheck')
+        for who in pklist:
+            Reservation.objects.get(pk=who).delete()
+    return redirect(home)
 
 def test(request):
     return render(request, 'userprofile/test.html', {})
