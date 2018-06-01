@@ -17,11 +17,13 @@ class Reservation(models.Model):
 
     article = models.ForeignKey(
         Article,
+        null=True,
         on_delete=models.CASCADE,
         related_name="reservations"
     )
     space = models.ForeignKey(
         Space,
+        null=True,
         on_delete=models.CASCADE,
         related_name="reservations"
     )
@@ -56,6 +58,7 @@ class Reservation(models.Model):
         (ENTREGADO, 'entregado'),
         (RECHAZADO, 'rechazado'),
     )
+    
     state = models.PositiveSmallIntegerField(
         choices=RESERVATION_STATES,
         default=PENDIENTE
