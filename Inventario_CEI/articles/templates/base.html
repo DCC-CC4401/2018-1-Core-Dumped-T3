@@ -1,6 +1,6 @@
 <!doctype html>
 {% load static %}
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8">
     <title>{% block title %}Inventario CEI{% endblock %}</title>
@@ -11,6 +11,8 @@
     {% load bootstrap4 %}
     {% bootstrap_css %}
     {% bootstrap_javascript jquery="full" %}
+    {% load font_awesome %}
+    {% fa_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'articles/style.css' %}" />
 
     <header>
@@ -27,7 +29,8 @@
             <img style="max-height:90px;height:auto;" class="rounded-circle" src="{% static user.registereduser.avatar.url %}">
           </li>
           <li class="nav-item dropdown show mr-3">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-chevron-down"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
               <a class="dropdown-item" href="#">Mi perfil</a>
