@@ -36,53 +36,40 @@
       <div class="col-md-5 ml-auto pl-3">
         <div class="w-100">
           <h2>Solicitar Reserva</h2>
+          {% for alert,type in messages.items %}
+          <div class="alert alert-{{ type }} alert-dismissable alert-link" role="alert">
+            <button class="close" type="button" data-dismiss="alert" aria-hidden="true">&#215;</button>
+            {{ alert }}
+          </div>
+          {% endfor %}
         </div>
         <div class="w-100 pb-2">
           <form method="post" action="/articles/{{ article.id }}">
             {% csrf_token %}
-            {% for field in form.fields %}
-            <div class="form-group">
-              {{ field.errors }}
+            {% for field in form%}
+            <div class="form-group {% if field.errors %}is-invalid{% endif %}">
               {{ field.label_tag }}
-              <div class="input-group date" id="{{ field }}" data-target-input="nearest">
-                <input type="text" name="{{ field }}" class="form-control datetimepicker-input" required data-target="#{{ field }}"/>
-                <div class="input-group-append" data-target="#{{ field }}" data-toggle="datetimepicker">
+              <div class="input-group date" id="{{ field.name }}" data-target-input="nearest">
+                <input type="text" name="{{ field.name }}" class="form-control {% if field.errors %}is-invalid{% endif %} datetimepicker-input" required data-target="#{{ field.name }}" value="{{ field.value }}"/>
+                <div class="input-group-append" data-target="#{{ field.name }}" data-toggle="datetimepicker">
                   <div class="input-group-text"><i class="fa {% if "day" in field %}fa-calendar{% else %}fa-clock-o{% endif %}"></i></div>
                 </div>
               </div>
+              {% if field.errors %}
+                <div class="invalid-feedback" style="display:block;">{% for error in field.errors %}{{ error }}<br/>{% endfor %}</div>
+              {% endif %}
             </div>
             {% endfor %}
-            <!--
-            <div class="row">
-              <div class="col form-group">
-                <label for="initial-time">Desde:</label>
-                <div class="input-group date" id="initial-datetime" data-target-input="nearest">
-                  <input type="text" name="initial_time" class="form-control datetimepicker-input" required data-target="#initial-datetime"/>
-                  <div class="input-group-append" data-target="#initial-datetime" data-toggle="datetimepicker">
-                    <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
-                  </div>
-                </div>
-              </div>
-              <div class="col form-group">
-                <label for="initial-time">Hasta:</label>
-                <div class="input-group date" id="end-datetime" data-target-input="nearest">
-                  <input type="text" name="end_time" class="form-control datetimepicker-input" required data-target="#end-datetime"/>
-                  <div class="input-group-append" data-target="#end-datetime" data-toggle="datetimepicker">
-                      <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
-                  </div>
-                </div>
-              </div>
-            </div>-->
             <div class="row w-100 justify-content-end">
               <button type="submit" class="btn btn-primary">Reservar</button>
             </div>
           </form>
         </div>
         <div class="w-100">
-          <h2>Próximas Reservas</h2>
+          <h2>Próximos Préstamos</h2>
         </div>
         <div class="border border-dark w-100 scrollable" style="max-height:225px;">
-          <ul>
+          <ul class="my-1">
           {% if reservations %}
             {% for reservation in reservations %}
             <li>
@@ -104,6 +91,7 @@
         $('#day').datetimepicker({
           format: 'L',
           minDate: moment().add(1, 'h'),
+          date: moment("{{ form.day.value }}", "DD-MM-YYYY"),
           enabledHours: [9, 10, 11, 12, 13, 14, 15, 16, 17],
           daysOfWeekDisabled: [0, 6],
           locale: 'es'
@@ -111,29 +99,46 @@
         $('#start_time').datetimepicker({
           format: 'LT',
           minDate: moment().add(1, 'h'),
+          date: moment("{{ form.day.value }} {{ form.start_time.value }}", "DD-MM-YYYY HH-mm"),
           enabledHours: [9, 10, 11, 12, 13, 14, 15, 16, 17],
           daysOfWeekDisabled: [0, 6],
           locale: 'es'
         });
         $('#end_time').datetimepicker({
           format: 'LT',
-          useCurrent: false,
+          minDate: moment().add({'h': 1, 'm': 1}),
+          date: moment("{{ form.day.value }} {{ form.end_time.value }}", "DD-MM-YYYY HH-mm"),
           enabledHours: [9, 10, 11, 12, 13, 14, 15, 16, 17],
           daysOfWeekDisabled: [0, 6],
           locale: 'es'
         });
         $('#day').on("change.datetimepicker", function (e) {
-          $("#start_time").datetimepicker('date', e.date);
-          $("#end_time").datetimepicker('date', e.date);
+          let newDate = e.date;
+          $('#start_time').datetimepicker(
+            'date', 
+            $("#start_time").datetimepicker('date').set({
+              'year': newDate.year(),
+              'month': newDate.month(),
+              'date': newDate.date()
+            })
+          );
+          $('#end_time').datetimepicker(
+            'date',
+            $('#end_time').datetimepicker('date').set({
+              'year': newDate.year(),
+              'month': newDate.month(),
+              'date': newDate.date()
+            })
+          );
         });
         $('#start_time').on("change.datetimepicker", function(e) {
-          $("#end_time").datetimepicker('minDate', e.date);
-          if($("#end_time").datetimepicker('date') && $("#end_time").datetimepicker('date').isBefore(e.date)) {
+          $('#day').datetimepicker('date', e.date)
+          if($("#end_time").datetimepicker('date') && $("#end_time").datetimepicker('date').isBefore(e.date.add(1, 'm'))) {
             $("#end_time").datetimepicker('date', e.date);
           }
         });
         $('#end_time').on("change.datetimepicker", function(e) {
-          if($("#start_time").datetimepicker('date') && $("#start_time").datetimepicker('date').isAfter(e.date)) {
+          if($("#start_time").datetimepicker('date') && $("#start_time").datetimepicker('date').isAfter(e.date.subtract(1, 'm'))) {
             $("#start_time").datetimepicker('date', e.date);
           }
         });
