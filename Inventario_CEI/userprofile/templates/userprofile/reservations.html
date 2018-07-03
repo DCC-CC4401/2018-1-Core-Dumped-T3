@@ -1,7 +1,7 @@
 <head>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
 </head>
-{% extends "base.html" %}
+{% extends "basepass.html" %}
 {% load bootstrap4 %}
 {% bootstrap_css %}
 {% bootstrap_javascript jquery="full"%}
@@ -44,7 +44,7 @@
     <div class="col-sm-2">
     </div>
     <div class="col-sm-3">
-         <button type="submit" id="delbut" form="myform" class="btn btn-danger float-right" disabled>
+         <button type="submit" id="delbut" form="myform" class="btn btn-danger float-right">
              <i class="fas fa-trash"></i> Eliminar seleccionados
          </button>
     </div>

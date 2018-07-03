@@ -2,6 +2,10 @@ from django.contrib.auth.decorators import login_required
 from reservations.models import Loan, Reservation
 from users.models import RegisteredUser
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
+
 
 
 # Create your views here.
@@ -21,7 +25,7 @@ def myloans(request):
     return render(request, 'userprofile/loans.html', {'loans': loans})
 
 
-
+@login_required(login_url="/users/login/")
 def delete(request, id=None):
     if request.method == 'POST':
         pklist = request.POST.getlist('custcheck')
@@ -29,5 +33,19 @@ def delete(request, id=None):
             Reservation.objects.get(pk=who).delete()
     return redirect(home)
 
-def test(request):
-    return render(request, 'userprofile/test.html', {})
+@login_required(login_url="/users/login/")
+def changepass(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect(home)
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'userprofile/changepass.html', {
+        'form': form
+    })
