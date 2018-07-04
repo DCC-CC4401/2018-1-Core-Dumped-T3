@@ -10,13 +10,17 @@ from .forms import LoginForm, CreateAccountForm
 # Create your views here.
 def login(request):
 
-  next = "" # reverse("landing page") # When implemented, redirect by default to the landing page
+  next = reverse("index")
   status = ""
 
   if request.GET:
     next = request.GET['next']
 
   if request.user.is_authenticated:
+    # Change redirection if user is an admin
+    if request.user.registereduser.is_admin and next == reverse("index"):
+      next = reverse("index") # TODO: Change when admin landing page is implemented
+
     return HttpResponseRedirect(next) # Redirect if already logged in.
 
   if request.method == 'POST':
@@ -29,6 +33,10 @@ def login(request):
         
         if user is not None:
           login_user(request, user)
+          # Change redirection if user is an admin
+          if request.user.registereduser.is_admin and next == reverse("index"):
+            next = reverse("index") # TODO: Change when admin landing page is implemented
+
           return HttpResponseRedirect(next)
         else:
           status="Rut o contraseña no son correctos."
@@ -41,12 +49,16 @@ def login(request):
   return render(request, 'users/login.html',{'form': form, 'next': next, 'status': status})
 
 def register(request):
-  next = ""
+  next = reverse("index")
 
   if request.GET:
     next = request.GET["next"]
 
+  # Change redirection if user is an admin
   if request.user.is_authenticated:
+    if request.user.registereduser.is_admin and next == reverse("index"):
+      next = reverse("index") # TODO: Change when admin landing page is implemented
+
     return HttpResponseRedirect(next) # Redirect if already logged in.
 
   if request.method == 'POST':
@@ -76,6 +88,10 @@ def register(request):
             email=data['email']
           )
           login_user(request, user)
+          # Change redirection if user is an admin
+          if request.user.registereduser.is_admin and next == reverse("index"):
+            next = reverse("index") # TODO: Change when admin landing page is implemented
+
           return HttpResponseRedirect(next)
     else:
       return HttpResponseRedirect(reverse(login) + "?next=" + next)

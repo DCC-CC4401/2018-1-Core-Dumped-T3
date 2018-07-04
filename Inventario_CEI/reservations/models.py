@@ -17,7 +17,6 @@ class Reservation(models.Model):
 
     article = models.ForeignKey(
         Article,
-        null=True,
         on_delete=models.CASCADE,
         related_name="reservations",
         null=True,
@@ -25,7 +24,6 @@ class Reservation(models.Model):
     )
     space = models.ForeignKey(
         Space,
-        null=True,
         on_delete=models.CASCADE,
         related_name="reservations",
         null=True,
