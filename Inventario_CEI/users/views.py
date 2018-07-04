@@ -19,7 +19,7 @@ def login(request):
   if request.user.is_authenticated:
     # Change redirection if user is an admin
     if request.user.registereduser.is_admin and next == reverse("index"):
-      next = reverse("index") # TODO: Change when admin landing page is implemented
+      next = reverse("reservations") # TODO: Change when admin landing page is implemented
 
     return HttpResponseRedirect(next) # Redirect if already logged in.
 
@@ -35,7 +35,7 @@ def login(request):
           login_user(request, user)
           # Change redirection if user is an admin
           if request.user.registereduser.is_admin and next == reverse("index"):
-            next = reverse("index") # TODO: Change when admin landing page is implemented
+            next = reverse("reservations") # TODO: Change when admin landing page is implemented
 
           return HttpResponseRedirect(next)
         else:
@@ -57,7 +57,7 @@ def register(request):
   # Change redirection if user is an admin
   if request.user.is_authenticated:
     if request.user.registereduser.is_admin and next == reverse("index"):
-      next = reverse("index") # TODO: Change when admin landing page is implemented
+      next = reverse("reservations") # TODO: Change when admin landing page is implemented
 
     return HttpResponseRedirect(next) # Redirect if already logged in.
 
@@ -90,7 +90,7 @@ def register(request):
           login_user(request, user)
           # Change redirection if user is an admin
           if request.user.registereduser.is_admin and next == reverse("index"):
-            next = reverse("index") # TODO: Change when admin landing page is implemented
+            next = reverse("reservations") # TODO: Change when admin landing page is implemented
 
           return HttpResponseRedirect(next)
     else:
