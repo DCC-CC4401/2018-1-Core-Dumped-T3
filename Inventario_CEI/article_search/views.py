@@ -8,4 +8,4 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return render(request,'home/search.html')
+    return render(request,'article_search/search.html')
