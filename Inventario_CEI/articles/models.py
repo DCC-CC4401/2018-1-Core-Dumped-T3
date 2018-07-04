@@ -34,7 +34,7 @@ class Article(models.Model):
     )
 
     def pretty_status(self):
-        return self.ARTICLE_STATES[self.status][1]
+        return dict(self.ARTICLE_STATES).get(self.status)
 
     def __str__(self):
         return self.name
@@ -65,7 +65,7 @@ class Space (models.Model):
         default=DISPONIBLE)
     
     def pretty_status(self):
-        return self.SPACE_STATES[self.status][1]
+        return dict(self.SPACE_STATES[self.status]).get(self.status)
 
     def __str__(self):
         return self.name

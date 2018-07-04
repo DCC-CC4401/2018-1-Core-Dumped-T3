@@ -18,12 +18,16 @@ class Reservation(models.Model):
     article = models.ForeignKey(
         Article,
         on_delete=models.CASCADE,
-        related_name="reservations"
+        related_name="reservations",
+        null=True,
+        blank=True
     )
     space = models.ForeignKey(
         Space,
         on_delete=models.CASCADE,
-        related_name="reservations"
+        related_name="reservations",
+        null=True,
+        blank=True
     )
     user = models.ForeignKey(
         RegisteredUser,
@@ -56,9 +60,14 @@ class Reservation(models.Model):
         (ENTREGADO, 'entregado'),
         (RECHAZADO, 'rechazado'),
     )
+    
     state = models.PositiveSmallIntegerField(
         choices=RESERVATION_STATES,
         default=PENDIENTE
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
     )
 
     def get_status(self):
@@ -89,17 +98,19 @@ class Loan(models.Model):
     """
     Modelo para prestamos.
     """
-    # ID(generado por  django)
-    # user [foreign key ref Usuario]
     article = models.ForeignKey(
         Article,
         on_delete=models.CASCADE,
-        related_name="loans"
+        related_name="loans",
+        null=True,
+        blank=True
     )
     space = models.ForeignKey(
         Space,
         on_delete=models.CASCADE,
-        related_name="loans"
+        related_name="loans",
+        null=True,
+        blank=True
     )
     user = models.ForeignKey(
         RegisteredUser,
@@ -136,6 +147,16 @@ class Loan(models.Model):
     state = models.PositiveSmallIntegerField(
         choices=LOAN_STATES,
         default=VIGENTE
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    created_by = models.ForeignKey(
+        RegisteredUser,
+        on_delete=models.CASCADE,
+        related_name="accepted_loans"
     )
 
     def get_status(self):
