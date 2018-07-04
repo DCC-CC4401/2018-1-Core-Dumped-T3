@@ -65,6 +65,10 @@ class Reservation(models.Model):
         default=PENDIENTE
     )
 
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
     def get_status(self):
         return dict(self.RESERVATION_STATES).get(self.state)
 
@@ -144,6 +148,16 @@ class Loan(models.Model):
     state = models.PositiveSmallIntegerField(
         choices=LOAN_STATES,
         default=VIGENTE
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    created_by = models.ForeignKey(
+        RegisteredUser,
+        on_delete=models.CASCADE,
+        related_name="accepted_loans"
     )
 
     def get_status(self):
