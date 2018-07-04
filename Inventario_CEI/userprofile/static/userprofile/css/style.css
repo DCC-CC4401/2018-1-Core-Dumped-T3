@@ -46,4 +46,10 @@
 .scrollable {
   overflow-y: scroll;
 }
-
+.btn-block{
+    margin-top:10px !important;
+    padding: 10% 0;
+}
+.nav-link{
+    margin-top:5px !important;
+}

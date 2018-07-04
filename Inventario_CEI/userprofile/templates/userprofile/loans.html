@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "basepass.html" %}
 {% load bootstrap4 %}
 {% bootstrap_css %}
 {% bootstrap_javascript jquery="full"%}
@@ -31,8 +31,50 @@
             <a class="flex-sm-fill text-sm-center nav-link active" href="#">Pŕestamos</a>
         </nav>
     </div>
-    <div class="col-sm-9">
+    <div class="col-sm-6">
     </div>
+  </div>
+  <div class="row">
+      <div class="col-sm-1">
+      </div>
+      <div class="col-sm-10">
+          <table class="table table-primary" style="margin-top:10px">
+          <thead>
+            <tr class="bg-primary">
+              <th scope="col">Tipo</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Fecha Inicio</th>
+              <th scope="col">Fecha Término</th>
+              <th scope="col">Devolución</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% if loans %}
+            {% for loan in loans %}
+                {% if loan.is_article %}
+                    <tr>
+                        <td scope="row">Artículo</td>
+                        <td>{{loan.article.name}}</td>
+                        <td>{{loan.initial_date}}</td>
+                        <td>{{loan.end_date}}</td>
+                        <td>{{loan.get_status}}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td scope="row">Espacio</td>
+                        <td>{{loan.space.name}}</td>
+                        <td>{{loan.initial_date}}</td>
+                        <td>{{loan.end_date}}</td>
+                        <td>{{loan.get_status}}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+          {% endif %}
+          </tbody>
+        </table>
+      </div>
+      <div class="col-sm-1">
+      </div>
   </div>
 
 </div>
