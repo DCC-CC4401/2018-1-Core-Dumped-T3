@@ -4,6 +4,8 @@ from django.views import generic
 # Models
 from .models import Loan
 from .models import Reservation
+from articles.models import Article
+from articles.models import Space
 # Create your views here.
 
 
@@ -48,6 +50,10 @@ def change_loan_to_lost(request):
             loan = Loan.objects.get(id=loan_id)
             loan.state = Loan.PERDIDO
             loan.save()
+            if loan.is_article:
+                article = loan.article
+                article.status = Article.PERDIDO
+                article.save()
     return redirect('reservations')
 
 
@@ -58,5 +64,13 @@ def change_loan_to_received(request):
             loan = Loan.objects.get(id=loan_id)
             loan.state = Loan.RECIBIDO
             loan.save()
+            if loan.is_article:
+                article = loan.article
+                article.status = Article.DISPONIBLE
+                article.save()
+            if loan.is_space:
+                space = loan.space
+                space.status = Space.DISPONIBLE
+                space.save()
     return redirect('reservations')
 
