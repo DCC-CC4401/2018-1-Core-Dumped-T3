@@ -17,6 +17,7 @@ class Reservation(models.Model):
 
     article = models.ForeignKey(
         Article,
+        null=True,
         on_delete=models.CASCADE,
         related_name="reservations",
         null=True,
@@ -24,6 +25,7 @@ class Reservation(models.Model):
     )
     space = models.ForeignKey(
         Space,
+        null=True,
         on_delete=models.CASCADE,
         related_name="reservations",
         null=True,
@@ -60,6 +62,7 @@ class Reservation(models.Model):
         (ENTREGADO, 'entregado'),
         (RECHAZADO, 'rechazado'),
     )
+    
     state = models.PositiveSmallIntegerField(
         choices=RESERVATION_STATES,
         default=PENDIENTE
@@ -97,8 +100,6 @@ class Loan(models.Model):
     """
     Modelo para prestamos.
     """
-    # ID(generado por  django)
-    # user [foreign key ref Usuario]
     article = models.ForeignKey(
         Article,
         on_delete=models.CASCADE,
