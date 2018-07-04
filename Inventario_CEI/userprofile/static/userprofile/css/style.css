@@ -46,22 +46,4 @@
 .scrollable {
   overflow-y: scroll;
 }
-.btn-block{
-    margin-top:10px !important;
-    padding: 10% 0;
-}
-.nav-link{
-    margin-top:5px !important;
-}
-.btn-danger{
-    margin-top:5px !important;
-}
-.mycheckbox{
-    text-align:left;
-    margin-top:10px;
-    margin-left:5px;
-}
-.mycheckboxdiv{
-    text-align:left;
-    margin-left:10px;
-}
+

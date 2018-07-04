@@ -13,10 +13,12 @@
             <div class="col-sm-4">
             </div>
             <div class="col-sm-4">
+                <h2>Cambiar contraseña</h2>
                 <form method="post">
                     {% csrf_token %}
-                    {{ form }}
-                    <button type="submit">Save changes</button>
+                    {% bootstrap_form form %}
+                    <button class="btn btn-primary" type="submit">Save changes</button>
+                    <button class="btn btn-danger float-right" id="retBtn" onclick="window.location.href='{% url "home" %}';return false;">Cancel</button>
                 </form>
             </div>
             <div class="col-sm-4">
