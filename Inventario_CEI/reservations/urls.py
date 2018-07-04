@@ -9,8 +9,8 @@ from .views import reject_reservation
 
 urlpatterns = [
     path('', ReservationsView.as_view(), name='reservations'),
-    path('/loan-received', change_loan_to_received, name='loan-received'),
-    path('/loan-lost', change_loan_to_lost, name='loan-lost'),
-    path('/reservation-accepted', accept_reservation, name='reservation-accepted'),
-    path('/reservation-rejected', reject_reservation, name='reservation-rejected'),
+    path('loan-received', change_loan_to_received, name='loan-received'),
+    path('loan-lost', change_loan_to_lost, name='loan-lost'),
+    path('reservation-accepted', accept_reservation, name='reservation-accepted'),
+    path('reservation-rejected', reject_reservation, name='reservation-rejected'),
 ]
