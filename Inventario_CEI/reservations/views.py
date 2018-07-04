@@ -32,7 +32,13 @@ def accept_reservation(request):
 
 
 def reject_reservation(request):
-    pass
+    if request.method == 'POST':
+        reservations = request.POST.getlist('reservations')
+        for reservation_id in reservations:
+            reservation = Reservation.objects.get(id=reservation_id)
+            reservation.state = Reservation.RECHAZADO
+            reservation.save()
+    return redirect('reservations')
 
 
 def change_loan_to_lost(request):
