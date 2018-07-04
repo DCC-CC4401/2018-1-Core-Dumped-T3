@@ -17,10 +17,10 @@
 <div class="container-fluid w-75 mt-5">
   <div class="row justify-content-start align-items-center">
     <div class="col-auto">
-      <h1>{{ article.name }}</h1>
+      <h1>{{ article.name }} <i class="fa fa-edit" style="size:smaller;"></i></h1>
     </div>
     <div class="col-auto status {% if "Disponible" in article.pretty_status %}available{% elif "préstamo" in article.pretty_status%}loan{% elif "reparación" in article.pretty_status %}repairs{% else %}lost{% endif %} pt-1">
-      <h2>{{ article.pretty_status }}</h2>
+      <h2>{{ article.pretty_status }} <i class="fa fa-edit" style="size:smaller;"></i></h2>
     </div>
   </div>
   <div class="row p-1">
