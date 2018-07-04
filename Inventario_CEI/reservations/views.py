@@ -42,7 +42,13 @@ def reject_reservation(request):
 
 
 def change_loan_to_lost(request):
-    pass
+    if request.method == 'POST':
+        loans = request.POST.getlist('loans')
+        for loan_id in loans:
+            loan = Loan.objects.get(id=loan_id)
+            loan.state = Loan.PERDIDO
+            loan.save()
+    return redirect('reservations')
 
 
 def change_loan_to_received(request):
