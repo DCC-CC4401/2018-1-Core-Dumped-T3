@@ -1,8 +1,9 @@
 # Django
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import generic
 # Models
-from .models import *
+from .models import Loan
+from .models import Reservation
 # Create your views here.
 
 
@@ -21,7 +22,13 @@ class ReservationsView(generic.TemplateView):
 
 
 def accept_reservation(request):
-    pass
+    if request.method == 'POST':
+        reservations = request.POST.getlist('reservations')
+        for reservation_id in reservations:
+            reservation = Reservation.objects.get(id=reservation_id)
+            reservation.state = Reservation.ENTREGADO
+            reservation.save()
+    return redirect('reservations')
 
 
 def reject_reservation(request):
