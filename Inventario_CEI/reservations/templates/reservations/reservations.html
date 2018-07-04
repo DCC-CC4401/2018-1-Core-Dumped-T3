@@ -18,8 +18,8 @@ Reservas y Prestamos
                     <form method="post">
                         {% csrf_token %}
                         <h4>Reservas pendientes</h4>
-                        <button type="submit" formaction="{% url 'reservation-accepted' %}">Entregar</button>
-                        <button type="submit" formaction="{% url 'reservation-rejected' %}">Rechazar</button>
+                        <button type="submit" class="btn btn-success" formaction="{% url 'reservation-accepted' %}">Entregar</button>
+                        <button type="submit" class="btn btn-danger" formaction="{% url 'reservation-rejected' %}">Rechazar</button>
                         <table class="table table-hover table-bordered">
                             <thead>
                                 <tr>
@@ -64,8 +64,8 @@ Reservas y Prestamos
                     <form method="post">
                         {% csrf_token %}
                         <h4>Prestamos</h4>
-                        <button type="submit" formaction="{% url 'loan-received' %}">Recibido</button>
-                        <button type="submit" formaction="{% url 'loan-lost' %}">Perdido</button>
+                        <button type="submit" class="btn btn-success" formaction="{% url 'loan-received' %}">Recibido</button>
+                        <button type="submit" class="btn btn-danger" formaction="{% url 'loan-lost' %}">Perdido</button>
                         <table class="table table-hover table-bordered">
                             <thead>
                                 <tr>
