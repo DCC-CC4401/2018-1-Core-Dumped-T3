@@ -34,7 +34,7 @@ Reservas y Prestamos
                             <tbody>
                             {% for reserva in reservas_pendientes %}
                                 <tr>
-                                    <td><input type="checkbox" title="Checkbox for reservation {{ forloop.counter }}" name="reserva_{{ forloop.counter }}"value="{{ reserva.id }}"></td>
+                                    <td><input type="checkbox" title="Checkbox for reservation" name="reservations" value="{{ reserva.id }}"></td>
                                     {% if reserva.is_article %}
                                     <td>{{ reserva.article.id }}</td>
                                     <td>{{ reserva.article }}</td>
@@ -80,7 +80,7 @@ Reservas y Prestamos
                             <tbody>
                             {% for prestamo in prestamos %}
                                 <tr>
-                                    <td><input type="checkbox" title="Checkbox for loan {{ forloop.counter }}" name="reserva_{{ forloop.counter }}"value="{{ reserva.id }}"></td>
+                                    <td><input type="checkbox" title="Checkbox for loan" name="loans" value="{{ reserva.id }}"></td>
                                     {% if prestamo.is_article %}
                                     <td>{{ prestamo.article.id }}</td>
                                     <td>{{ prestamo.article }}</td>
