@@ -19,13 +19,17 @@ class Reservation(models.Model):
         Article,
         null=True,
         on_delete=models.CASCADE,
-        related_name="reservations"
+        related_name="reservations",
+        null=True,
+        blank=True
     )
     space = models.ForeignKey(
         Space,
         null=True,
         on_delete=models.CASCADE,
-        related_name="reservations"
+        related_name="reservations",
+        null=True,
+        blank=True
     )
     user = models.ForeignKey(
         RegisteredUser,
@@ -64,6 +68,10 @@ class Reservation(models.Model):
         default=PENDIENTE
     )
 
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
     def get_status(self):
         return dict(self.RESERVATION_STATES).get(self.state)
 
@@ -95,12 +103,16 @@ class Loan(models.Model):
     article = models.ForeignKey(
         Article,
         on_delete=models.CASCADE,
-        related_name="loans"
+        related_name="loans",
+        null=True,
+        blank=True
     )
     space = models.ForeignKey(
         Space,
         on_delete=models.CASCADE,
-        related_name="loans"
+        related_name="loans",
+        null=True,
+        blank=True
     )
     user = models.ForeignKey(
         RegisteredUser,
@@ -137,6 +149,16 @@ class Loan(models.Model):
     state = models.PositiveSmallIntegerField(
         choices=LOAN_STATES,
         default=VIGENTE
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    created_by = models.ForeignKey(
+        RegisteredUser,
+        on_delete=models.CASCADE,
+        related_name="accepted_loans"
     )
 
     def get_status(self):
