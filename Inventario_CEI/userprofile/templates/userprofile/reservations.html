@@ -1,7 +1,7 @@
 <head>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
 </head>
-{% extends "base.html" %}
+{% extends "basepass.html" %}
 {% load bootstrap4 %}
 {% bootstrap_css %}
 {% bootstrap_javascript jquery="full"%}
@@ -12,7 +12,6 @@
 {% block content%}
     {% load static %}
     <link rel="stylesheet" type="text/css" href="/static/userprofile/css/style.css" />
-    <script type="text/javascript" src="{% static 'userprofile/js/stuff.js' %}"></script>
 
 
 
@@ -20,9 +19,11 @@
   <div class="row">
     <div class="col-sm-1">
     </div>
+    <!-- Space button -->
     <div class="col-sm-5">
         <a class="btn btn-primary btn-block" href="#" role="button">Reserva Tu Espacio</a>
     </div>
+    <!-- Article button -->
     <div class="col-sm-5">
       <a class="btn btn-primary btn-block" href="#" role="button">Pide Tu Artículo</a>
     </div>
@@ -33,6 +34,7 @@
   <div class="row">
     <div class="col-sm-1">
     </div>
+    <!-- Page navigator -->
     <div class="col-sm-5">
         <nav class="nav nav-pills flex-column flex-sm-row">
             <a class="flex-sm-fill text-sm-center nav-link active" href="#">Reservas</a>
@@ -42,7 +44,7 @@
     <div class="col-sm-2">
     </div>
     <div class="col-sm-3">
-         <button type="button" class="btn btn-danger float-right">
+         <button style="margin-top:5px !important;" type="submit" id="delbut" form="myform" class="btn btn-danger float-right">
              <i class="fas fa-trash"></i> Eliminar seleccionados
          </button>
     </div>
@@ -55,62 +57,183 @@
  <div class="row">
     <div class="col-sm-1">
     </div>
+     <!--List of reservations -->
     <div class="col-sm-5">
+        <form id="myform" method="POST" action="{% url "delete"%}">
+            {% csrf_token %}
             <div class="list-group" id="list-tab" role="tablist">
                 {% if reservations %}
                     {% for reservation in reservations %}
                         {% if forloop.counter0 == 0 %}
-                            {% if reservation.state = 0 %}
-                                <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action active" id="list-{{ reservation.pk }}-list" data-toggle="list" href="#list-{{ reservation.pk }}" role="tab" aria-controls="{{ reservation.pk }}">
-                                    <div class="custom-control custom-checkbox float-left">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck1" />
-                                            <label class="custom-control-label" for="customCheck1">{{ reservation.space.name }}</label>
-                                    </div>
-                                    <span class="badge badge-secondary badge-pill">{{ reservation.get_status }}</span>
-                                </li>
+                            {% if reservation.state == 0 %}
+                                {% if reservation.is_article %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action active" id="list-{{ reservation.pk }}-list" data-toggle="list" href="#list-{{ reservation.pk }}" role="tab" aria-controls="{{ reservation.pk }}">
+                                        <div class="custom-control custom-checkbox float-left">
+                                            <input type="checkbox" name="custcheck" class="custom-control-input" id="customCheck{{forloop.counter0}}" value="{{reservation.pk}}" />
+                                                <label class="custom-control-label" for="customCheck{{forloop.counter0}}">{{ reservation.article.name }}</label>
+                                        </div>
+                                        <span class="badge badge-secondary badge-pill">{{ reservation.get_status }}</span>
+                                    </li>
+                                {% else %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action active" id="list-{{ reservation.pk }}-list" data-toggle="list" href="#list-{{ reservation.pk }}" role="tab" aria-controls="{{ reservation.pk }}">
+                                        <div class="custom-control custom-checkbox float-left">
+                                            <input type="checkbox" name="custcheck" class="custom-control-input" id="customCheck{{forloop.counter0}}" value="{{reservation.pk}}" />
+                                                <label class="custom-control-label" for="customCheck{{forloop.counter0}}">{{ reservation.space.name }}</label>
+                                        </div>
+                                        <span class="badge badge-secondary badge-pill">{{ reservation.get_status }}</span>
+                                    </li>
+                                {% endif %}
                             {% else %}
-                                <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action active" id="list-{{ reservation.pk }}-list" data-toggle="list" href="#list-{{ reservation.pk }}" role="tab" aria-controls="{{ reservation.pk }}">
-                                    <div class="custom-control custom-checkbox float-left">
-                                            <label class="custom-control-label" for="customCheck1">{{ reservation.space.name }}</label>
-                                    </div>
-                                    <span class="badge badge-secondary badge-pill">{{ reservation.get_status }}</span>
-                                </li>
-                             {% endif %}
+                                {% if reservation.is_article %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action active" id="list-{{ reservation.pk }}-list" data-toggle="list" href="#list-{{ reservation.pk }}" role="tab" aria-controls="{{ reservation.pk }}">
+                                        <div class="custom-control custom-checkbox float-left">
+                                                <label class="custom-control-label">{{ reservation.article.name }}</label>
+                                        </div>
+                                        <span class="badge badge-secondary badge-pill">{{ reservation.get_status }}</span>
+                                    </li>
+                                {% else %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action active" id="list-{{ reservation.pk }}-list" data-toggle="list" href="#list-{{ reservation.pk }}" role="tab" aria-controls="{{ reservation.pk }}">
+                                        <div class="custom-control custom-checkbox float-left">
+                                                <label class="custom-control-label">{{ reservation.space.name }}</label>
+                                        </div>
+                                        <span class="badge badge-secondary badge-pill">{{ reservation.get_status }}</span>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
                         {% else %}
                             {% if reservation.state == 0 %}
-                                <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action" id="list-{{ reservation.pk }}-list" data-toggle="list" href="#list-{{ reservation.pk }}" role="tab" aria-controls="{{ reservation.pk }}">
-                                    <div class="custom-control custom-checkbox float-left">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck1" />
-                                            <label class="custom-control-label" for="customCheck1">{{ reservation.space.name }}</label>
-                                    </div>
-                                    <span class="badge badge-secondary badge-pill">{{ reservation.get_status }}</span>
-                                </li>
+                                {% if reservation.is_article %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action" id="list-{{ reservation.pk }}-list" data-toggle="list" href="#list-{{ reservation.pk }}" role="tab" aria-controls="{{ reservation.pk }}">
+                                        <div class="custom-control custom-checkbox float-left">
+                                            <input type="checkbox" name="custcheck" class="custom-control-input" id="customCheck{{forloop.counter0}}" value="{{reservation.pk}}" />
+                                                <label class="custom-control-label" for="customCheck{{forloop.counter0}}">{{ reservation.article.name }}</label>
+                                        </div>
+                                        <span class="badge badge-secondary badge-pill">{{ reservation.get_status }}</span>
+                                    </li>
+                                {% else %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action" id="list-{{ reservation.pk }}-list" data-toggle="list" href="#list-{{ reservation.pk }}" role="tab" aria-controls="{{ reservation.pk }}">
+                                        <div class="custom-control custom-checkbox float-left">
+                                            <input type="checkbox" name="custcheck" class="custom-control-input" id="customCheck{{forloop.counter0}}" value="{{reservation.pk}}"/>
+                                                <label class="custom-control-label" for="customCheck{{forloop.counter0}}">{{ reservation.space.name }}</label>
+                                        </div>
+                                        <span class="badge badge-secondary badge-pill">{{ reservation.get_status }}</span>
+                                    </li>
+                                {% endif %}
                             {% else %}
-                                <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action" id="list-{{ reservation.pk }}-list" data-toggle="list" href="#list-{{ reservation.pk }}" role="tab" aria-controls="{{ reservation.pk }}">
-                                    <div class="custom-control custom-checkbox float-left">
-                                            <label class="custom-control-label" for="customCheck1">{{ reservation.space.name }}</label>
-                                    </div>
-                                    <span class="badge badge-secondary badge-pill">{{ reservation.get_status }}</span>
-                                </li>
+                                {% if reservation.is_article %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action" id="list-{{ reservation.pk }}-list" data-toggle="list" href="#list-{{ reservation.pk }}" role="tab" aria-controls="{{ reservation.pk }}">
+                                        <div class="custom-control custom-checkbox float-left">
+                                                <label class="custom-control-label">{{ reservation.article.name }}</label>
+                                        </div>
+                                        <span class="badge badge-secondary badge-pill">{{ reservation.get_status }}</span>
+                                    </li>
+                                {% else %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action" id="list-{{ reservation.pk }}-list" data-toggle="list" href="#list-{{ reservation.pk }}" role="tab" aria-controls="{{ reservation.pk }}">
+                                        <div class="custom-control custom-checkbox float-left">
+                                                <label class="custom-control-label">{{ reservation.space.name }}</label>
+                                        </div>
+                                        <span class="badge badge-secondary badge-pill">{{ reservation.get_status }}</span>
+                                    </li>
+                                {% endif %}
                             {% endif %}
                         {% endif %}
                     {% endfor %}
                 {% else %} No hay reservas
                 {% endif %}
             </div>
+        </form>
     </div>
+    <!--Display of selected reservation -->
     <div class="col-sm-5">
         <div class="tab-content" id="nav-tabContent">
             {% if reservations %}
                 {% for reservation in reservations %}
                     {% if forloop.counter0 == 0 %}
-                        <div class="tab-pane fade show active" id="list-{{ reservation.pk }}" role="tabpanel" aria-labelledby="list-{{ reservation.pk }}-list">
-                            {{ reservation.initial_date }}
-                        </div>
+                        {% if reservation.is_article %}
+                             <div class="tab-pane fade show active" id="list-{{ reservation.pk }}" role="tabpanel" aria-labelledby="list-{{ reservation.pk }}-list">
+                                <div class="card">
+                                    <div class="card-header">
+                                        {{reservation.article.name}}
+                                        <small class="float-sm-right">{{reservation.initial_date}}</small>
+                                        <footer><small>{{reservation.get_status}}</small></footer>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <img class="img-fluid" src={% static reservation.article.image.url %}">
+                                                <footer><a href="#" class="card-link">Ver detalles</a></footer>
+                                            </div>
+                                            <div class="col-sm-6">
+                                            <p class="card-text">{{reservation.article.description}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="tab-pane fade show active" id="list-{{ reservation.pk }}" role="tabpanel" aria-labelledby="list-{{ reservation.pk }}-list">
+                                <div class="card">
+                                    <div class="card-header">
+                                        {{reservation.space.name}}
+                                        <small class="float-sm-right">{{reservation.initial_date}}</small>
+                                        <footer><small>{{reservation.get_status}}</small></footer>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                 <img class="img-fluid" src={% static "userprofile/images/genericroom.jpg" %} alt="Chania">
+                                            </div>
+                                            <div class="col-sm-6">
+                                            <p class="card-text">Espacio existente en las dependencias de la casa CEI.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
                     {% else %}
-                        <div class="tab-pane fade" id="list-{{ reservation.pk }}" role="tabpanel" aria-labelledby="list-{{ reservation.pk }}-list">
-                            {{ reservation.initial_date }}
-                        </div>
+                        {% if reservation.is_article %}
+                            <div class="tab-pane fade" id="list-{{ reservation.pk }}" role="tabpanel" aria-labelledby="list-{{ reservation.pk }}-list">
+                                <div class="card">
+                                    <div class="card-header">
+                                        {{reservation.article.name}}
+                                        <small class="float-sm-right">{{reservation.initial_date}}</small>
+                                        <footer><small>{{reservation.get_status}}</small></footer>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <img class="img-fluid" src={% static reservation.article.image.url %}">
+                                                <footer><a href="#" class="card-link">Ver detalles</a></footer>
+                                            </div>
+                                            <div class="col-sm-6">
+                                            <p class="card-text">{{reservation.article.description}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="tab-pane fade" id="list-{{ reservation.pk }}" role="tabpanel" aria-labelledby="list-{{ reservation.pk }}-list">
+                                <div class="card">
+                                    <div class="card-header">
+                                        {{reservation.space.name}}
+                                        <small class="float-sm-right">{{reservation.initial_date}}</small>
+                                        <footer><small>{{reservation.get_status}}</small></footer>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <img class="img-fluid" src={% static "userprofile/images/genericroom.jpg" %} alt="Chania">
+                                            </div>
+                                            <div class="col-sm-6">
+                                            <p class="card-text">Espacio existente en las dependencias de la casa CEI.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
             {% else %} No hay información
@@ -122,6 +245,6 @@
   </div>
 </div>
 </div>
-<script src={% static "userprofile/js/stuff.js" %} type="text/javascript"></script>
+<script src={% static "userprofile/js/selandcheck.js" %} type="text/javascript"></script>
 
 {% endblock %}
