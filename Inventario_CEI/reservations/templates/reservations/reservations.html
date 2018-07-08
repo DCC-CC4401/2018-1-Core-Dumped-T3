@@ -102,7 +102,7 @@ Reservas y Prestamos
                                             {% endif %}
                                             <td>{{ prestamo.user }}</td>
                                             <td>{{ prestamo.initial_date }} <br>al {{ prestamo.end_date }}</td>
-                                            <td>{{ prestamo.get_state_display }}</td>
+                                            <td>{{ prestamo.get_state_display | title}}</td>
                                         </tr>
                                     {% empty %}
                                         <tr>
