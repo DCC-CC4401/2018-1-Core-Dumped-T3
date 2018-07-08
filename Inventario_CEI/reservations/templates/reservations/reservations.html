@@ -44,7 +44,7 @@ Reservas y Prestamos
                                     {% endif %}
                                     <td>{{ reserva.user }}</td>
                                     <td>{{ reserva.initial_date }} <br>al {{ reserva.end_date }}</td>
-                                    <td></td>
+                                    <td>{{ reserva.created_at }}</td>
                                 </tr>
                             {% empty %}
                                 <tr>
@@ -90,7 +90,7 @@ Reservas y Prestamos
                                     {% endif %}
                                     <td>{{ prestamo.user }}</td>
                                     <td>{{ prestamo.initial_date }} <br>al {{ prestamo.end_date }}</td>
-                                    <td>{{ prestamo.get_state_display }}/td>
+                                    <td>{{ prestamo.get_state_display }}</td>
                                 </tr>
                             {% empty %}
                                 <tr>
