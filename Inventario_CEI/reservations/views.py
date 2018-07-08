@@ -30,6 +30,32 @@ def accept_reservation(request):
             reservation = Reservation.objects.get(id=reservation_id)
             reservation.state = Reservation.ENTREGADO
             reservation.save()
+            if reservation.is_article:
+                article = reservation.article
+                article.status = Article.PRESTAMO
+                article.save()
+                loan = Loan.objects.create(
+                    article=reservation.article,
+                    is_article=True,
+                    initial_date=reservation.initial_date,
+                    end_date=reservation.end_date,
+                    user=reservation.user,
+                    created_by=request.user.registereduser
+                )
+                loan.save()
+            if reservation.is_space:
+                space = reservation.space
+                space.status = Space.PRESTAMO
+                space.save()
+                loan = Loan.objects.create(
+                    space=reservation.space,
+                    is_space=True,
+                    initial_date=reservation.initial_date,
+                    end_date=reservation.end_date,
+                    user=reservation.user,
+                    created_by=request.user.registereduser
+                )
+                loan.save()
     return redirect('reservations')
 
 

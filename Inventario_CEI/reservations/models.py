@@ -162,6 +162,22 @@ class Loan(models.Model):
     def get_status(self):
         return dict(self.LOAN_STATES).get(self.state)
 
+    def __str__(self):
+        if self.is_article:
+            return "{} {} {} {}".format(
+                self.user,
+                self.article,
+                self.initial_date,
+                self.end_date
+            )
+        if self.is_space:
+            return "{} {} {} {}".format(
+                self.user,
+                self.space,
+                self.initial_date,
+                self.end_date
+            )
+
     class Meta:
         verbose_name = 'loan',
         verbose_name_plural = 'loans'
