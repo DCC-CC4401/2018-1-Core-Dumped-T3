@@ -8,97 +8,102 @@ Reservas y Prestamos
 
 {% block content %}
 <div class="container">
-    <div class="row grilla">
-        <p>Aqui va la grilla</p>
-    </div>
-    <div class="row reservayprestamo">
-        <div class="col-md reservas">
-            <div class="container">
-                <div class="row">
-                    <form method="post">
-                        {% csrf_token %}
-                        <h4>Reservas pendientes</h4>
-                        <button type="submit" class="btn btn-success" formaction="{% url 'reservation-accepted' %}">Entregar</button>
-                        <button type="submit" class="btn btn-danger" formaction="{% url 'reservation-rejected' %}">Rechazar</button>
-                        <table class="table table-hover table-bordered">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Id</th>
-                                    <th>Articulo ó Espacio</th>
-                                    <th>Usuario</th>
-                                    <th>Fecha de Prestamo</th>
-                                    <th>Fecha de Solicitud</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {% for reserva in reservas_pendientes %}
-                                <tr>
-                                    <td><input type="checkbox" title="Checkbox for reservation" name="reservations" value="{{ reserva.id }}"></td>
-                                    <td>{{ reserva.id }}</td>
-                                    {% if reserva.is_article %}
-                                    <td>{{ reserva.article }}</td>
-                                    {% elif reserva.is_space %}
-                                    <td>{{ reserva.space }}</td>
-                                    {% endif %}
-                                    <td>{{ reserva.user }}</td>
-                                    <td>{{ reserva.initial_date }} <br>al {{ reserva.end_date }}</td>
-                                    <td>{{ reserva.created_at }}</td>
-                                </tr>
-                            {% empty %}
-                                <tr>
-                                    <th></th>
-                                    <th colspan="5">No hay reservas pendientes</th>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </form>
-                </div>
+    <div class="row">
+        <div class="col-1">Aqui botones</div>
+        <div class="col">
+            <div class="row grilla">
+                <p>Aqui va la grilla</p>
             </div>
-        </div>
-        <div class="col-md prestamos">
-            <div class="container">
-                <div class="row">
-                    <form method="post">
-                        {% csrf_token %}
-                        <h4>Prestamos</h4>
-                        <button type="submit" class="btn btn-success" formaction="{% url 'loan-received' %}">Recibido</button>
-                        <button type="submit" class="btn btn-danger" formaction="{% url 'loan-lost' %}">Perdido</button>
-                        <table class="table table-hover table-bordered">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Id</th>
-                                    <th>Articulo ó Espacio</th>
-                                    <th>Usuario</th>
-                                    <th>Fecha de Prestamo</th>
-                                    <th>Estado</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {% for prestamo in prestamos %}
-                                <tr>
-                                    <td><input type="checkbox" title="Checkbox for loan" name="loans" value="{{ reserva.id }}"></td>
-                                    <td>{{ prestamo.id }}</td>
-                                    {% if prestamo.is_article %}
-                                    <td>{{ prestamo.article }}</td>
-                                    {% elif prestamo.is_space %}
-                                    <td>{{ prestamo.space }}</td>
-                                    {% endif %}
-                                    <td>{{ prestamo.user }}</td>
-                                    <td>{{ prestamo.initial_date }} <br>al {{ prestamo.end_date }}</td>
-                                    <td>{{ prestamo.get_state_display }}</td>
-                                </tr>
-                            {% empty %}
-                                <tr>
-                                    <th></th>
-                                    <th colspan="5">No hay prestamos en el sistema.</th>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </form>
+            <div class="row reservayprestamo">
+                <div class="col-md reservas">
+                    <div class="container">
+                        <div class="row">
+                            <form method="post">
+                                {% csrf_token %}
+                                <h4>Reservas pendientes</h4>
+                                <button type="submit" class="btn btn-success" formaction="{% url 'reservation-accepted' %}">Entregar</button>
+                                <button type="submit" class="btn btn-danger" formaction="{% url 'reservation-rejected' %}">Rechazar</button>
+                                <table class="table table-hover table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Id</th>
+                                            <th>Articulo ó Espacio</th>
+                                            <th>Usuario</th>
+                                            <th>Fecha de Prestamo</th>
+                                            <th>Fecha de Solicitud</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for reserva in reservas_pendientes %}
+                                        <tr>
+                                            <td><input type="checkbox" title="Checkbox for reservation" name="reservations" value="{{ reserva.id }}"></td>
+                                            <td>{{ reserva.id }}</td>
+                                            {% if reserva.is_article %}
+                                            <td>{{ reserva.article }}</td>
+                                            {% elif reserva.is_space %}
+                                            <td>{{ reserva.space }}</td>
+                                            {% endif %}
+                                            <td>{{ reserva.user }}</td>
+                                            <td>{{ reserva.initial_date }} <br>al {{ reserva.end_date }}</td>
+                                            <td>{{ reserva.created_at }}</td>
+                                        </tr>
+                                    {% empty %}
+                                        <tr>
+                                            <th></th>
+                                            <th colspan="5">No hay reservas pendientes</th>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md prestamos">
+                    <div class="container">
+                        <div class="row">
+                            <form method="post">
+                                {% csrf_token %}
+                                <h4>Prestamos</h4>
+                                <button type="submit" class="btn btn-success" formaction="{% url 'loan-received' %}">Recibido</button>
+                                <button type="submit" class="btn btn-danger" formaction="{% url 'loan-lost' %}">Perdido</button>
+                                <table class="table table-hover table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Id</th>
+                                            <th>Articulo ó Espacio</th>
+                                            <th>Usuario</th>
+                                            <th>Fecha de Prestamo</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for prestamo in prestamos %}
+                                        <tr>
+                                            <td><input type="checkbox" title="Checkbox for loan" name="loans" value="{{ prestamo.id }}"></td>
+                                            <td>{{ prestamo.id }}</td>
+                                            {% if prestamo.is_article %}
+                                            <td>{{ prestamo.article }}</td>
+                                            {% elif prestamo.is_space %}
+                                            <td>{{ prestamo.space }}</td>
+                                            {% endif %}
+                                            <td>{{ prestamo.user }}</td>
+                                            <td>{{ prestamo.initial_date }} <br>al {{ prestamo.end_date }}</td>
+                                            <td>{{ prestamo.get_state_display }}</td>
+                                        </tr>
+                                    {% empty %}
+                                        <tr>
+                                            <th></th>
+                                            <th colspan="5">No hay prestamos en el sistema.</th>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
