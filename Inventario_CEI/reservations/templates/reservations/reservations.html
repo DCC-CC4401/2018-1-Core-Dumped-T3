@@ -72,6 +72,11 @@ Reservas y Prestamos
                                 <h4>Prestamos</h4>
                                 <button type="submit" class="btn btn-success" formaction="{% url 'loan-received' %}">Recibido</button>
                                 <button type="submit" class="btn btn-danger" formaction="{% url 'loan-lost' %}">Perdido</button>
+                                <a href="#" class="state-all">Todos</a>
+                                <a href="#" class="state-0">Vigente</a>
+                                <a href="#" class="state-1">Caducado</a>
+                                <a href="#" class="state-2">Recibido</a>
+                                <a href="#" class="state-3">Perdido</a>
                                 <table class="table table-hover table-bordered">
                                     <thead>
                                         <tr>
@@ -85,7 +90,7 @@ Reservas y Prestamos
                                     </thead>
                                     <tbody>
                                     {% for prestamo in prestamos %}
-                                        <tr>
+                                        <tr class="state-{{ prestamo.state }} state-all">
                                             <td><input type="checkbox" title="Checkbox for loan" name="loans" value="{{ prestamo.id }}"></td>
                                             <td>{{ prestamo.id }}</td>
                                             {% if prestamo.is_article %}
@@ -113,4 +118,28 @@ Reservas y Prestamos
         </div>
     </div>
 </div>
+
+<script>
+$(document).ready(function(){
+    $("a.state-all").click(function(){
+        $("tr.state-all").show();
+    });
+    $("a.state-0").click(function(){
+        $("tr.state-all").hide();
+        $("tr.state-0").show();
+    });
+    $("a.state-1").click(function(){
+        $("tr.state-all").hide();
+        $("tr.state-1").show();
+    });
+    $("a.state-2").click(function(){
+        $("tr.state-all").hide();
+        $("tr.state-2").show();
+    });
+    $("a.state-3").click(function(){
+        $("tr.state-all").hide();
+        $("tr.state-3").show();
+    });
+});
+</script>
 {% endblock %}
