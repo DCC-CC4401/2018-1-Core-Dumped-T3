@@ -5,6 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
+from .forms import FormChangePassword
 
 
 
@@ -36,7 +37,7 @@ def delete(request, id=None):
 @login_required(login_url="/users/login/")
 def changepass(request):
     if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
+        form = FormChangePassword(request.user, request.POST)
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)
@@ -45,5 +46,5 @@ def changepass(request):
         else:
             messages.error(request, 'Please correct the error below.')
     else:
-        form = PasswordChangeForm(request.user)
+        form = FormChangePassword(request.user)
     return render(request, 'userprofile/changepass.html', {'form': form})

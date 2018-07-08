@@ -21,7 +21,7 @@
     </div>
     <!-- Space button -->
     <div class="col-sm-5">
-        <a class="btn btn-primary btn-block" href="#" role="button">Reserva Tu Espacio</a>
+        <a class="btn btn-primary btn-block" href="/article_search/" role="button">Reserva Tu Espacio</a>
     </div>
     <!-- Article button -->
     <div class="col-sm-5">
@@ -38,7 +38,7 @@
     <div class="col-sm-5">
         <nav class="nav nav-pills flex-column flex-sm-row">
             <a class="flex-sm-fill text-sm-center nav-link active" href="#">Reservas</a>
-            <a class="flex-sm-fill text-sm-center nav-link" href="{% url "loans" %}">Pŕestamos</a>
+            <a class="flex-sm-fill text-sm-center nav-link" href="{% url "loans" %}">Préstamos</a>
         </nav>
     </div>
     <div class="col-sm-2">
@@ -161,7 +161,7 @@
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <img class="img-fluid" src={% static reservation.article.image.url %}">
-                                                <footer><a href="#" class="card-link">Ver detalles</a></footer>
+                                                <footer><a href="/articles/{{reservation.article.id}}" class="card-link">Ver detalles</a></footer>
                                             </div>
                                             <div class="col-sm-6">
                                             <p class="card-text">{{reservation.article.description}}</p>
@@ -203,8 +203,8 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-sm-6">
-                                                <img class="img-fluid" src={% static reservation.article.image.url %}">
-                                                <footer><a href="#" class="card-link">Ver detalles</a></footer>
+                                                <img class="img-fluid" src="{{ reservation.article.image.url }}">
+                                                <footer><a href="/articles/{{reservation.article.id}}" class="card-link">Ver detalles</a></footer>
                                             </div>
                                             <div class="col-sm-6">
                                             <p class="card-text">{{reservation.article.description}}</p>
