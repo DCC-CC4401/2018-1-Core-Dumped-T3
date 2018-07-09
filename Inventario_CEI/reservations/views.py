@@ -3,11 +3,13 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.timezone import localtime
 # Models
 from .models import Loan
 from .models import Reservation
 from articles.models import Article
 from articles.models import Space
+from article_search.views import set_colors, resize
 # Create your views here.
 
 
@@ -23,9 +25,20 @@ class ReservationsView(LoginRequiredMixin, generic.TemplateView):
             state=Reservation.PENDIENTE
         ).order_by('-created_at')
         context['prestamos'] = Loan.objects.all().order_by('-created_at')
-        context['reservas_espacios'] = Reservation.objects.filter(
+        res1 = Reservation.objects.filter(
             is_space=True
         )
+        reserva_espacios = []
+        for reserva in res1:
+            reserva_espacios.append([str(localtime(reserva.initial_date)),
+                                      str(localtime(reserva.end_date)),
+                                      reserva.space.name+"\n"+reserva.get_status(),
+                                      reserva.space.name])
+        context['res'] = reserva_espacios
+        spaces = Space.objects.all()
+        context['colors'] = set_colors(spaces)
+        events = []
+        context['eventos'] = events
         return context
 
 
@@ -109,4 +122,3 @@ def change_loan_to_received(request):
                 space.status = Space.DISPONIBLE
                 space.save()
     return redirect('reservations')
-

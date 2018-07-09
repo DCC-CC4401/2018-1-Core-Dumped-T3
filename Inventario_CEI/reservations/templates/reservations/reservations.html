@@ -150,24 +150,28 @@ $(document).ready(function(){
     });
 });
 </script>
-<script>$('#calendar').fullCalendar({
-    weekends: false, // will hide Saturdays and Sundays
-    defaultView: "agendaWeek",
-    locale: 'es',
-    timezone: 'local',
-    minTime: "09:00", // inicio hora calendario
-    maxTime: "18:01", // fin hora calendario
-    allDaySlot:false,
-    contentHeight: 501, //ese 1 evita que tenga barra de desplazamiento innecesaria
-    events: [
-    {% for reserva in reservas_espacios %}
-    {
-      title  : '{{ reserva.space }}',
-      start  : '{{ reserva.initial_date.isoformat }}',
-      end    : '{{ reserva.end_date.isoformat }}'
-    },
-    {% endfor %}
-  ]
-  })
+<script>
+    var res ={{res|safe}};
+    var colors={{colors|safe}};
+    var reservations=[];
+    for (i = 0; i < res.length; i++) {
+         reservations.push({'title':res[i][2],
+                            'start':res[i][0],
+                            'end':res[i][1],
+                            'color':colors[res[i][3]]})
+    }
+$(function() {
+        $('#calendar').fullCalendar({
+        weekends: false, // will hide Saturdays and Sundays
+        defaultView: "agendaWeek",
+        allDaySlot: false,
+        height: 530,
+        locale: 'es',
+        minTime: "09:00:00",
+        maxTime: "18:00:00",
+        events: reservations})
+
+
+});
 </script>
 {% endblock %}
