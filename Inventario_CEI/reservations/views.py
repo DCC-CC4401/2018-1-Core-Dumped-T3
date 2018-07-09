@@ -23,6 +23,9 @@ class ReservationsView(LoginRequiredMixin, generic.TemplateView):
             state=Reservation.PENDIENTE
         ).order_by('-created_at')
         context['prestamos'] = Loan.objects.all().order_by('-created_at')
+        context['reservas_espacios'] = Reservation.objects.filter(
+            is_space=True
+        )
         return context
 
 
