@@ -3,14 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 
 from .models import Article
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 from .forms import ArticleForm
->>>>>>> modelform, pero submit no funca
-=======
-from .forms import ArticleForm
->>>>>>> 4671f5bf391843aed5c0c1c887482b3001f38729
 from reservations.models import Reservation
 from reservations.forms import ReservationForm
 from datetime import datetime
