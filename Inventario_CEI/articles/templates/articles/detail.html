@@ -1,14 +1,14 @@
 {% extends "base.html" %} {% load staticfiles %} {% load bootstrap4 %} {% load font_awesome %} {% bootstrap_css %} {% bootstrap_javascript
 jquery="full" %} {% block title %}{{ article.name }} [{{ article.pretty_status|upper }}]{% endblock %} {% block content %}
 {% fa_css %}
-<script text="text/javascript" src="{% static " articles/moment.js " %}"></script>
+<script text="text/javascript" src="{% static "articles/moment.js" %}"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css"
 />
-<script type="text/javascript" src="{% static " scripts/tempusdominus.js " %}"></script>
+<script type="text/javascript" src="{% static "scripts/tempusdominus.js" %}"></script>
 <div class="container-fluid w-75 mt-5">
   {% if user.registereduser.is_admin %}
-  <form method="post">
+  <form method="post" enctype="multipart/form-data">
     {% csrf_token %} {% endif %}
     <div class="row justify-content-start align-items-center">
 
@@ -102,8 +102,8 @@ jquery="full" %} {% block title %}{{ article.name }} [{{ article.pretty_status|u
           </div>
 
           {% if user.registereduser.is_admin %}
-          <div class="col-auto">
-            <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#imageEditModal">
+          <div class="col-md-12 px-0 pt-2 pb-3">
+            <button type="button" class="btn btn-outline-dark float-right" data-toggle="modal" data-target="#imageEditModal">
               <i class="fa fa-edit " style="size:smaller;"></i>
             </button>
 
@@ -142,8 +142,8 @@ jquery="full" %} {% block title %}{{ article.name }} [{{ article.pretty_status|u
 
           <!--Edición para administradores-->
           {% if user.registereduser.is_admin %}
-          <div class="col-auto align-self-end">
-            <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#descriptionEditModal">
+          <div class="col-md-12 px-0 pt-2">
+            <button type="button" class="btn btn-outline-dark float-right" data-toggle="modal" data-target="#descriptionEditModal">
               <i class="fa fa-edit " style="size:smaller;"></i>
             </button>
 

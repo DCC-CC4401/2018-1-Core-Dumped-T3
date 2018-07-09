@@ -21,16 +21,6 @@ def detail(request, article_id):
 
     messages={}
 
-    if request.method == 'POST':
-        if request.POST.get("article-name-edit"):
-            article.name=request.POST.get("article-name-edit")
-            article.save()
-        elif request.POST.get("article-state-edit"):
-            article.status = int(request.POST.get("article-state-edit"))
-            article.save()
-        elif request.POST.get("article-description-edit"):
-            article.description=request.POST.get("article-description-edit")
-
     if request.user.registereduser.is_admin:
         form = ArticleForm(instance=article)
     else:
@@ -40,9 +30,11 @@ def detail(request, article_id):
         # If the user is an admin we only handle article edit forms.
         if request.user.registereduser.is_admin:
             # Only one form is handled at a time.
-            form = ArticleForm(request.POST)
-            # Save even if no changed were made
-            article.save()
+            form = ArticleForm(request.POST, request.FILES, instance=article)
+
+            if form.is_valid():
+                # Save changes made in the form to the article
+                form.save()
         else:
             form = ReservationForm(request.POST)
 

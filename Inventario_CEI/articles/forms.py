@@ -37,6 +37,5 @@ class ArticleForm(forms.ModelForm):
 
   def __init__(self, *args, **kwargs):
     super(ArticleForm, self).__init__(*args, **kwargs)
-    print(self.fields)
     for field in self.fields:
-      self.fields[field] = False
+      self.fields[field].required = False
