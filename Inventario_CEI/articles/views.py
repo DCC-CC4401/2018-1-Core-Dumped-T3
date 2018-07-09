@@ -3,6 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 
 from .models import Article
+<<<<<<< HEAD
+=======
+from .forms import ArticleForm
+>>>>>>> modelform, pero submit no funca
 from reservations.models import Reservation
 from reservations.forms import ReservationForm
 from datetime import datetime
@@ -18,6 +22,7 @@ def detail(request, article_id):
     ).order_by('initial_date')
     messages={}
 
+<<<<<<< HEAD
     form = ReservationForm()
     if request.method == 'POST':
         if request.POST.get("article-name-edit"):
@@ -28,6 +33,19 @@ def detail(request, article_id):
             article.save()
         elif request.POST.get("article-description-edit"):
             article.description=request.POST.get("article-description-edit")
+=======
+    if request.user.registereduser.is_admin:
+        form = ArticleForm(instance=article)
+    else:
+        form = ReservationForm()
+
+    if request.method == 'POST':
+        # If the user is an admin we only handle article edit forms.
+        if request.user.registereduser.is_admin:
+            # Only one form is handled at a time.
+            form = ArticleForm(request.POST)
+            # Save even if no changed were made
+>>>>>>> modelform, pero submit no funca
             article.save()
         else:
             form = ReservationForm(request.POST)
