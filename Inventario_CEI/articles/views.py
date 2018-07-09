@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 
 from .models import Article
-from .forms import NameEditForm, StatusEditForm, ImageEditForm, DescriptionEditForm
+from .forms import ArticleForm
 from reservations.models import Reservation
 from reservations.forms import ReservationForm
 from datetime import datetime
@@ -22,31 +22,15 @@ def detail(request, article_id):
     messages={}
 
     if request.user.registereduser.is_admin:
-        forms = {
-            'nameEdit': NameEditForm().set_name(article.name),
-            'statusEdit': StatusEditForm().set_choice(article.status),
-            'imageEdit': ImageEditForm(),
-            'descriptionEdit': DescriptionEditForm().set_description(article.description)
-        }
+        form = ArticleForm(instance=article)
     else:
-        forms = {'reservation': ReservationForm()}
+        form = ReservationForm()
 
     if request.method == 'POST':
         # If the user is an admin we only handle article edit forms.
         if request.user.registereduser.is_admin:
             # Only one form is handled at a time.
-            if request.POST.get('name'):
-                name_form = NameEditForm(request.POST)
-                article.name = name_form.data['name']
-            elif request.POST.get('status'):
-                status_form = StatusEditForm(request.POST)
-                article.status = status_form.data['status']
-            elif request.POST.get('image'):
-                print(request.POST)
-                print(request.FILES)
-            elif request.POST.get('description'):
-                description_form = DescriptionEditForm(request.POST)
-                article.description = description_form.data['description']
+            form = ArticleForm(request.POST)
             # Save even if no changed were made
             article.save()
         else:
@@ -98,4 +82,4 @@ def detail(request, article_id):
                 form.add_error('start_time', "Reserva ya existe en este horario.")
                 form.add_error('end_time', "Reserva ya existe en este horario.")
 
-    return render(request, 'articles/detail.html', {'article': article, 'reservations': reservations, 'forms': forms, 'messages': messages})
+    return render(request, 'articles/detail.html', {'article': article, 'reservations': reservations, 'form': form, 'messages': messages})
