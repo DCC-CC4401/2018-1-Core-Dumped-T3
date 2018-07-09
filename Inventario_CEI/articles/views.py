@@ -24,7 +24,7 @@ def detail(request, article_id):
             article.name=request.POST.get("article-name-edit")
             article.save()
         elif request.POST.get("article-state-edit"):
-            article.state=request.POST.get("article-state-edit")
+            article.status = int(request.POST.get("article-state-edit"))
             article.save()
         elif request.POST.get("article-description-edit"):
             article.description=request.POST.get("article-description-edit")
