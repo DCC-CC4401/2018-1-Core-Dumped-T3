@@ -16,10 +16,46 @@
 <script type="text/javascript" src="{% static "scripts/tempusdominus.js" %}"></script>
 <div class="container-fluid w-75 mt-5">
   <div class="row justify-content-start align-items-center">
-    <div class="col-auto">
-      <h1>{{ article.name }} <i class="fa fa-edit" style="size:smaller;"></i></h1>
+    <div class="col-auto px-1">
+      <h1> {{ article.name }} </h1>
     </div>
-    <div class="col-auto status {% if "Disponible" in article.pretty_status %}available{% elif "préstamo" in article.pretty_status%}loan{% elif "reparación" in article.pretty_status %}repairs{% else %}lost{% endif %} pt-1">
+    <div class="col-auto pl-1 pr-2">
+      {% if user.registereduser.is_admin %} 
+        <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#exampleModal">
+          <i class="fa fa-edit " style="size:smaller;"></i>
+        </button>
+
+        <!--Diálogo para editar nombre del artículo.-->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cambiar nombre</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label class="control-label">Nuevo nombre:</label>
+                    <div class="col-sm-12">
+                        <input type="text" name="article-name-edit" class="form-control" placeholder="{{ article.name }}"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <input type="submit" value="Guardar cambios" class="btn btn-primary">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+    <div class="col-auto pl-2 pr-1 status {% if "Disponible" in article.pretty_status %}available{% elif "préstamo" in article.pretty_status%}loan{% elif "reparación" in article.pretty_status %}repairs{% else %}lost{% endif %} pt-1">
       <h2>{{ article.pretty_status }} <i class="fa fa-edit" style="size:smaller;"></i></h2>
     </div>
   </div>
@@ -27,7 +63,7 @@
     <div class="col-md-7 ml-0 pr-5">
       <div class="row">
         <div class="col-md-12 my-5 mr-3">
-          <img class="mx-auto d-block" style="max-width:inherit;max-height:500px;" src="{% static article.image.url %}">
+          <img class="mx-auto d-block" style="max-width:inherit;max-height:500px;" src="{{ article.image.url }}">
         </div>
         <div class="col-md-12" style="border-style:dashed;border-radius:5px;border-width:1px;font-size:larger;">
           {{ article.description }}
