@@ -112,5 +112,9 @@ venv.bak/
 # Media files
 media/
 
+<<<<<<< HEAD
 /migrations
 /migrations/*
+=======
+migrations/
+>>>>>>> gitignore
