@@ -1,0 +1,138 @@
+
+
+
+
+{% extends "base.html" %}
+
+{% block title %}[TITULO]{% endblock %}
+
+
+{% load font_awesome %}
+{% block content%}
+
+{% load staticfiles %}
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="/static/article_search/fullcalendar-3.9.0/fullcalendar.css" />
+    <link rel="stylesheet" type="text/css" href="/static/article_search/css/no.css" />
+    <script type="text/javascript" src="{% static 'article_search/js/jquery-3.3.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'article_search/js/moment.js' %}"></script>
+    <script type="text/javascript" src="{% static 'article_search/fullcalendar-3.9.0/fullcalendar.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'article_search/fullcalendar-3.9.0/locale-all.js' %}"></script>
+
+
+
+
+
+
+<div class="mt-3">
+    <div class="text-center" >
+        <div class="btn-group pagination-centered" >
+            <button type="button" class="btn btn-success">Articulos</button>
+            <button type="button" class="btn " onclick="location.href = '{% url 'LP_locations'  %}';">Espacios</button>
+        </div>
+    </div>
+</div>
+    {% if not busqueda_avanzada %}
+<div class="mt-5">
+<div class="mx-auto"  style="width:65em;">
+<form class="form-inline" action="{% url 'LP_articles'  %}">
+  <input type="text" class="form-control" name= "item" placeholder="ingrese el nombre del articulo" style="width:60em">
+  <button type="submit" class="btn btn-light" style="width:5em">Buscar</button>
+    </form>
+    <div align="right">
+        <form action="{% url 'LP_articles'  %}"><button type="submit" class="btn btn-link" name="busqueda_avanzada" value=""> Busqueda Avanzada
+    </button></form>
+    </div>
+</div>
+</div>
+    {% endif %}
+<div class="mt-5">
+<div class="mx-auto"  style="width:65em;">
+
+        {% if busqueda_avanzada %}
+    <div class="row">
+        {% for i in primeros %}
+          <div class="col-sm-3">
+              <div class="container">
+              <table class="table table-bordered">
+                  <tbody>
+                    <tr>
+                        <td>
+                        <img class="mx-auto d-block" style="max-width:inherit;max-height:500px;"
+                             src="{% static i.image.url %}" onclick="location.href = '{% url 'detail' i.id %}';">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{i.name}}</td>
+                    </tr>
+                  </tbody>
+              </table>
+
+              </div>
+          </div>
+
+        {% endfor %}
+        <div class="col-sm-1"></div>
+        <div class="col-sm-5" align="right">
+              <div class="container" style="background-color: #bbbbbb">
+                <form action="#">
+                <div class="form-group" align="left">
+                    <br>
+                    <input type="text" class="form-control" name= "item" placeholder="ingrese el nombre del articulo"><br>
+                        Seleccione un dia:
+                        <input type="date" name="bday" ><br><br>
+                        Desde:
+                        <input type="time" name="desde">
+                        Hasta:
+                        <input type="time" name="hasta"><br><br>
+                        Disponibilidad:
+                      <select class="form-control" name="disponibilidad">
+                        <option>Disponible</option>
+                        <option>Reservado</option>
+                        <option>?????</option>
+                        <option>4</option>
+                      </select><br>
+                    <div align="right"><button type="submit" class="btn btn-primary" >Buscar</button></div>
+                    <form action={% url 'LP_articles'  %}><button type="submit" class="btn btn-link" value="">Volver a Busqueda normal</button></form>
+
+                </div>
+
+
+                </form>
+              </div>
+          </div>
+    </div>
+
+        {% endif %}
+    {% for j in items %}
+    <div class="row">
+        {% for i in j %}
+          <div class="col-sm-3">
+              <div class="container">
+              <table class="table table-bordered">
+                  <tbody>
+                    <tr>
+                        <td>
+                        <img class="mx-auto d-block" style="max-width:inherit;max-height:500px;"
+                             src="{% static i.image.url %}" onclick="location.href = '{% url 'detail' i.id %}';">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{i.name}}</td>
+                    </tr>
+                  </tbody>
+              </table>
+
+              </div>
+          </div>
+
+        {% endfor %}
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}
+
+

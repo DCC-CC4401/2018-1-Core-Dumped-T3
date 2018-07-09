@@ -1,6 +1,8 @@
 # Django
 from django.shortcuts import render, redirect
 from django.views import generic
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Models
 from .models import Loan
 from .models import Reservation
@@ -9,7 +11,8 @@ from articles.models import Space
 # Create your views here.
 
 
-class ReservationsView(generic.TemplateView):
+class ReservationsView(LoginRequiredMixin, generic.TemplateView):
+    login_url = "/users/login/"
     template_name = 'reservations/reservations.html'
 
     def get_context_data(self, **kwargs):
@@ -18,11 +21,15 @@ class ReservationsView(generic.TemplateView):
         )
         context['reservas_pendientes'] = Reservation.objects.filter(
             state=Reservation.PENDIENTE
+        ).order_by('-created_at')
+        context['prestamos'] = Loan.objects.all().order_by('-created_at')
+        context['reservas_espacios'] = Reservation.objects.filter(
+            is_space=True
         )
-        context['prestamos'] = Loan.objects.all()
         return context
 
 
+@login_required(login_url="/users/login/")
 def accept_reservation(request):
     if request.method == 'POST':
         reservations = request.POST.getlist('reservations')
@@ -30,9 +37,36 @@ def accept_reservation(request):
             reservation = Reservation.objects.get(id=reservation_id)
             reservation.state = Reservation.ENTREGADO
             reservation.save()
+            if reservation.is_article:
+                article = reservation.article
+                article.status = Article.PRESTAMO
+                article.save()
+                loan = Loan.objects.create(
+                    article=reservation.article,
+                    is_article=True,
+                    initial_date=reservation.initial_date,
+                    end_date=reservation.end_date,
+                    user=reservation.user,
+                    created_by=request.user.registereduser
+                )
+                loan.save()
+            if reservation.is_space:
+                space = reservation.space
+                space.status = Space.PRESTAMO
+                space.save()
+                loan = Loan.objects.create(
+                    space=reservation.space,
+                    is_space=True,
+                    initial_date=reservation.initial_date,
+                    end_date=reservation.end_date,
+                    user=reservation.user,
+                    created_by=request.user.registereduser
+                )
+                loan.save()
     return redirect('reservations')
 
 
+@login_required(login_url="/users/login/")
 def reject_reservation(request):
     if request.method == 'POST':
         reservations = request.POST.getlist('reservations')
@@ -43,6 +77,7 @@ def reject_reservation(request):
     return redirect('reservations')
 
 
+@login_required(login_url="/users/login/")
 def change_loan_to_lost(request):
     if request.method == 'POST':
         loans = request.POST.getlist('loans')
@@ -57,6 +92,7 @@ def change_loan_to_lost(request):
     return redirect('reservations')
 
 
+@login_required(login_url="/users/login/")
 def change_loan_to_received(request):
     if request.method == 'POST':
         loans = request.POST.getlist('loans')
