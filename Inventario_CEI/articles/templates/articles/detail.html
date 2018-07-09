@@ -97,7 +97,7 @@ jquery="full" %} {% block title %}{{ article.name }} [{{ article.pretty_status|u
         <div class="row">
 
           <!--Imagen del artículo-->
-          <div class="col-md-12 my-3 mr-3">
+          <div class="col-md-12 my-2 mr-3">
             <img class="mx-auto d-block" style="max-width:inherit;max-height:500px;" src="{{ article.image.url }}">
           </div>
 
@@ -205,7 +205,7 @@ jquery="full" %} {% block title %}{{ article.name }} [{{ article.pretty_status|u
               required data-target="#{{ field.name }}" value="{{ field.value }}" />
             <div class="input-group-append" data-target="#{{ field.name }}" data-toggle="datetimepicker">
               <div class="input-group-text">
-                <i class="fa {% if " day " in field.name %}fa-calendar{% else %}fa-clock-o{% endif %}"></i>
+                <i class="fa {% if "day" in field.name %}fa-calendar{% else %}fa-clock-o{% endif %}"></i>
               </div>
             </div>
           </div>

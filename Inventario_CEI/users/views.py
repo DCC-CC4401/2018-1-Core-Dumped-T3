@@ -29,7 +29,6 @@ def login(request):
 
       if form.is_valid():
         data = form.cleaned_data
-        print(data)
         username = User.objects.filter(email=data['email'])[0]
         user = authenticate(request, username=username, password=data['password'])
         
