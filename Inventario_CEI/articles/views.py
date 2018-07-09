@@ -4,9 +4,13 @@ from django.utils import timezone
 
 from .models import Article
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 from .forms import ArticleForm
 >>>>>>> modelform, pero submit no funca
+=======
+from .forms import ArticleForm
+>>>>>>> 4671f5bf391843aed5c0c1c887482b3001f38729
 from reservations.models import Reservation
 from reservations.forms import ReservationForm
 from datetime import datetime
@@ -16,14 +20,14 @@ from datetime import datetime
 def detail(request, article_id):
 
     article = get_object_or_404(Article, id=article_id)
+
     reservations = Reservation.objects.filter(
         article=article, initial_date__gte=timezone.now(),
         state=1   
     ).order_by('initial_date')
+
     messages={}
 
-<<<<<<< HEAD
-    form = ReservationForm()
     if request.method == 'POST':
         if request.POST.get("article-name-edit"):
             article.name=request.POST.get("article-name-edit")
@@ -33,7 +37,7 @@ def detail(request, article_id):
             article.save()
         elif request.POST.get("article-description-edit"):
             article.description=request.POST.get("article-description-edit")
-=======
+
     if request.user.registereduser.is_admin:
         form = ArticleForm(instance=article)
     else:
@@ -45,16 +49,12 @@ def detail(request, article_id):
             # Only one form is handled at a time.
             form = ArticleForm(request.POST)
             # Save even if no changed were made
->>>>>>> modelform, pero submit no funca
             article.save()
         else:
             form = ReservationForm(request.POST)
 
             start_datetime = datetime.strptime(form.data['day'] + ' ' + form.data['start_time'], "%d/%m/%Y %H:%M")
             end_datetime = datetime.strptime(form.data['day'] + ' ' + form.data['end_time'], "%d/%m/%Y %H:%M")
-
-            for key, value in form.data.items():
-                print(key, value)
 
             reservation = Reservation(
                 article=article,

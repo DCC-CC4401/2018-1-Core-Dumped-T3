@@ -112,5 +112,9 @@ venv.bak/
 # Media files
 media/
 
+<<<<<<< HEAD
 /migrations
 /migrations/*
+=======
+migrations/
+>>>>>>> 4671f5bf391843aed5c0c1c887482b3001f38729
