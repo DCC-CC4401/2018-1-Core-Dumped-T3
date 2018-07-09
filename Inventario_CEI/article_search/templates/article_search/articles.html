@@ -60,7 +60,7 @@
                     <tr>
                         <td>
                         <img class="mx-auto d-block" style="max-width:inherit;max-height:500px;"
-                             src="{% static i.image.url %}" onclick="location.href = '{% url 'detail' i.id %}';">
+                             src="{{ i.image.url }}" onclick="location.href = '{% url 'detail' i.id %}';">
                         </td>
                     </tr>
                     <tr>
@@ -115,7 +115,7 @@
                     <tr>
                         <td>
                         <img class="mx-auto d-block" style="max-width:inherit;max-height:500px;"
-                             src="{% static i.image.url %}" onclick="location.href = '{% url 'detail' i.id %}';">
+                             src="{{ i.image.url }}" onclick="location.href = '{% url 'detail' i.id %}';">
                         </td>
                     </tr>
                     <tr>
