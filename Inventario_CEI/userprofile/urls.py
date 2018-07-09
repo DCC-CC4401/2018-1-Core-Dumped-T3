@@ -8,5 +8,5 @@ urlpatterns = [
     path('changepassword/', views.changepass, name='changepass'),
     path('delete/', views.delete, name='delete'),
     path('loans/', views.myloans, name='loans'),
-    path('home/', views.home, name='home'),
+    path('reservations/', views.home, name='home'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
