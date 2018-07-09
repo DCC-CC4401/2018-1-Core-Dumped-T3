@@ -10,7 +10,7 @@ from .forms import LoginForm, CreateAccountForm
 # Create your views here.
 def login(request):
 
-  next = reverse("index")
+  next = reverse("LP_articles")
   status = ""
 
   if request.GET:
@@ -18,7 +18,7 @@ def login(request):
 
   if request.user.is_authenticated:
     # Change redirection if user is an admin
-    if request.user.registereduser.is_admin and next == reverse("index"):
+    if request.user.registereduser.is_admin and next == reverse("LP_articles"):
       next = reverse("reservations") # TODO: Change when admin landing page is implemented
 
     return HttpResponseRedirect(next) # Redirect if already logged in.
@@ -34,7 +34,7 @@ def login(request):
         if user is not None:
           login_user(request, user)
           # Change redirection if user is an admin
-          if request.user.registereduser.is_admin and next == reverse("index"):
+          if request.user.registereduser.is_admin and next == reverse("LP_articles"):
             next = reverse("reservations") # TODO: Change when admin landing page is implemented
 
           return HttpResponseRedirect(next)
@@ -49,14 +49,14 @@ def login(request):
   return render(request, 'users/login.html',{'form': form, 'next': next, 'status': status})
 
 def register(request):
-  next = reverse("index")
+  next = reverse("LP_articles")
 
   if request.GET:
     next = request.GET["next"]
 
   # Change redirection if user is an admin
   if request.user.is_authenticated:
-    if request.user.registereduser.is_admin and next == reverse("index"):
+    if request.user.registereduser.is_admin and next == reverse("LP_articles"):
       next = reverse("reservations") # TODO: Change when admin landing page is implemented
 
     return HttpResponseRedirect(next) # Redirect if already logged in.
@@ -89,7 +89,7 @@ def register(request):
           )
           login_user(request, user)
           # Change redirection if user is an admin
-          if request.user.registereduser.is_admin and next == reverse("index"):
+          if request.user.registereduser.is_admin and next == reverse("LP_articles"):
             next = reverse("reservations") # TODO: Change when admin landing page is implemented
 
           return HttpResponseRedirect(next)
