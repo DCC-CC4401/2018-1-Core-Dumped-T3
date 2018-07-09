@@ -43,10 +43,16 @@
                 {% csrf_token %}
                 <div class="modal-body">
                   <div class="form-group">
-                    <label class="control-label">Nuevo nombre:</label>
-                    <div class="col-sm-12">
-                        <input type="text" name="article-name-edit" class="form-control" placeholder="{{ article.name }}"/>
-                    </div>
+                    {% for formName, form in forms.items %}
+                      {% if formName == 'nameEdit' %}
+                        {% for field in form %}
+                          <label class="control-label">{{ field.label }}</label>
+                          <div class="col-sm-12">
+                            {{ field }}
+                          </div>
+                        {% endfor %}
+                      {% endif %}
+                    {% endfor %}
                   </div>
                 </div>
                 <div class="modal-footer">
@@ -86,15 +92,16 @@
               {% csrf_token %}
               <div class="modal-body">
                 <div class="form-group">
-                  <label class="control-label">Nuevo estado:</label>
-                  <div class="col-sm-12">
-                    <select name="article-state-edit" class="form-control" placeholder="{{ article.pretty_status }}">
-                      <option value="0">Disponible</option>
-                      <option value="1">En préstamo</option>
-                      <option value="2">En reparación</option>
-                      <option value="3">Perdido</option>
-                    </select>
-                  </div>
+                    {% for formName, form in forms.items %}
+                    {% if formName == 'statusEdit' %}
+                      {% for field in form %}
+                        <label class="control-label">{{ field.label }}</label>
+                        <div class="col-sm-12">
+                          {{ field }}
+                        </div>
+                      {% endfor %}
+                    {% endif %}
+                  {% endfor %}
                 </div>
               </div>
               <div class="modal-footer">
@@ -117,6 +124,49 @@
           <img class="mx-auto d-block" style="max-width:inherit;max-height:500px;" src="{{ article.image.url }}">
         </div>
 
+        {% if user.registereduser.is_admin %}
+        <div class="col-auto">
+          <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#imageEditModal">
+            <i class="fa fa-edit " style="size:smaller;"></i>
+          </button>
+
+          <!--Diálogo para cambiar imagen del artículo.-->
+          <div class="modal fade" id="imageEditModal" tabindex="-1" role="dialog" aria-labelledby="imageEditModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="imageEditModalLabel">Cambiar descripción</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <form method="post">
+                  {% csrf_token %}
+                  <div class="modal-body">
+                    <div class="form-group">
+                      {% for formName, form in forms.items %}
+                        {% if formName == 'imageEdit' %}
+                          {% for field in form %}
+                            <label class="control-label">{{ field.label }}</label>
+                            <div class="col-sm-12">
+                              {{ field }}
+                            </div>
+                          {% endfor %}
+                        {% endif %}
+                      {% endfor %}
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <input type="submit" value="Guardar cambios" class="btn btn-primary">
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        
         <!--Descripción del artículo-->
         <div class="col-md-12" style="border-style:dashed;border-radius:5px;border-width:1px;font-size:larger;">
           {{ article.description }}
@@ -143,10 +193,16 @@
                   {% csrf_token %}
                   <div class="modal-body">
                     <div class="form-group">
-                      <label class="control-label">Nuevo nombre:</label>
-                      <div class="col-sm-12">
-                        <textarea name="article-description-edit" class="form-control" placeholder="{{ article.description }}"></textarea>
-                      </div>
+                      {% for formName, form in forms.items %}
+                        {% if formName == 'descriptionEdit' %}
+                          {% for field in form %}
+                            <label class="control-label">{{ field.label }}</label>
+                            <div class="col-sm-12">
+                              {{ field }}
+                            </div>
+                          {% endfor %}
+                        {% endif %}
+                      {% endfor %}
                     </div>
                   </div>
                   <div class="modal-footer">
@@ -179,7 +235,7 @@
       <div class="w-100 pb-2">
         <form method="post" action="/articles/{{ article.id }}">
           {% csrf_token %}
-          {% for field in form%}
+          {% for field in form %}
           <div class="form-group {% if field.errors %}is-invalid{% endif %}">
             {{ field.label_tag }}
             <div class="input-group date" id="{{ field.name }}" data-target-input="nearest">

@@ -23,7 +23,7 @@ class Article(models.Model):
     
     name = models.CharField(max_length=128) # muy arbitrario
     image = models.ImageField(
-        upload_to='articles',
+        upload_to='articles/images',
         default="articles/images/items/"
     )
 
