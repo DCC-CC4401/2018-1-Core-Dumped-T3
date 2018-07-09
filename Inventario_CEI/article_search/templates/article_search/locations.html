@@ -3,20 +3,26 @@
 
 
 {% extends "base.html" %}
-
+{% load staticfiles %}
+{% load bootstrap4 %}
+{% load font_awesome %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery="full" %}
 {% block title %}[TITULO]{% endblock %}
 
 
 {% block content%}
 
     {% load static %}
-
     <link rel="stylesheet" type="text/css" href="/static/article_search/fullcalendar-3.9.0/fullcalendar.css" />
     <link rel="stylesheet" type="text/css" href="/static/article_search/css/no.css" />
     <script type="text/javascript" src="{% static 'article_search/js/jquery-3.3.1.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'article_search/js/moment.js' %}"></script>
     <script type="text/javascript" src="{% static 'article_search/fullcalendar-3.9.0/fullcalendar.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'article_search/fullcalendar-3.9.0/locale-all.js' %}"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
+<script type="text/javascript" src="{% static "scripts/tempusdominus.js" %}"></script>
 
 <style>
 .dot {
@@ -54,26 +60,34 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Formulario de reservas</h4>
         </div>
-        <div class="modal-body">
-          <p><form action="#">
-                <div class="form-group" align="left">
-                    <br>
-                        Seleccione un espacio:
-                      <select class="form-control" name="location">
-                          {% for loc in locations %}
-                          {% for l in loc %}
-                            <option>{{l.name}}</option>
-                          {% endfor %}
-                          {% endfor %}
-                      </select><br>
-                        Seleccione un dia:
-                        <input type="date" name="bday" ><br><br>
-                        Desde:
-                        <input type="time" name="desde">
-                        Hasta:
-                        <input type="time" name="hasta"><br><br>
-                    <div align="right"><button type="submit" class="btn btn-primary" >Buscar</button></div>
-                    </div></form></p>
+        <div class="modal-body"><p>
+          <form method="post" action="{% url 'make_res' %}">
+          {% csrf_token %}
+          <select class="form-control" name="loc">
+            {% for j in locations%}
+            {% for i in j%}
+                <option value="{{ i.pk }}">{{ i.name }}</option>
+            {%  endfor %}
+            {%  endfor %}
+          </select>
+          {% for field in form%}
+          <div class="form-group {% if field.errors %}is-invalid{% endif %}">
+            {{ field.label_tag }}
+            <div class="input-group date" id="{{ field.name }}" data-target-input="nearest">
+              <input type="text" name="{{ field.name }}" class="form-control {% if field.errors %}is-invalid{% endif %} datetimepicker-input" required data-target="#{{ field.name }}" value="{{ field.value }}"/>
+              <div class="input-group-append" data-target="#{{ field.name }}" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa {% if "day" in field.name %}fa-calendar{% else %}fa-clock-o{% endif %}"></i></div>
+              </div>
+            </div>
+            {% if field.errors %}
+            <div class="invalid-feedback" style="display:block;">{% for error in field.errors %}{{ error }}{% endfor %}</div>
+            {% endif %}
+          </div>
+          {% endfor %}
+          <div class="row w-100 justify-content-end">
+            <button type="submit" class="btn btn-primary">Reservar</button>
+          </div>
+        </form></p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

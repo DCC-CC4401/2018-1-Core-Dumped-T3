@@ -16,7 +16,7 @@ def detail(request, article_id):
 
     reservations = Reservation.objects.filter(
         article=article, initial_date__gte=timezone.now(),
-        state=1   
+        state=1
     ).order_by('initial_date')
 
     messages={}
