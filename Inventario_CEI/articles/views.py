@@ -18,15 +18,17 @@ def detail(request, article_id):
     ).order_by('initial_date')
     messages={}
 
+    form = ReservationForm()
     if request.method == 'POST':
         if request.POST.get("article-name-edit"):
             article.name=request.POST.get("article-name-edit")
             article.save()
-            form = ReservationForm()
         elif request.POST.get("article-state-edit"):
-            form = ReservationForm()
+            article.state=request.POST.get("article-state-edit")
+            article.save()
         elif request.POST.get("article-description-edit"):
-            form = ReservationForm()
+            article.description=request.POST.get("article-description-edit")
+            article.save()
         else:
             form = ReservationForm(request.POST)
 
@@ -78,7 +80,5 @@ def detail(request, article_id):
                 messages["Ya pediste una reserva en los mismos horarios."] = "danger"
                 form.add_error('start_time', "Reserva ya existe en este horario.")
                 form.add_error('end_time', "Reserva ya existe en este horario.")
-    else:
-        form = ReservationForm()
 
     return render(request, 'articles/detail.html', {'article': article, 'reservations': reservations, 'form': form, 'messages': messages})

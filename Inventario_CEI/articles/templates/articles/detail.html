@@ -16,21 +16,25 @@
 <script type="text/javascript" src="{% static "scripts/tempusdominus.js" %}"></script>
 <div class="container-fluid w-75 mt-5">
   <div class="row justify-content-start align-items-center">
+
+    <!--Nombre del artículo-->
     <div class="col-auto px-1">
-      <h1> {{ article.name }} </h1>
+      <h1 class="my-2"> {{ article.name }} </h1>
     </div>
+
+    <!--Edición para administradores-->
+    {% if user.registereduser.is_admin %} 
     <div class="col-auto pl-1 pr-2">
-      {% if user.registereduser.is_admin %} 
-        <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#exampleModal">
+        <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#nameEditModal">
           <i class="fa fa-edit " style="size:smaller;"></i>
         </button>
 
         <!--Diálogo para editar nombre del artículo.-->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="nameEditModal" tabindex="-1" role="dialog" aria-labelledby="nameEditModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Cambiar nombre</h5>
+                <h5 class="modal-title" id="nameEditModalLabel">Cambiar nombre</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -53,25 +57,111 @@
             </div>
           </div>
         </div>
-      {% endif %}
+      </div>
+    {% endif %}
+
+    <!--Estado del artículo-->
+    <div class="col-auto px-1 status {% if "Disponible" in article.pretty_status %}available{% elif "préstamo" in article.pretty_status%}loan{% elif "reparación" in article.pretty_status %}repairs{% else %}lost{% endif %}">
+      <h2 class="my-1">{{ article.pretty_status }}</h2>
     </div>
-    <div class="col-auto pl-2 pr-1 status {% if "Disponible" in article.pretty_status %}available{% elif "préstamo" in article.pretty_status%}loan{% elif "reparación" in article.pretty_status %}repairs{% else %}lost{% endif %} pt-1">
-      <h2>{{ article.pretty_status }} <i class="fa fa-edit" style="size:smaller;"></i></h2>
+
+    <!--Edición para administradores-->
+    {% if user.registereduser.is_admin %} 
+    <div class="col-auto pl-1">
+      <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#stateEditModal">
+        <i class="fa fa-edit " style="size:smaller;"></i>
+      </button>
+
+      <!--Diálogo para editar nombre del artículo.-->
+      <div class="modal fade" id="stateEditModal" tabindex="-1" role="dialog" aria-labelledby="stateEditModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="stateEditModalLabel">Cambiar estado</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form method="post">
+              {% csrf_token %}
+              <div class="modal-body">
+                <div class="form-group">
+                  <label class="control-label">Nuevo estado:</label>
+                  <div class="col-sm-12">
+                      <input type="text" name="article-state-edit" class="form-control" placeholder="{{ article.pretty_status }}"/>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <input type="submit" value="Guardar cambios" class="btn btn-primary">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
+    {% endif %}
   </div>
   <div class="row p-1">
     <div class="col-md-7 ml-0 pr-5">
       <div class="row">
+
+        <!--Imagen del artículo-->
         <div class="col-md-12 my-5 mr-3">
           <img class="mx-auto d-block" style="max-width:inherit;max-height:500px;" src="{{ article.image.url }}">
         </div>
+
+        <!--Descripción del artículo-->
         <div class="col-md-12" style="border-style:dashed;border-radius:5px;border-width:1px;font-size:larger;">
           {{ article.description }}
         </div>
+
+        <!--Edición para administradores-->
+        {% if user.registereduser.is_admin %} 
+        <div class="col-md-12 ml-auto">
+          <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#descriptionEditModal">
+            <i class="fa fa-edit " style="size:smaller;"></i>
+          </button>
+
+          <!--Diálogo para editar nombre del artículo.-->
+          <div class="modal fade" id="descriptionEditModal" tabindex="-1" role="dialog" aria-labelledby="descriptionEditModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="descriptionEditModalLabel">Cambiar descripción</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <form method="post">
+                  {% csrf_token %}
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label class="control-label">Nuevo nombre:</label>
+                      <div class="col-sm-12">
+                        <textarea name="article-description-edit" class="form-control" placeholder="{{ article.description }}"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <input type="submit" value="Guardar cambios" class="btn btn-primary">
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %} 
       </div>
     </div>
+
+    <!--Reservas-->
     <div class="col-md-5 ml-auto pl-3">
       {% if not user.registereduser.is_admin %}
+
+      <!--Formulario de reserva para los usuarios naturales.-->
       <div class="w-100">
         <h2>Solicitar Reserva</h2>
         {% for alert,type in messages.items %}
@@ -104,6 +194,8 @@
         </form>
       </div>
       {% endif %}
+
+      <!--Lista de reservas pedidas-->
       <div class="w-100">
         <h2>Próximos Préstamos</h2>
       </div>
@@ -112,7 +204,7 @@
         {% if reservations %}
           {% for reservation in reservations %}
           <li>
-            {{ reservation.initial_date|date:"d\/m\/Y H\:i"}} a {{ reservation.end_date|time:"H\:i" }} hrs.
+            {{ reservation.initial_date|date:"d\/m\/Y H\:i" }} a {{ reservation.end_date|time:"H\:i" }} hrs.
           </li>
           {% endfor %}
         {% else %}
