@@ -29,19 +29,19 @@
     <div class="text-center" >
         <div class="btn-group pagination-centered" >
             <button type="button" class="btn btn-success">Articulos</button>
-            <button type="button" class="btn " onclick="location.href = '/home/espacios/';">Espacios</button>
+            <button type="button" class="btn " onclick="location.href = '{% url 'LP_locations'  %}';">Espacios</button>
         </div>
     </div>
 </div>
     {% if not busqueda_avanzada %}
 <div class="mt-5">
 <div class="mx-auto"  style="width:65em;">
-<form class="form-inline" action="/home/articulos/">
+<form class="form-inline" action="{% url 'LP_articles'  %}">
   <input type="text" class="form-control" name= "item" placeholder="ingrese el nombre del articulo" style="width:60em">
   <button type="submit" class="btn btn-light" style="width:5em">Buscar</button>
     </form>
     <div align="right">
-        <form action="/home/articulos/"><button type="submit" class="btn btn-link" name="busqueda_avanzada" value=""> Busqueda Avanzada
+        <form action="{% url 'LP_articles'  %}"><button type="submit" class="btn btn-link" name="busqueda_avanzada" value=""> Busqueda Avanzada
     </button></form>
     </div>
 </div>
@@ -60,7 +60,7 @@
                     <tr>
                         <td>
                         <img class="mx-auto d-block" style="max-width:inherit;max-height:500px;"
-                             src="{% static i.image.url %}" onclick="location.href = '/articles/{{i.id}}';">
+                             src="{% static i.image.url %}" onclick="location.href = '{% url 'detail' i.id %}';">
                         </td>
                     </tr>
                     <tr>
@@ -94,7 +94,7 @@
                         <option>4</option>
                       </select><br>
                     <div align="right"><button type="submit" class="btn btn-primary" >Buscar</button></div>
-                    <form action="/home/articulos/"><button type="submit" class="btn btn-link" value="">Volver a Busqueda normal</button></form>
+                    <form action={% url 'LP_articles'  %}><button type="submit" class="btn btn-link" value="">Volver a Busqueda normal</button></form>
 
                 </div>
 
@@ -115,7 +115,7 @@
                     <tr>
                         <td>
                         <img class="mx-auto d-block" style="max-width:inherit;max-height:500px;"
-                             src="{% static i.image.url %}" onclick="location.href = '/articles/{{i.id}}';">
+                             src="{% static i.image.url %}" onclick="location.href = '{% url 'detail' i.id %}';">
                         </td>
                     </tr>
                     <tr>
