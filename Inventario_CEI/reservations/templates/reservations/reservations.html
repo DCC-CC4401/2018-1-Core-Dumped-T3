@@ -7,6 +7,12 @@ Reservas y Prestamos
 {% endblock %}
 
 {% block content %}
+<link rel="stylesheet" type="text/css" href="/static/article_search/fullcalendar-3.9.0/fullcalendar.css" />
+<link rel="stylesheet" type="text/css" href="/static/article_search/css/calendar.css" />
+<script type="text/javascript" src="{% static 'article_search/js/jquery-3.3.1.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'article_search/js/moment.js' %}"></script>
+<script type="text/javascript" src="{% static 'article_search/fullcalendar-3.9.0/fullcalendar.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'article_search/fullcalendar-3.9.0/locale-all.js' %}"></script>
 <div class="container-fluid">
     <div class="row">
         <div class="col-1 d-flex flex-column justify-content-center">
@@ -14,9 +20,9 @@ Reservas y Prestamos
             <i class="fa fa-cart-plus fa-3x d-flex justify-content-center"></i>
             <i class="fa fa-clock-o fa-3x d-flex justify-content-center" style="color:limegreen;"></i>
         </div>
-        <div class="col">
+        <div class="col-10">
             <div class="row grilla">
-                <p>Aqui va la grilla</p>
+                <div id='calendar'></div>
             </div>
             <div class="row reservayprestamo">
                 <div class="col reservas">
@@ -143,5 +149,25 @@ $(document).ready(function(){
         $("tr.state-3").show();
     });
 });
+</script>
+<script>$('#calendar').fullCalendar({
+    weekends: false, // will hide Saturdays and Sundays
+    defaultView: "agendaWeek",
+    locale: 'es',
+    timezone: 'local',
+    minTime: "09:00", // inicio hora calendario
+    maxTime: "18:01", // fin hora calendario
+    allDaySlot:false,
+    contentHeight: 501, //ese 1 evita que tenga barra de desplazamiento innecesaria
+    events: [
+    {% for reserva in reservas_espacios %}
+    {
+      title  : '{{ reserva.space }}',
+      start  : '{{ reserva.initial_date.isoformat }}',
+      end    : '{{ reserva.end_date.isoformat }}'
+    },
+    {% endfor %}
+  ]
+  })
 </script>
 {% endblock %}
