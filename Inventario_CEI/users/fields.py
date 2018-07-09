@@ -7,7 +7,7 @@ class RutField(CharField):
     # Check the rut is valid.
     line = sub('[\\.-]', '', value)
 
-    if not match("[0-9k]*", line):
+    if not match("[0-9kK]*", line):
       raise ValidationError("Rut contiene carácteres no válidos.")
 
     counter = 2

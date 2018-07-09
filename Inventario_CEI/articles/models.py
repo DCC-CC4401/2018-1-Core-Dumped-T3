@@ -24,7 +24,7 @@ class Article(models.Model):
     name = models.CharField(max_length=128) # muy arbitrario
     image = models.ImageField(
         upload_to='articles/images',
-        default="articles/images/items/"
+        default="articles/images/default-article.jpg"
     )
 
     description = models.TextField()
@@ -38,12 +38,6 @@ class Article(models.Model):
 
     def __str__(self):
         return self.name
-
-@receiver(post_save, sender=Article)
-def create_article(sender, instance, created, **kwargs):
-    if(created):
-        instance.image = str(instance.image) + str(instance.id) + ".png"
-        instance.save()
 
 class Space (models.Model):
     DISPONIBLE = 0
