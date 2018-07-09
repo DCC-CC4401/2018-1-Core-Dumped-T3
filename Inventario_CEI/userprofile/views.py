@@ -41,10 +41,10 @@ def changepass(request):
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)
-            messages.success(request, 'Your password was successfully updated!')
-            return redirect(changepass)
+            messages.success(request, 'Contraseña cambiada')
+            return redirect(home)
         else:
-            messages.error(request, 'Please correct the error below.')
+            messages.error(request, 'Corrija este error porfavor')
     else:
         form = FormChangePassword(request.user)
     return render(request, 'userprofile/changepass.html', {'form': form})
