@@ -17,7 +17,7 @@
 
     <header>
       <nav class="navbar navbar-expand-lg justify-content-between navbar-light border-bottom border-dark" style="background-color:gainsboro;">
-        <a href="#" class="navbar-brand ml-3"><img style="width:100px;" src ="{% static 'images/Logo-Cei.png' %}" alt="CEI"></a>
+        <a href="{% url "LP_articles" %}" class="navbar-brand ml-3"><img style="width:100px;" src ="{% static 'images/Logo-Cei.png' %}" alt="CEI"></a>
         {% block user %}
         <ul class="navbar-nav flex-row align-items-center">
           <li class="nav-item navbar-text text-right pb-3">
