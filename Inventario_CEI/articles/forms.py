@@ -34,3 +34,8 @@ class ArticleForm(forms.ModelForm):
         }
       )
     }
+
+  def __init__(self, *args, **kwargs):
+    super(ArticleForm, self).__init__(*args, **kwargs)
+    for field in self.fields:
+      field.required = False
