@@ -29,7 +29,9 @@ def login(request):
 
       if form.is_valid():
         data = form.cleaned_data
-        user = authenticate(request, username=data['username'], password=data['password'])
+        print(data)
+        username = User.objects.filter(email=data['email'])[0]
+        user = authenticate(request, username=username, password=data['password'])
         
         if user is not None:
           login_user(request, user)
