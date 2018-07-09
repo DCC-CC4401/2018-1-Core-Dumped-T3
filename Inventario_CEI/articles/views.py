@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 
 from .models import Article
+from .forms import ArticleForm
 from reservations.models import Reservation
 from reservations.forms import ReservationForm
 from datetime import datetime
@@ -12,31 +13,33 @@ from datetime import datetime
 def detail(request, article_id):
 
     article = get_object_or_404(Article, id=article_id)
+
     reservations = Reservation.objects.filter(
         article=article, initial_date__gte=timezone.now(),
         state=1   
     ).order_by('initial_date')
+
     messages={}
 
-    form = ReservationForm()
+    if request.user.registereduser.is_admin:
+        form = ArticleForm(instance=article)
+    else:
+        form = ReservationForm()
+
     if request.method == 'POST':
-        if request.POST.get("article-name-edit"):
-            article.name=request.POST.get("article-name-edit")
-            article.save()
-        elif request.POST.get("article-state-edit"):
-            article.status = int(request.POST.get("article-state-edit"))
-            article.save()
-        elif request.POST.get("article-description-edit"):
-            article.description=request.POST.get("article-description-edit")
-            article.save()
+        # If the user is an admin we only handle article edit forms.
+        if request.user.registereduser.is_admin:
+            # Only one form is handled at a time.
+            form = ArticleForm(request.POST, request.FILES, instance=article)
+
+            if form.is_valid():
+                # Save changes made in the form to the article
+                form.save()
         else:
             form = ReservationForm(request.POST)
 
             start_datetime = datetime.strptime(form.data['day'] + ' ' + form.data['start_time'], "%d/%m/%Y %H:%M")
             end_datetime = datetime.strptime(form.data['day'] + ' ' + form.data['end_time'], "%d/%m/%Y %H:%M")
-
-            for key, value in form.data.items():
-                print(key, value)
 
             reservation = Reservation(
                 article=article,
