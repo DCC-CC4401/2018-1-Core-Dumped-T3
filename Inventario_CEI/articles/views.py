@@ -14,6 +14,8 @@ def detail(request, article_id):
 
     article = get_object_or_404(Article, id=article_id)
 
+    if article.is_loaned()
+
     reservations = Reservation.objects.filter(
         article=article, initial_date__gte=timezone.now(),
         state=1
