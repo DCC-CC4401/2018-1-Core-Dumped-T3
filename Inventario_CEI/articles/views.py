@@ -70,7 +70,12 @@ def detail(request, article_id):
                     initial_date__lt=end_datetime,
                     end_date__gt=end_datetime
                 )
-                if not overlaps_end and not overlaps_start:
+                contained = reservations.filter(
+                    state = 1,
+                    initial_date__lt=end_datetime,
+                    end_date__gt=start_datetime
+                )
+                if not overlaps_end and not overlaps_start and not contained:
                     reservation.save()
                     messages["Reserva pedida correctamente."] = "success"
                 else:
@@ -79,6 +84,13 @@ def detail(request, article_id):
                         form.add_error('start_time', "Horario dentro de un préstamo.")
                     if overlaps_end:
                         form.add_error('end_time', "Horario dentro de un préstamo.")
+                    if contained:
+                        form.add_error(
+                            error = {
+                                'start_time', "Horario choca con un préstamo.",
+                                'end_time', "Horario choca con un préstamo."
+                            }
+                        )
             else:
                 messages["Ya pediste una reserva en los mismos horarios."] = "danger"
                 form.add_error('start_time', "Reserva ya existe en este horario.")

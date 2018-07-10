@@ -5,7 +5,7 @@ from .fields import RutField
 from .models import RegisteredUser
 
 class LoginForm(forms.Form):
-    email = forms.EmailField(label="E-Mail")
+    email = forms.EmailField(label="E-mail")
     password = forms.CharField(label="Contraseña", widget=forms.PasswordInput)
 
 class CreateAccountForm(forms.Form):

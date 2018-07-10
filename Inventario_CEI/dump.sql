@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS "django_admin_log" ("id" integer NOT NULL PRIMARY KEY
 CREATE TABLE IF NOT EXISTS "articles_article" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(128) NOT NULL, "image" varchar(100) NOT NULL, "description" text NOT NULL, "status" smallint unsigned NOT NULL);
 INSERT INTO articles_article VALUES(1,'Mesa cuadrada','articles/images/1.png','Una mesa muy bacan. También es muy cuadrada. Tiene 4 ángulos rectos.',0);
 INSERT INTO articles_article VALUES(2,'Escoba','articles/images/104232.jpg','Una escoba vieja. No estés triste,  aún barre como si estuviese nueva.',0);
-INSERT INTO articles_article VALUES(6,'Pala','articles/images/pala-punta-corona-sv1th-con-mango-muleta.jpg','La mejor amiga de la escoba.',0);
+INSERT INTO articles_article VALUES(6,'Pala','articles/images/pala-de-basura-metalica_dd2USn4.jpg','La mejor amiga de la escoba.',0);
 INSERT INTO articles_article VALUES(7,'Aspiradora','articles/images/aspiradora.jpeg','El futuro de la limpieza.',0);
 INSERT INTO articles_article VALUES(8,'Manguera','articles/images/manguera.jpeg','Para regar. Necesita una fuente de agua.',0);
 INSERT INTO articles_article VALUES(9,'Silla cómoda','articles/images/silla.jpeg','Recomendado junto a una mesa cuadrada.',0);
@@ -91,8 +91,8 @@ INSERT INTO auth_permission VALUES(31,11,'add_registereduser','Can add registere
 INSERT INTO auth_permission VALUES(32,11,'change_registereduser','Can change registered user');
 INSERT INTO auth_permission VALUES(33,11,'delete_registereduser','Can delete registered user');
 CREATE TABLE IF NOT EXISTS "auth_user" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "password" varchar(128) NOT NULL, "last_login" datetime NULL, "is_superuser" bool NOT NULL, "username" varchar(150) NOT NULL UNIQUE, "first_name" varchar(30) NOT NULL, "email" varchar(254) NOT NULL, "is_staff" bool NOT NULL, "is_active" bool NOT NULL, "date_joined" datetime NOT NULL, "last_name" varchar(150) NOT NULL);
-INSERT INTO auth_user VALUES(3,'pbkdf2_sha256$100000$legNk07raIkz$Sh4LlTEI43zxZ86K5lOxQ3/w6nbLI/obzmSerhU6xQM=','2018-07-09 21:03:27.693947',0,'19248555k','Armando','arsistemas@email.com',0,1,'2018-07-09 20:42:20.567776','Sistemas');
-INSERT INTO auth_user VALUES(4,'pbkdf2_sha256$100000$ofoJqxUk0suB$4XOvL+SdaSnE6fP5dvxMZnGVSxcXPjDxIFqleLsVXyo=','2018-07-09 21:05:50.146534',0,'25118951k','Juanito','juarcoiris@email.com',0,1,'2018-07-09 21:05:03.955845','Arcoiris');
+INSERT INTO auth_user VALUES(3,'pbkdf2_sha256$100000$legNk07raIkz$Sh4LlTEI43zxZ86K5lOxQ3/w6nbLI/obzmSerhU6xQM=','2018-07-09 21:53:13.378524',0,'19248555k','Armando','arsistemas@email.com',0,1,'2018-07-09 20:42:20.567776','Sistemas');
+INSERT INTO auth_user VALUES(4,'pbkdf2_sha256$100000$ofoJqxUk0suB$4XOvL+SdaSnE6fP5dvxMZnGVSxcXPjDxIFqleLsVXyo=','2018-07-09 21:53:24.533154',0,'25118951k','Juanito','juarcoiris@email.com',0,1,'2018-07-09 21:05:03.955845','Arcoiris');
 INSERT INTO auth_user VALUES(5,'pbkdf2_sha256$100000$6rCXBfUboJWG$gfQFQtsci+TtuLpIrS8oYAqZlNHpGDh1Zyb68j7LSlY=','2018-07-09 21:06:39.269533',0,'991795340','Margarita','maflores@email.com',0,1,'2018-07-09 21:06:38.907932','Flores');
 INSERT INTO auth_user VALUES(6,'pbkdf2_sha256$100000$XOwAKGlNEKbH$vpGTA+LVDK7kjN8hOz8aapAZVB1w64ss1FGg7DYIYEE=','2018-07-09 21:07:17.114723',0,'865711220','Lolita','loflores@email.com',0,1,'2018-07-09 21:07:16.740762','Flores');
 CREATE TABLE IF NOT EXISTS "django_session" ("session_key" varchar(40) NOT NULL PRIMARY KEY, "session_data" text NOT NULL, "expire_date" datetime NOT NULL);
@@ -102,6 +102,8 @@ INSERT INTO django_session VALUES('ite48ryc13lt4tcoudb10y6faspjg9yi','YTQzMmEyZW
 INSERT INTO django_session VALUES('x788te0r6herluzina06abcfdu1iklvq','YTk5YmZhZDE1MGFiYzkzMDAyZGQ4NzEyODZiZDc3YWViOWZiMWVmYzp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI0MzMzNmJhYWM0OGY3Yzg2MmFmYjIyMGM0ZGZmYjEyZTFjOWRhZmZhIn0=','2018-07-23 18:30:32.473914');
 INSERT INTO django_session VALUES('gclnkou38rjaxvgaqri8fv4xoktim9yy','YTk5YmZhZDE1MGFiYzkzMDAyZGQ4NzEyODZiZDc3YWViOWZiMWVmYzp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI0MzMzNmJhYWM0OGY3Yzg2MmFmYjIyMGM0ZGZmYjEyZTFjOWRhZmZhIn0=','2018-07-23 18:32:23.858025');
 INSERT INTO django_session VALUES('x2j7f0mk55deg9ntzik6aubv19l8mss2','YTk5YmZhZDE1MGFiYzkzMDAyZGQ4NzEyODZiZDc3YWViOWZiMWVmYzp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI0MzMzNmJhYWM0OGY3Yzg2MmFmYjIyMGM0ZGZmYjEyZTFjOWRhZmZhIn0=','2018-07-23 19:43:02.707685');
+INSERT INTO django_session VALUES('hgiocwweanu80b0gfev63wy6x90pgzl0','ZGU1MjM2MGRjOTliZGFhMDk3YWVjMTQ2NTgzZWQ3NTU0MDg1Y2Y5Yjp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJmOWYzNjBlZGU2MTFhM2E1YjU0MjFmYzAzY2NiYmRkMGMyZWQ3YjAyIn0=','2018-07-23 21:50:25.090267');
+INSERT INTO django_session VALUES('av3enujnuiyss46xs159y3izaq1g57pu','NDY0MDViMjI2MjY3OTMzZDUyNmVkYWI3NzYyMzEzOTBhNmIwZjQ1OTp7Il9hdXRoX3VzZXJfaWQiOiI0IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyMTI3M2FiMjYwMDhmZWFjNzJkZmFkNjZhMzQxNGJlNTc5NGIyNDdiIn0=','2018-07-23 21:53:24.733698');
 CREATE TABLE IF NOT EXISTS "users_registereduser" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "status" smallint unsigned NOT NULL, "is_admin" bool NOT NULL, "user_id" integer NOT NULL UNIQUE REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED, "avatar" varchar(100) NOT NULL);
 INSERT INTO users_registereduser VALUES(3,0,1,3,'users/images/default-profile.png');
 INSERT INTO users_registereduser VALUES(4,0,0,4,'users/images/default-profile.png');
@@ -109,6 +111,8 @@ INSERT INTO users_registereduser VALUES(5,0,0,5,'users/images/default-profile.pn
 INSERT INTO users_registereduser VALUES(6,0,0,6,'users/images/default-profile.png');
 CREATE TABLE IF NOT EXISTS "reservations_loan" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "is_article" bool NOT NULL, "is_space" bool NOT NULL, "initial_date" datetime NOT NULL, "end_date" datetime NOT NULL, "state" smallint unsigned NOT NULL, "article_id" integer NULL REFERENCES "articles_article" ("id") DEFERRABLE INITIALLY DEFERRED, "space_id" integer NULL REFERENCES "articles_space" ("id") DEFERRABLE INITIALLY DEFERRED, "user_id" integer NOT NULL REFERENCES "users_registereduser" ("id") DEFERRABLE INITIALLY DEFERRED, "created_at" datetime NOT NULL, "created_by_id" integer NOT NULL REFERENCES "users_registereduser" ("id") DEFERRABLE INITIALLY DEFERRED);
 CREATE TABLE IF NOT EXISTS "reservations_reservation" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "is_article" bool NOT NULL, "is_space" bool NOT NULL, "initial_date" datetime NOT NULL, "end_date" datetime NOT NULL, "state" smallint unsigned NOT NULL, "article_id" integer NULL REFERENCES "articles_article" ("id") DEFERRABLE INITIALLY DEFERRED, "user_id" integer NOT NULL REFERENCES "users_registereduser" ("id") DEFERRABLE INITIALLY DEFERRED, "created_at" datetime NOT NULL, "space_id" integer NULL REFERENCES "articles_space" ("id") DEFERRABLE INITIALLY DEFERRED);
+INSERT INTO reservations_reservation VALUES(45,1,0,'2018-07-13 13:00:00','2018-07-13 15:30:00',0,6,4,'2018-07-09 21:56:34.543491',NULL);
+INSERT INTO reservations_reservation VALUES(46,1,0,'2018-07-16 17:00:00','2018-07-16 18:00:00',0,7,4,'2018-07-09 21:57:16.710054',NULL);
 DELETE FROM sqlite_sequence;
 INSERT INTO sqlite_sequence VALUES('django_migrations',25);
 INSERT INTO sqlite_sequence VALUES('django_admin_log',0);
@@ -119,7 +123,7 @@ INSERT INTO sqlite_sequence VALUES('articles_article',9);
 INSERT INTO sqlite_sequence VALUES('articles_space',6);
 INSERT INTO sqlite_sequence VALUES('users_registereduser',6);
 INSERT INTO sqlite_sequence VALUES('reservations_loan',4);
-INSERT INTO sqlite_sequence VALUES('reservations_reservation',44);
+INSERT INTO sqlite_sequence VALUES('reservations_reservation',46);
 CREATE UNIQUE INDEX auth_group_permissions_group_id_permission_id_0cd325b0_uniq ON "auth_group_permissions" ("group_id", "permission_id");
 CREATE INDEX "auth_group_permissions_group_id_b120cbf9" ON "auth_group_permissions" ("group_id");
 CREATE INDEX "auth_group_permissions_permission_id_84c5c92e" ON "auth_group_permissions" ("permission_id");

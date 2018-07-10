@@ -75,6 +75,10 @@ def register(request):
         if User.objects.filter(username=data['username']):
           form.add_error("username", "Rut ya se encuentra registrado.")
           valid=False
+
+        if User.objects.filter(email=data['email']):
+          form.add_error("email", "E-mail ya se encuentra registrado.")
+          valid=False
         
         if data['password'] != data['confirm_password']:
           form.add_error("confirm_password", "Contraseñas son distintas.")
