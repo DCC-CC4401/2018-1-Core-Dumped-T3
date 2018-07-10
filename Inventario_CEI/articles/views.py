@@ -6,6 +6,7 @@ from .models import Article
 from .forms import ArticleForm
 from reservations.models import Reservation, Loan
 from reservations.forms import ReservationForm
+
 from datetime import datetime
 
 # Create your views here.
@@ -14,7 +15,7 @@ def detail(request, article_id):
 
     article = get_object_or_404(Article, id=article_id)
 
-    now = datetime.now()
+    now = timezone.now()
 
     loans = Loan.objects.filter(
             article=article,
@@ -53,6 +54,8 @@ def detail(request, article_id):
                 form.save()
         else:
             form = ReservationForm(request.POST)
+
+            print(form.data['day'])
 
             start_datetime = datetime.strptime(form.data['day'] + ' ' + form.data['start_time'], "%d/%m/%Y %H:%M")
             end_datetime = datetime.strptime(form.data['day'] + ' ' + form.data['end_time'], "%d/%m/%Y %H:%M")
