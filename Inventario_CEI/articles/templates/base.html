@@ -1,0 +1,50 @@
+<!doctype html>
+{% load static %}
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Inventario CEI{% endblock %}</title>
+    <link rel="shortcut icon" href="{%  static 'images/Logo-CEI.ico' %}">
+  </head>
+  
+  <body>
+    {% load bootstrap4 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery="full" %}
+    {% load font_awesome %}
+    {% fa_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'articles/style.css' %}" />
+
+    <header>
+      <nav class="navbar navbar-expand-lg justify-content-between navbar-light border-bottom border-dark" style="background-color:gainsboro;">
+        <a href="{% if not user.registereduser.is_admin %}{% url "LP_articles" %}{% else %}{% url "reservations" %}{% endif %}" class="navbar-brand ml-3"><img style="width:100px;" src ="{% static 'images/Logo-Cei.png' %}" alt="CEI"></a>
+        {% block user %}
+        <ul class="navbar-nav flex-row align-items-center">
+          <li class="nav-item navbar-text text-right pb-3">
+            <div class="pr-2">
+              <span class="glyphicon glyphicon-{% if  "y" in user.registereduser.permissions %}green{% elif "Préstamos" in user.registereduser.permissions %}yellow{% elif "Reservas" in user.registereduser.permissions %}red{% else %}black{% endif %}-dot"></span>{{ user.first_name }} {{ user.last_name }}<br>{{ user.registereduser.rut }}<br>{{ user.email }}
+            </div>
+          </li>
+          <li class="nav-item">
+            <img style="max-height:90px;height:auto;" class="rounded-circle" src="{{ user.registereduser.avatar.url }}">
+          </li>
+          <li class="nav-item dropdown show mr-3">
+            <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-chevron-down"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="{% url "home" %}">Mi perfil</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url "logout" %}">Cerrar sesión</a>
+            </div>
+          </li>
+        </ul>
+        {% endblock %}
+      </nav>
+    </header>
+
+    {% block content %}
+    {% endblock %}
+
+  </body>
+</html>

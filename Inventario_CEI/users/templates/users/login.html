@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery="full"%}
+
+{% block title%}Iniciar sesión{% endblock %}
+
+{% block user %}{% endblock %}
+
+{% block content %}
+  <div class="container-fluid w-50 mt-5">
+    <div class="row justify-content-start w-50">
+      <div class="col-12">
+        <h1>Iniciar Sesión</h1>
+        {% ifnotequal status "" %}
+        <div class="alert alert-danger" role="alert">
+          {{ status }}
+        </div>
+        {% endifnotequal %}
+      </div>
+      <div class="col-12 p-1">
+        {% if next %}
+        <form method="post" action="/users/login/?next={{ next }}">
+        {% else %}
+        <form method="post" action="/users/login/">
+        {% endif %}
+          {% csrf_token %}
+        {% bootstrap_form form %}
+          <button type="submit" name="login" class="btn btn-primary">Iniciar Sesión</button>
+          <button type="submit" name="register" class="btn btn-secondary float-right">Registrarse</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock%}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block user %}
+        <ul class="navbar-nav flex-row align-items-center">
+          <li class="nav-item navbar-text text-right pb-3">
+            <div class="pr-2">
+              <span class="glyphicon glyphicon-{% if  "y" in user.registereduser.permissions %}green{% elif "Préstamos" in user.registereduser.permissions %}yellow{% elif "Reservas" in user.registereduser.permissions %}red{% else %}black{% endif %}-dot"></span>{{ user.first_name }} {{ user.last_name }}<br>{{ user.registereduser.rut }}<br>{{ user.email }}
+            </div>
+          </li>
+          <li class="nav-item">
+            <img style="max-height:90px;height:auto;" class="rounded-circle" src="{{ user.registereduser.avatar.url }}">
+          </li>
+          <li class="nav-item dropdown show mr-3">
+            <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-chevron-down"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="{% url "home" %}">Mi perfil</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url "logout" %}">Cerrar sesión</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url "changepass" %}">Cambiar contraseña</a>
+
+            </div>
+          </li>
+        </ul>
+        {% endblock %}

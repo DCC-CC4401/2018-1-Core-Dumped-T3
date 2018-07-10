@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery="full"%}
+
+{% block title %}Mi Perfil - {{user.first_name}} {{user.last_name}}{% endblock %}
+
+{% block content%}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'userprofile/css/style.css' %}" />
+    <div class="container">
+        <div class="row" style="margin-top: 10px">
+            <div class="col-sm-4">
+            </div>
+            <div class="col-sm-4">
+                <h1 class="bd-title">Cambiar contraseña</h1>
+                <hr>
+                <form method="post">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    <button class="btn btn-primary" type="submit">Cambiar contraseña</button>
+                    <button class="btn btn-danger float-right" id="retBtn" onclick="window.location.href='{% url "home" %}';return false;">Cancelar</button>
+                </form>
+            </div>
+            <div class="col-sm-4">
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
