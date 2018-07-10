@@ -81,12 +81,11 @@ def detail(request, article_id):
                 else:
                     messages["La reserva choca con el horario de un préstamo."] = "danger"
                     if overlaps_start:
-                        form.add_error('start_time', "Horario dentro de un préstamo.")
+                        form.add_error('start_time', "Horario dentro de un préstamo. ")
                     if overlaps_end:
-                        form.add_error('end_time', "Horario dentro de un préstamo.")
+                        form.add_error('end_time', "Horario dentro de un préstamo. ")
                     if contained:
-                        form.add_error(
-                            error = {
+                        form.add_error(None, {
                                 'start_time': "Horario choca con un préstamo.",
                                 'end_time': "Horario choca con un préstamo."
                             }
