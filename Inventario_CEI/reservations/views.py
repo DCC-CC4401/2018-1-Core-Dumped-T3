@@ -51,9 +51,6 @@ def accept_reservation(request):
             reservation.state = Reservation.ENTREGADO
             reservation.save()
             if reservation.is_article:
-                article = reservation.article
-                article.status = Article.PRESTAMO
-                article.save()
                 loan = Loan.objects.create(
                     article=reservation.article,
                     is_article=True,
@@ -64,9 +61,6 @@ def accept_reservation(request):
                 )
                 loan.save()
             if reservation.is_space:
-                space = reservation.space
-                space.status = Space.PRESTAMO
-                space.save()
                 loan = Loan.objects.create(
                     space=reservation.space,
                     is_space=True,

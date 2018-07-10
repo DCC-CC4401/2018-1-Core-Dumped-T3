@@ -27,9 +27,7 @@ def index(request):
         items=Article.objects.filter(name__contains=request.GET["item"])
 
     form=ReservationForm()
-    print(request.GET)
     items=resize(items,4,busqueda_avanzada)
-    print(items)
     return render(request,'article_search/articles.html',{'items':items[1], 'busqueda_avanzada':busqueda_avanzada,'primeros':items[0],'form':form})
 
 @login_required(login_url="/users/login/")
@@ -63,15 +61,12 @@ def locations(request):
         for r in Reservation.objects.all():
             if r.space is not None:
                 if r.space.name in request.GET:
-                    print(r.space.name)
                     res.append(r)
     else:
         res=Reservation.objects.all()
     reservations=[]
     colors=set_colors(locations)
-    print(colors)
     locations = resize(locations, 6)[1]
-    print(locations)
     form=ReservationForm()
     for i in res:
         if i.space is not None:
@@ -80,9 +75,7 @@ def locations(request):
     return render(request, 'article_search/locations.html',{'res':reservations,'colors':colors, "locations":locations,"form":form})
 @login_required(login_url="/users/login/")
 def make_reservation(request):
-    print(request.POST)
     loc = get_object_or_404(Space, id=request.POST["loc"])
-    print(loc.name)
     reservations = Reservation.objects.filter(
         space=loc, initial_date__gte=timezone.now(),
         state=1
@@ -93,9 +86,6 @@ def make_reservation(request):
 
         start_datetime = datetime.strptime(form.data['day'] + ' ' + form.data['start_time'], "%d/%m/%Y %H:%M")
         end_datetime = datetime.strptime(form.data['day'] + ' ' + form.data['end_time'], "%d/%m/%Y %H:%M")
-
-        for key, value in form.data.items():
-            print(key, value)
 
         reservation = Reservation(
             space=loc,

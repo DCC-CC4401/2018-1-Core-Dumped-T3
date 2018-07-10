@@ -4,8 +4,9 @@ from django.utils import timezone
 
 from .models import Article
 from .forms import ArticleForm
-from reservations.models import Reservation
+from reservations.models import Reservation, Loan
 from reservations.forms import ReservationForm
+
 from datetime import datetime
 
 # Create your views here.
@@ -14,9 +15,25 @@ def detail(request, article_id):
 
     article = get_object_or_404(Article, id=article_id)
 
+    now = timezone.now()
+
+    loans = Loan.objects.filter(
+            article=article,
+            initial_date__lt=now,
+            end_date__gt=now
+        )
+
+    if loans and article.status == Article.DISPONIBLE:
+        article.status = Article.PRESTAMO
+        article.save()
+    elif not loans and article.status == Article.PRESTAMO:
+        article.status = Article.DISPONIBLE
+        article.save()
+    
+
     reservations = Reservation.objects.filter(
         article=article, initial_date__gte=timezone.now(),
-        state=1
+        state=Reservation.ENTREGADO
     ).order_by('initial_date')
 
     messages={}
@@ -38,6 +55,8 @@ def detail(request, article_id):
         else:
             form = ReservationForm(request.POST)
 
+            print(form.data['day'])
+
             start_datetime = datetime.strptime(form.data['day'] + ' ' + form.data['start_time'], "%d/%m/%Y %H:%M")
             end_datetime = datetime.strptime(form.data['day'] + ' ' + form.data['end_time'], "%d/%m/%Y %H:%M")
 
@@ -47,7 +66,7 @@ def detail(request, article_id):
                 is_article=True,
                 initial_date=start_datetime,
                 end_date=end_datetime,
-                state=0
+                state=Reservation.PENDIENTE
             )
 
             equivalents = Reservation.objects.filter(
@@ -56,22 +75,22 @@ def detail(request, article_id):
                 is_article=True,
                 initial_date=start_datetime,
                 end_date=end_datetime,
-                state=0
+                state=Reservation.PENDIENTE
             )
 
             if not equivalents:
                 overlaps_start = reservations.filter(
-                    state = 1,
+                    state = Reservation.ENTREGADO,
                     initial_date__lt=start_datetime,
                     end_date__gt=start_datetime
                 )
                 overlaps_end = reservations.filter(
-                    state = 1,
+                    state = Reservation.ENTREGADO,
                     initial_date__lt=end_datetime,
                     end_date__gt=end_datetime
                 )
                 contained = reservations.filter(
-                    state = 1,
+                    state = Reservation.ENTREGADO,
                     initial_date__lt=end_datetime,
                     end_date__gt=start_datetime
                 )
