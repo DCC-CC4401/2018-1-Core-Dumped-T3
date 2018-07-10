@@ -32,7 +32,7 @@ def index(request):
     print(items)
     return render(request,'article_search/articles.html',{'items':items[1], 'busqueda_avanzada':busqueda_avanzada,'primeros':items[0],'form':form})
 
-
+@login_required(login_url="/users/login/")
 def busqueda(request):
     form = ReservationForm(request.POST)
     search_name=request.POST['search']
@@ -78,7 +78,7 @@ def locations(request):
             if i.get_status()!="pendiente":
                 reservations.append([str(localtime(i.initial_date)),str(localtime(i.end_date)),i.space.name+"\n"+i.get_status(),i.space.name])
     return render(request, 'article_search/locations.html',{'res':reservations,'colors':colors, "locations":locations,"form":form})
-
+@login_required(login_url="/users/login/")
 def make_reservation(request):
     print(request.POST)
     loc = get_object_or_404(Space, id=request.POST["loc"])
