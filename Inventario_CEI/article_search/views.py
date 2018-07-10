@@ -1,3 +1,4 @@
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from articles.models import Article, Space
@@ -25,32 +26,34 @@ def index(request):
     if "item" in request.GET:
         items=Article.objects.filter(name__contains=request.GET["item"])
 
-        if request.GET["item"] == "additems":
-            print("hola")
-            Article(name="pico", description="asd").save()
-            Article(name="gundam", description="asd").save()
-            Article(name="doritos", description="asd").save()
-            Article(name="pcnuevo", description="asd").save()
-        if request.GET["item"] == "addspaces":
-            print("hola")
-            Space(name="sala 4").save()
-            Space(name="sala 5").save()
-            Space(name="sala 6").save()
-            Space(name="sala 7").save()
-        if request.GET["item"] == "addreservations":
-            user=RegisteredUser.objects.all()[1]
-            place1=Space.objects.all()[0]
-            place2=Space.objects.all()[3]
-            place3=Space.objects.all()[2]
-            print("hola")
-            Reservation(space=place1,user=user,initial_date=datetime(2018, 7, 5, 16, 30),end_date=datetime(2018, 7, 5, 18, 0)).save()
-            Reservation(space=place2,user=user,initial_date=datetime(2018, 7, 5, 13, 30),end_date=datetime(2018, 7, 5, 14, 30)).save()
-            Reservation(space=place3,user=user,initial_date=datetime(2018, 7, 5, 15, 30),end_date=datetime(2018, 7, 5, 17, 0)).save()
-            Reservation(space=place3,user=user,initial_date=datetime(2018, 7, 5, 11, 30),end_date=datetime(2018, 7, 5, 15, 30)).save()
+    form=ReservationForm()
     print(request.GET)
     items=resize(items,4,busqueda_avanzada)
     print(items)
-    return render(request,'article_search/articles.html',{'items':items[1], 'busqueda_avanzada':busqueda_avanzada,'primeros':items[0]})
+    return render(request,'article_search/articles.html',{'items':items[1], 'busqueda_avanzada':busqueda_avanzada,'primeros':items[0],'form':form})
+
+
+def busqueda(request):
+    form = ReservationForm(request.POST)
+    search_name=request.POST['search']
+    disp=request.POST['disp']
+    start_datetime = datetime.strptime(form.data['day'] + ' ' + form.data['start_time'], "%d/%m/%Y %H:%M")
+    end_datetime = datetime.strptime(form.data['day'] + ' ' + form.data['end_time'], "%d/%m/%Y %H:%M")
+    artic=Article.objects.filter(name__contains =search_name,status=disp)
+    articles=[]
+    for i in artic:
+        overlaps = Reservation.objects.filter(
+            state=1,
+            article=i,
+            initial_date__lt=end_datetime,
+            end_date__gt=start_datetime
+        )
+        if not overlaps:
+            articles.append(i)
+    items=resize(articles,4,True)
+    return render(request,'article_search/articles.html',{'items':items[1], 'busqueda_avanzada':True,'primeros':items[0],'form':form})
+
+
 
 @login_required(login_url="/users/login/")
 def locations(request):
@@ -113,25 +116,18 @@ def make_reservation(request):
         )
 
         if not equivalents:
-            overlaps_start = reservations.filter(
-                state=1,
-                initial_date__lt=start_datetime,
-                end_date__gt=start_datetime
-            )
-            overlaps_end = reservations.filter(
+            overlaps = reservations.filter(
                 state=1,
                 initial_date__lt=end_datetime,
-                end_date__gt=end_datetime
+                end_date__gt=start_datetime
             )
-            if not overlaps_end and not overlaps_start:
+            if not overlaps:
                 reservation.save()
                 messages["Reserva pedida correctamente."] = "success"
             else:
                 messages["La reserva choca con el horario de un préstamo."] = "danger"
-                if overlaps_start:
+                if overlaps:
                     form.add_error('start_time', "Horario dentro de un préstamo.")
-                if overlaps_end:
-                    form.add_error('end_time', "Horario dentro de un préstamo.")
     return redirect('LP_locations')
 
 def set_colors(locations):

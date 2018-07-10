@@ -3,6 +3,11 @@
 
 
 {% extends "base.html" %}
+{% load staticfiles %}
+{% load bootstrap4 %}
+{% load font_awesome %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery="full" %}
 
 {% block title %}[TITULO]{% endblock %}
 
@@ -19,6 +24,9 @@
     <script type="text/javascript" src="{% static 'article_search/js/moment.js' %}"></script>
     <script type="text/javascript" src="{% static 'article_search/fullcalendar-3.9.0/fullcalendar.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'article_search/fullcalendar-3.9.0/locale-all.js' %}"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
+<script type="text/javascript" src="{% static "scripts/tempusdominus.js" %}"></script>
 
 
 
@@ -59,7 +67,7 @@
                   <tbody>
                     <tr>
                         <td>
-                        <img class="mx-auto d-block" style="max-width:inherit;max-height:500px;"
+                        <img class="mx-auto d-block" style="max-width:500px;max-height:500px;"
                              src="{{ i.image.url }}" onclick="location.href = '{% url 'detail' i.id %}';">
                         </td>
                     </tr>
@@ -76,30 +84,36 @@
         <div class="col-sm-1"></div>
         <div class="col-sm-5" align="right">
               <div class="container" style="background-color: #bbbbbb">
-                <form action="#">
-                <div class="form-group" align="left">
-                    <br>
-                    <input type="text" class="form-control" name= "item" placeholder="ingrese el nombre del articulo"><br>
-                        Seleccione un dia:
-                        <input type="date" name="bday" ><br><br>
-                        Desde:
-                        <input type="time" name="desde">
-                        Hasta:
-                        <input type="time" name="hasta"><br><br>
-                        Disponibilidad:
-                      <select class="form-control" name="disponibilidad">
-                        <option>Disponible</option>
-                        <option>Reservado</option>
-                        <option>?????</option>
-                        <option>4</option>
-                      </select><br>
-                    <div align="right"><button type="submit" class="btn btn-primary" >Buscar</button></div>
-                    <form action={% url 'LP_articles'  %}><button type="submit" class="btn btn-link" value="">Volver a Busqueda normal</button></form>
-
-                </div>
-
-
-                </form>
+                <form method="post" action="{% url 'busqueda_avanzada' %}">
+          {% csrf_token %}
+                <br>
+            <input type="text" class="form-control" name="search" placeholder="ingrese el nombre del articulo">
+          {% for field in form%}
+          <div class="form-group {% if field.errors %}is-invalid{% endif %}">
+            {{ field.label_tag }}
+            <div class="input-group date" id="{{ field.name }}" data-target-input="nearest">
+              <input type="text" name="{{ field.name }}" class="form-control {% if field.errors %}is-invalid{% endif %} datetimepicker-input" required data-target="#{{ field.name }}" value="{{ field.value }}"/>
+              <div class="input-group-append" data-target="#{{ field.name }}" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa {% if "day" in field.name %}fa-calendar{% else %}fa-clock-o{% endif %}"></i></div>
+              </div>
+            </div>
+            {% if field.errors %}
+            <div class="invalid-feedback" style="display:block;">{% for error in field.errors %}{{ error }}{% endfor %}</div>
+            {% endif %}
+          </div>
+          {% endfor %}
+                <select class="form-control" name="disp">
+                <option value=0 >Disponible</option>
+                <option value=1 >Préstamo</option>
+                <option value=2 >Reparación</option>
+                <option value=3 >Perdido</option>
+          </select>
+              <br>
+          <div class="row w-100 ">
+              <button type="button" class="btn btn-link" onclick="location.href = '{% url 'LP_articles'  %}';">Volver a busqueda normal</button>
+            <button type="submit" class="btn btn-primary">Buscar</button>
+          </div>
+        </form>
               </div>
           </div>
     </div>
@@ -114,7 +128,7 @@
                   <tbody>
                     <tr>
                         <td>
-                        <img class="mx-auto d-block" style="max-width:inherit;max-height:500px;"
+                        <img class="mx-auto d-block" style="max-width:500px;max-height:500px;"
                              src="{{ i.image.url }}" onclick="location.href = '{% url 'detail' i.id %}';">
                         </td>
                     </tr>
