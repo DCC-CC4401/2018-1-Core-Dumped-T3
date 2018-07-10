@@ -87,8 +87,8 @@ def detail(request, article_id):
                     if contained:
                         form.add_error(
                             error = {
-                                'start_time', "Horario choca con un préstamo.",
-                                'end_time', "Horario choca con un préstamo."
+                                'start_time': "Horario choca con un préstamo.",
+                                'end_time': "Horario choca con un préstamo."
                             }
                         )
             else:
